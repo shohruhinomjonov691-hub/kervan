@@ -1,0 +1,261 @@
+<%- include('includes/header') %>
+
+<link rel="stylesheet" type="text/css" href="/css/branches.css" />
+
+<body>
+  <div class="branches-container">
+
+    <!-- ── NAV ── -->
+    <div class="navigation-menu">
+      <ul class="nav justify-content-between px-4" style="height:72px; align-items:center;">
+        <li class="nav-item">
+          <a class="nav-brand" href="/admin">
+            <div class="nav-brand-icon">☽</div>
+            <span class="nav-brand-name">KERVAN</span>
+          </a>
+        </li>
+        <div class="d-flex" style="gap:4px; align-items:center;">
+          <li class="nav-item"><a class="nav-link" href="/admin/">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="/admin/product/all">Menu</a></li>
+          <li class="nav-item"><a class="nav-link" href="/admin/user/all">Users</a></li>
+          <li class="nav-item"><a class="nav-link active" href="/admin/branch/all">Branches</a></li>
+          <li class="nav-item nav-logout" onclick="return confirm('Do you want to logout?')">
+            <a class="nav-link" href="/admin/logout">Logout</a>
+          </li>
+        </div>
+      </ul>
+    </div>
+
+    <!-- ── MAIN ── -->
+    <div class="branches-frame">
+      <div class="board">
+
+        <!-- Page header -->
+        <div class="page-header">
+          <div>
+            <p>GLOBAL INFRASTRUCTURE</p>
+            <h1>Branch Network</h1>
+          </div>
+          <button id="branch-btn">+ New Location</button>
+        </div>
+
+        <!-- Stat cards -->
+        <div class="stat-cards">
+          <div class="stat-card">
+            <div class="stat-card-icon" style="background:rgba(255,107,0,0.1); color:#ff6b00;">🏪</div>
+            <div>
+              <div class="stat-card-label">TOTAL BRANCHES</div>
+              <div class="stat-card-value"><%= stats.totalBranches %></div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-icon" style="background:rgba(76,175,130,0.1); color:#4caf82;">👥</div>
+            <div>
+              <div class="stat-card-label">TOTAL STAFF</div>
+              <div class="stat-card-value"><%= stats.totalStaff %></div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-icon" style="background:rgba(227,194,133,0.1); color:#e3c285;">⭐</div>
+            <div>
+              <div class="stat-card-label">AVG. RATING</div>
+              <div class="stat-card-value" style="color:#e3c285;">
+                <%= stats.avgRating %> <span class="stat-card-sub">/ 5</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Branch Cards -->
+        <div class="branch-cards">
+          <% branches.map(function(branch) { %>
+          <div class="branch-card">
+
+            <!-- Image -->
+            <div class="branch-card-img">
+              <% if (branch.branchImage) { %>
+              <img src="/<%= branch.branchImage %>" alt="<%= branch.branchName %>" />
+              <% } else { %>
+              <div class="branch-img-placeholder">🍽</div>
+              <% } %>
+
+              <!-- Status badge -->
+              <div class="branch-status-badge" data-status="<%= branch.branchStatus %>">
+                <span class="branch-status-dot"></span>
+                <span class="branch-status-txt">
+                  <%= branch.branchStatus === 'TEMP_CLOSED' ? 'TEMP CLOSED' : branch.branchStatus %>
+                </span>
+              </div>
+
+              <!-- Rating badge -->
+              <div class="branch-rating-badge">
+                ⭐ <%= branch.branchRating || '4.5' %>
+              </div>
+            </div>
+
+            <!-- Body -->
+            <div class="branch-card-body">
+              <div class="branch-card-top">
+                <div>
+                  <h3 class="branch-card-title">
+                    <%= branch.branchName === 'ITAEWON' ? 'Itaewon Flagship' : branch.branchName === 'COEX' ? 'COEX Mall Terminal' : 'Famille Station' %>
+                  </h3>
+                  <p class="branch-card-sub">
+                    <%= branch.branchName === 'ITAEWON' ? 'Yongsan-gu, Seoul' : branch.branchName === 'COEX' ? 'Gangnam-gu, Seoul' : 'Seocho-gu, Seoul' %>
+                  </p>
+                </div>
+                <div class="branch-card-right">
+                  <span class="branch-staff-tag"><%= branch.branchStaffCount || 0 %> staff</span>
+                  <!-- Edit button -->
+                  <button class="branch-edit-btn" data-id="<%= branch._id %>"
+                    data-name="<%= branch.branchName %>"
+                    data-address="<%= branch.branchAddress %>"
+                    data-phone="<%= branch.branchPhone %>"
+                    data-hours="<%= branch.branchHours || '' %>"
+                    data-staff="<%= branch.branchStaffCount || 0 %>"
+                    data-rating="<%= branch.branchRating || 4.5 %>"
+                    data-mapurl="<%= branch.branchMapUrl || '' %>"
+                    data-desc="<%= branch.branchDesc || '' %>">
+                    ✏️
+                  </button>
+                </div>
+              </div>
+
+              <div class="branch-card-info">
+                <div class="branch-info-row">📍 <span><%= branch.branchAddress %></span></div>
+                <div class="branch-info-row">📞 <span><%= branch.branchPhone %></span></div>
+                <div class="branch-info-row">🕐 <span><%= branch.branchHours || '11:00 - 22:00' %> (Daily)</span></div>
+              </div>
+
+              <div class="branch-card-footer">
+                <% if (branch.branchMapUrl) { %>
+                <a href="<%= branch.branchMapUrl %>" target="_blank" class="branch-map-btn">
+                  🗺️ Open in Google Maps
+                </a>
+                <% } %>
+                <select class="spec-select branch-status" id="<%= branch._id %>" data-status="<%= branch.branchStatus %>">
+                  <option value="OPEN"        <%= branch.branchStatus === 'OPEN'        ? 'selected' : '' %>>OPEN</option>
+                  <option value="CLOSED"      <%= branch.branchStatus === 'CLOSED'      ? 'selected' : '' %>>CLOSED</option>
+                  <option value="TEMP_CLOSED" <%= branch.branchStatus === 'TEMP_CLOSED' ? 'selected' : '' %>>TEMP CLOSED</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <% }) %>
+        </div>
+
+        <!-- ── EDIT MODAL ── -->
+        <div class="branch-modal-overlay" id="edit-modal" style="display:none;">
+          <div class="branch-modal">
+            <div class="branch-modal-header">
+              <h3>Edit Branch</h3>
+              <button class="branch-modal-close" id="modal-close">✕</button>
+            </div>
+            <form id="edit-branch-form">
+              <input type="hidden" id="edit-id" />
+              <div class="modal-grid">
+                <div class="long-input">
+                  <label>Address</label>
+                  <input type="text" id="edit-address" placeholder="Branch address" />
+                </div>
+                <div class="long-input">
+                  <label>Phone</label>
+                  <input type="text" id="edit-phone" placeholder="+82-2-000-0000" />
+                </div>
+                <div class="long-input">
+                  <label>Working Hours</label>
+                  <input type="text" id="edit-hours" placeholder="11:00 - 22:00" />
+                </div>
+                <div class="long-input">
+                  <label>Staff Count</label>
+                  <input type="number" id="edit-staff" placeholder="15" />
+                </div>
+                <div class="long-input">
+                  <label>Rating (0–5)</label>
+                  <input type="number" id="edit-rating" step="0.1" min="0" max="5" />
+                </div>
+                <div class="long-input">
+                  <label>Google Maps URL</label>
+                  <input type="text" id="edit-mapurl" placeholder="https://maps.google.com/..." />
+                </div>
+              </div>
+              <div class="long-input">
+                <label>Description</label>
+                <textarea id="edit-desc" rows="3" placeholder="Branch description..."></textarea>
+              </div>
+              <div class="operation-buttons">
+                <button type="button" id="modal-cancel">Cancel</button>
+                <button type="submit" class="btn-save">Save Changes</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- ── NEW BRANCH FORM ── -->
+        <form action="/admin/branch/create" method="POST"
+              enctype="multipart/form-data"
+              class="branch-form-container"
+              onsubmit="return validateBranchForm()"
+              style="display:none;">
+
+          <h3 class="form-title">New Branch Details</h3>
+
+          <div class="modal-grid">
+            <div class="long-input">
+              <label>Branch Name</label>
+              <select name="branchName">
+                <option value="COEX">COEX Mall</option>
+                <option value="ITAEWON">Itaewon</option>
+                <option value="FAMILLE">Famille Station</option>
+              </select>
+            </div>
+            <div class="long-input">
+              <label>Phone *</label>
+              <input type="text" name="branchPhone" placeholder="+82-2-000-0000" required />
+            </div>
+            <div class="long-input">
+              <label>Working Hours</label>
+              <input type="text" name="branchHours" placeholder="11:00 - 22:00" />
+            </div>
+            <div class="long-input">
+              <label>Staff Count</label>
+              <input type="number" name="branchStaffCount" placeholder="15" />
+            </div>
+            <div class="long-input">
+              <label>Rating (0–5)</label>
+              <input type="number" name="branchRating" step="0.1" min="0" max="5" placeholder="4.7" />
+            </div>
+            <div class="long-input">
+              <label>Google Maps URL</label>
+              <input type="text" name="branchMapUrl" placeholder="https://maps.google.com/..." />
+            </div>
+          </div>
+
+          <div class="long-input">
+            <label>Address *</label>
+            <input type="text" name="branchAddress" placeholder="Full branch address" required />
+          </div>
+          <div class="long-input">
+            <label>Description</label>
+            <textarea name="branchDesc" rows="3" placeholder="Branch description..."></textarea>
+          </div>
+          <div class="long-input">
+            <label>Branch Image</label>
+            <input type="file" name="branchImage" />
+          </div>
+
+          <div class="operation-buttons">
+            <button type="button" id="branch-cancel-btn">Cancel</button>
+            <button type="submit" class="btn-save">Create Branch</button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+
+  </div>
+
+  <script type="text/javascript" src="/js/main.js"></script>
+  <script type="text/javascript" src="/js/branches.js"></script>
+</body>
+<%- include('includes/footer') %>

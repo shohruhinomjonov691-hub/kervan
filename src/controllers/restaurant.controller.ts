@@ -1,16 +1,20 @@
 import { NextFunction, Request, Response } from "express";
 import { T } from "../libs/types/common";
 import MemberService from "../models/Member.service";
-import { AdminRequest, MemberInput } from "../libs/types/member";
-import { MemberType } from "../libs/enums/member.enum";
+import { AdminRequest, MemberInput, UserInquiry } from "../libs/types/member";
+import { MemberStatus, MemberType } from "../libs/enums/member.enum";
 import { LoginInput } from "../libs/types/member";
 import Errors, { HttpCode, Message } from "../libs/Errors";
+import ProductService from "../models/Product.service";
+import BranchService from "../models/Branch.service";
 
 // Controllerlar hammasi - Object ,
 // Modellar hammasi - Class
 
 // MemberService Instodni memberServicega tenglayapmiz
 const memberService = new MemberService();
+const productService = new ProductService();
+const branchService = new BranchService();
 
 const restaurantController: T = {}; // Object
 restaurantController.goHome = (req: Request, res: Response) => {
@@ -120,19 +124,113 @@ restaurantController.logout = async (req: AdminRequest, res: Response) => {
   }
 };
 
+// ✅ YANGI — Dashboard stats metodi
+restaurantController.getDashboardStats = async (
+  req: AdminRequest,
+  res: Response,
+) => {
+  try {
+    console.log("getDashboardStats");
+
+    const [totalOrders, totalProducts, totalUsers, activeUsers] =
+      await Promise.all([
+        // Order model import qilish kerak
+        require("../schema/Order.model").default.countDocuments(),
+        require("../schema/Product.model").default.countDocuments(),
+        require("../schema/Member.model").default.countDocuments({
+          memberType: "USER",
+        }),
+        require("../schema/Member.model").default.countDocuments({
+          memberType: "USER",
+          memberStatus: "ACTIVE",
+        }),
+      ]);
+
+    res.status(HttpCode.OK).json({
+      totalOrders,
+      totalProducts,
+      totalUsers,
+      activeUsers,
+    });
+  } catch (err) {
+    console.log("Error, getDashboardStats:", err);
+    if (err instanceof Errors) res.status(err.code).json(err);
+    else res.status(Errors.standard.code).json(Errors.standard);
+  }
+};
+
 restaurantController.getUsers = async (req: Request, res: Response) => {
   try {
     console.log("getUsers");
-    const result = await memberService.getUsers();
-    console.log("result:", result);
+    const { page = 1, limit = 10, memberStatus, sort } = req.query;
 
-    res.render("users", { users: result });
+    const inquiry: UserInquiry = {
+      page: Number(page),
+      limit: Number(limit),
+      memberStatus: memberStatus as MemberStatus,
+      sort: sort as string,
+    };
+
+    const [users, stats] = await Promise.all([
+      memberService.getUsers(inquiry),
+      memberService.getUserStats(),
+    ]);
+
+    res.locals.memberStatus = memberStatus || "";
+    res.locals.sort = sort || "createdAt";
+
+    res.render("users", { users, stats });
   } catch (err) {
     console.log("Error, getUsers:", err);
     res.redirect("/admin/login");
   }
 };
 
+restaurantController.getAllProductsAdmin = async (
+  req: Request,
+  res: Response,
+) => {
+  try {
+    const {
+      page = 1,
+      limit = 10,
+      productCollection,
+      productStatus,
+    } = req.query;
+
+    res.locals.productCollection = productCollection || "";
+    res.locals.productStatus = productStatus || "";
+
+    const result = await productService.getALLProduct({
+      page: Number(page),
+      limit: Number(limit),
+    });
+
+    res.render("products", { ...result });
+  } catch (err) {
+    console.log("Error, getAllProductsAdmin:", err);
+    res.redirect("/admin/login");
+  }
+};
+
+restaurantController.getAllBranchesAdmin = async (
+  req: Request,
+  res: Response,
+) => {
+  try {
+    console.log("getAllBranchesAdmin");
+
+    const [branches, stats] = await Promise.all([
+      branchService.getAllBranches(),
+      branchService.getBranchStats(),
+    ]);
+
+    res.render("branches", { branches, stats });
+  } catch (err) {
+    console.log("Error, getAllBranchesAdmin:", err);
+    res.redirect("/admin/login");
+  }
+};
 restaurantController.updateChosenUser = async (req: Request, res: Response) => {
   try {
     console.log("updateChosenUser");

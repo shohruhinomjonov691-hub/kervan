@@ -55,3 +55,18 @@ export interface ProductUpdateInput {
   productImages?: string[];
   productViews?: number;
 }
+
+// ✅ YANGI — libs/types/product.ts ga qo'shing
+export interface AdminProductInquiry {
+  page: number;
+  limit: number;
+}
+
+export interface AdminProductResult {
+  products: Product[];
+  totalCount: number;
+  processCount: number;
+  pauseCount: number;
+  deleteCount: number;
+  trendingProduct: Product | null;
+}

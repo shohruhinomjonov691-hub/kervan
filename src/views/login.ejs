@@ -3,43 +3,104 @@
 <link rel="stylesheet" type="text/css" href="/css/login.css" />
 
 <body>
-  <form class="login-container" action="/admin/login" METHOD="POST">
-    <div class="login-frame">
-      <div class="login-top">
-        <span>Enter</span>
-        <div>Go back <a href="/admin" style="color: #6440fb">Home</a></div>
-        <p>
-          Not registered yet?
-          <a href="/admin/signup" style="color: #6440fb">Signup</a>
+  <div class="login-container">
+    <!-- ── LEFT PANEL ── -->
+    <div class="login-left">
+      <div class="login-left__bg-fallback"></div>
+      <div class="login-left__bg"></div>
+      <div class="login-left__overlay"></div>
+
+      <div class="login-left__content">
+        <div class="login-brand">
+          <div class="login-brand__icon">☽</div>
+          <span class="login-brand__name">KERVAN</span>
+        </div>
+
+        <h1 class="login-headline">
+          Sophisticated<br />management for<br />global branches.
+        </h1>
+
+        <p class="login-desc">
+          Access the centralized administration suite for Itaewon, COEX, and
+          Famille Station locations.
         </p>
-      </div>
-      <div class="login-input-frame">
-        <div class="login-input-container">
-          <label>Restaurant *</label>
-          <input
-            type="text"
-            name="memberNick"
-            class="member-nick"
-            placeholder="Username"
-            value=""
-            required
-          />
-        </div>
-        <div class="login-input-container">
-          <label>Password *</label>
-          <input
-            type="password"
-            name="memberPassword"
-            class="member-password"
-            placeholder="Password"
-            value=""
-            required
-          />
+
+        <div class="login-pills">
+          <span class="login-pill">Itaewon</span>
+          <span class="login-pill">COEX</span>
+          <span class="login-pill">Famille Station</span>
         </div>
       </div>
-      <button class="login-btn btn" name="login" type="submit">Login</button>
     </div>
-  </form>
+    <!-- /LEFT PANEL -->
+
+    <!-- ── RIGHT PANEL (login-frame) ── -->
+    <form class="login-frame" action="/admin/login" method="POST">
+      <!-- Mobile only brand -->
+      <div class="login-mobile-brand">
+        <div class="login-mobile-brand__icon">☽</div>
+        <span class="login-mobile-brand__name">KERVAN</span>
+      </div>
+
+      <div class="login-form-inner">
+        <!-- Title block -->
+        <div class="login-top">
+          <span>Welcome back</span>
+          <p>Please enter your credentials to access the dashboard.</p>
+          <div>
+            Don't have an account?
+            <a href="/admin/signup">Signup</a>
+          </div>
+        </div>
+
+        <!-- Inputs -->
+        <div class="login-input-frame">
+          <div class="login-input-container">
+            <label>Username</label>
+            <div class="input-icon-wrap input-icon-user">
+              <input
+                type="text"
+                name="memberNick"
+                class="member-nick"
+                placeholder="admin.kervan"
+                value=""
+                required
+              />
+            </div>
+          </div>
+
+          <div class="login-input-container">
+            <label>Password</label>
+            <div class="input-icon-wrap input-icon-lock">
+              <input
+                type="password"
+                name="memberPassword"
+                class="member-password"
+                placeholder="••••••••"
+                value=""
+                required
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Submit -->
+        <button class="login-btn btn" name="login" type="submit">Login</button>
+      </div>
+      <!-- /login-form-inner -->
+
+      <!-- Footer strip -->
+      <div class="login-footer">
+        <span>© 2025 Kervan Hospitality Group</span>
+        <div style="display: flex; gap: 20px">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Support</a>
+        </div>
+      </div>
+    </form>
+    <!-- /login-frame -->
+  </div>
+  <!-- /login-container -->
 </body>
 
 <%- include('includes/footer') %>

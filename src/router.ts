@@ -4,6 +4,7 @@ import memberController from "./controllers/member.controller";
 import uploader from "./libs/utils/uploader";
 import productController from "./controllers/product.controller";
 import orderController from "./controllers/order.controller";
+import branchController from "./controllers/branch.controller";
 
 /** Member **/
 router.get("/member/restaurant", memberController.getRestaurant);
@@ -50,6 +51,13 @@ router.post(
   "/order/update",
   memberController.verifyAuth,
   orderController.updateOrder,
+);
+
+/** Branch - SPA uchun (public, auth shart emas) **/
+router.get(
+  "/branch/all",
+  memberController.verifyAuth,
+  branchController.getAllBranches,
 );
 
 export default router;

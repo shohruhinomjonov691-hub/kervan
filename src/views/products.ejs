@@ -4,136 +4,207 @@
 
 <body>
   <div class="products-container">
+
+    <!-- ── NAV ── -->
     <div class="navigation-menu">
-      <ul class="nav justify-content-center">
-        <li class="nav-item" style="cursor: pointer">
-          <a class="nav-link active" href="/admin/">Home</a>
+      <ul class="nav justify-content-between px-4" style="height:72px; align-items:center;">
+        <li class="nav-item">
+          <a class="nav-brand" href="/admin">
+            <div class="nav-brand-icon">☽</div>
+            <span class="nav-brand-name">KERVAN</span>
+          </a>
         </li>
-        <li class="nav-item" style="cursor: pointer">
-          <a class="nav-link" href="/admin/product/all">Menu</a>
-        </li>
-        <li class="nav-item" style="cursor: pointer">
-          <a class="nav-link" href="/admin/user/all">Users</a>
-        </li>
-        <li
-          class="nav-item"
-          style="cursor: pointer"
-          onclick="return confirm('Do you want to logout?')"
-        >
-          <a class="nav-link" href="/admin/logout">Logout</a>
-        </li>
+        <div class="d-flex" style="gap:4px; align-items:center;">
+          <li class="nav-item"><a class="nav-link" href="/admin/">Home</a></li>
+          <li class="nav-item"><a class="nav-link active" href="/admin/product/all">Menu</a></li>
+          <li class="nav-item"><a class="nav-link" href="/admin/user/all">Users</a></li>
+          <li class="nav-item"><a class="nav-link" href="/admin/branch/all">Branches</a></li>
+          <li class="nav-item nav-logout" onclick="return confirm('Do you want to logout?')">
+            <a class="nav-link" href="/admin/logout">Logout</a>
+          </li>
+        </div>
       </ul>
     </div>
 
+    <!-- ── MAIN ── -->
     <div class="restaurant-menu-frame">
       <div class="board">
+
+        <!-- Page header + Add button -->
+        <div style="width:100%; display:flex; align-items:flex-end; justify-content:space-between; flex-wrap:wrap; gap:16px; margin-bottom:16px;">
+          <div>
+            <p style="font-size:10px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:#ff6b00; margin-bottom:4px;">INVENTORY MANAGEMENT</p>
+            <h1 style="font-family:'Noto Serif',serif; font-size:24px; font-weight:600; color:#fff; margin:0;">Product Catalog</h1>
+          </div>
+          <button id="process-btn">+ New Product</button>
+        </div>
+
+        <!-- Stat badges -->
+        <div style="width:100%; display:flex; flex-wrap:wrap; gap:10px; margin-bottom:20px; align-items:center;">
+          <div class="stat-badge">
+            <span class="stat-badge-label" style="color:#a98a7d;">Total</span>
+            <span class="stat-badge-val" style="color:#fff;"><%= totalCount %></span>
+          </div>
+          <div class="stat-badge" style="border-color:rgba(76,175,130,0.25);">
+            <span class="stat-badge-dot" style="background:#4caf82;"></span>
+            <span class="stat-badge-label" style="color:#4caf82;">Active</span>
+            <span class="stat-badge-val" style="color:#4caf82;"><%= processCount %></span>
+          </div>
+          <div class="stat-badge" style="border-color:rgba(227,194,133,0.25);">
+            <span class="stat-badge-dot" style="background:#e3c285;"></span>
+            <span class="stat-badge-label" style="color:#e3c285;">Paused</span>
+            <span class="stat-badge-val" style="color:#e3c285;"><%= pauseCount %></span>
+          </div>
+          <div class="stat-badge" style="border-color:rgba(224,80,80,0.25);">
+            <span class="stat-badge-dot" style="background:#e05050;"></span>
+            <span class="stat-badge-label" style="color:#e05050;">Deleted</span>
+            <span class="stat-badge-val" style="color:#e05050;"><%= deleteCount %></span>
+          </div>
+          <% if (trendingProduct) { %>
+          <div class="stat-badge trending-badge" style="margin-left:auto;">
+            📈
+            <span class="stat-badge-label">Trending</span>
+            <span style="font-size:13px; font-weight:600; color:#f8ddd2;"><%= trendingProduct.productName %></span>
+            <span style="font-size:11px; color:#a98a7d;"><%= trendingProduct.productViews %> views</span>
+          </div>
+          <% } %>
+        </div>
+
+        <!-- Filter -->
+        <form method="GET" action="/admin/product/all" class="filter-row">
+          <select name="productCollection" onchange="this.form.submit()">
+            <option value="">All Types</option>
+            <option value="KEBAB"   <%= locals.productCollection==='KEBAB'   ? 'selected':'' %>>Kebab</option>
+            <option value="PIDE"    <%= locals.productCollection==='PIDE'    ? 'selected':'' %>>Pide</option>
+            <option value="SALAD"   <%= locals.productCollection==='SALAD'   ? 'selected':'' %>>Salad</option>
+            <option value="DESSERT" <%= locals.productCollection==='DESSERT' ? 'selected':'' %>>Dessert</option>
+            <option value="DRINK"   <%= locals.productCollection==='DRINK'   ? 'selected':'' %>>Drink</option>
+            <option value="OTHER"   <%= locals.productCollection==='OTHER'   ? 'selected':'' %>>Other</option>
+          </select>
+          <select name="productStatus" onchange="this.form.submit()">
+            <option value="">All Status</option>
+            <option value="PROCESS" <%= locals.productStatus==='PROCESS' ? 'selected':'' %>>Active</option>
+            <option value="PAUSE"   <%= locals.productStatus==='PAUSE'   ? 'selected':'' %>>Paused</option>
+            <option value="DELETE"  <%= locals.productStatus==='DELETE'  ? 'selected':'' %>>Deleted</option>
+          </select>
+        </form>
+
+        <!-- TABLE -->
         <div class="dishes-table">
-          <span class="new-dish-txt" style="margin-bottom: 30px">
-            RESTAURANT MENU
-          </span>
           <table class="table table-bordered table-hover">
             <thead class="thead-light">
-              <tr class="thead-light">
+              <tr>
                 <th scope="col">T/r</th>
                 <th scope="col">Product Name</th>
                 <th scope="col">Product Type</th>
-                <th scope="col">Product Volume</th>
+                <th scope="col">Size / Volume</th>
                 <th scope="col">Product Price</th>
                 <th scope="col">Product Left Count</th>
                 <th scope="col">Status</th>
               </tr>
             </thead>
-            <!--  LOOP PRODUCTS: START  -->
             <% products.map(function(value, key) { %>
-              <tbody style="background: white">
-              <td><%= key + 1 %></td>
-              <td><%= value.productName %></td>
-              <td><%= value.productCollection %></td>
-              <td><%= value.productCollection === 'DRINK' ? value.productVolume :
-              value.productSize %></td>
-              <td><%= value.productPrice %></td>
-              <td><%= value.productLeftCount %></td>
+            <% var statusColor = value.productStatus === 'PROCESS' ? '#4caf82' : value.productStatus === 'PAUSE' ? '#e3c285' : '#e05050'; %>
+            <% var stockColor  = value.productLeftCount <= 5 ? '#e05050' : '#a98a7d'; %>
+            <% var stockWeight = value.productLeftCount <= 5 ? '600' : '400'; %>
+            <tbody>
+              <td class="td-muted"><%= key + 1 %></td>
+              <td class="td-name"><%= value.productName %></td>
               <td>
-                <select class="spec-select new-product-status" 
-                id="<%= value._id %>">
-                  <option value="PAUSE" <%= value.productStatus === 'PAUSE' ? 'selected': '' %> >PAUSE</option>
-                  <option value="PROCESS" <%= value.productStatus === 'PROCESS' ? 'selected': '' %> >PROCESS</option>
-                  <option value="DELETE" <%= value.productStatus === 'DELETE' ? 'selected': '' %> >DELETE</option>
+                <span class="collection-badge"><%= value.productCollection %></span>
+              </td>
+              <td class="td-muted">
+                <%= value.productCollection === 'DRINK' ? value.productVolume + 'L' : value.productSize %>
+              </td>
+              <td class="td-price">₩<%= value.productPrice.toLocaleString() %></td>
+              <td>
+                <span class="td-stock" data-low="<%= value.productLeftCount <= 5 %>">
+                  <%= value.productLeftCount <= 5 ? '⚠ ' : '' %><%= value.productLeftCount %>
+                </span>
+              </td>
+              <td>
+                <select class="spec-select new-product-status" id="<%= value._id %>" data-status="<%= value.productStatus %>">
+                  <option value="PAUSE"   <%= value.productStatus === 'PAUSE'   ? 'selected' : '' %>>PAUSE</option>
+                  <option value="PROCESS" <%= value.productStatus === 'PROCESS' ? 'selected' : '' %>>ACTIVE</option>
+                  <option value="DELETE"  <%= value.productStatus === 'DELETE'  ? 'selected' : '' %>>DELETE</option>
                 </select>
               </td>
             </tbody>
             <% }) %>
           </table>
-          <div
-            class="long-input"
-            style="align-items: flex-end; margin-bottom: 25px"
-          >
-            <button class="btn btn-primary" id="process-btn">
-              New Product
-            </button>
+
+          <!-- Pagination -->
+          <%
+            var currentPage = parseInt(locals.page || 1);
+            var limitVal = 10;
+            var totalPages = Math.ceil(totalCount / limitVal);
+          %>
+          <% if (totalPages > 1) { %>
+          <div class="pagination-row">
+            <span class="pagination-info">
+              Showing <%= (currentPage-1)*limitVal+1 %>–<%= Math.min(currentPage*limitVal, totalCount) %> of <%= totalCount %> products
+            </span>
+            <div class="pagination-links">
+              <% if (currentPage > 1) { %>
+              <a href="/admin/product/all?page=<%= currentPage-1 %>" class="page-btn">‹</a>
+              <% } %>
+              <% for(var p=1; p<=totalPages; p++) { %>
+              <a href="/admin/product/all?page=<%= p %>"
+                 class="page-btn <%= p === currentPage ? 'page-btn-active' : '' %>">
+                <%= p %>
+              </a>
+              <% } %>
+              <% if (currentPage < totalPages) { %>
+              <a href="/admin/product/all?page=<%= currentPage+1 %>" class="page-btn">›</a>
+              <% } %>
+            </div>
           </div>
+          <% } %>
         </div>
+
+        <!-- NEW PRODUCT FORM -->
         <form
-        onsubmit="return validateForm()"
+          onsubmit="return validateForm()"
           action="/admin/product/create"
           method="POST"
           class="dish-container"
           enctype="multipart/form-data"
         >
-          <div class="long-input" style="display: flex; align-items: center">
-            <span class="new-dish-txt">NEW PRODUCT DETAIL</span>
+          <div class="long-input" style="margin-top:0; margin-bottom:4px;">
+            <span class="new-dish-txt" style="font-size:18px;">New Product Details</span>
           </div>
-          <div class="login-input-frame">
-            <div class="long-input">
-              <label>Product Name</label>
-              <input
-                type="text"
-                placeholder="Name"
-                name="productName"
-                class="product-name"
-              />
-            </div>
-            <input
-              name="productStatus"
-              value="PAUSE"
-              class="product-status"
-              hidden
-            />
+
+          <div class="long-input">
+            <label>Product Name</label>
+            <input type="text" placeholder="e.g. Adana Kebab" name="productName" class="product-name" />
+            <input name="productStatus" value="PAUSE" class="product-status" hidden />
           </div>
+
           <div class="half-input-frame">
             <div class="half-input">
-              <label>Product Price</label>
-              <input
-                type="number"
-                placeholder="Price"
-                name="productPrice"
-                class="product-price"
-              />
+              <label>Product Price (₩)</label>
+              <input type="number" placeholder="25000" name="productPrice" class="product-price" />
             </div>
             <div class="half-input">
-              <label>Product Left Counts</label>
-              <input
-                type="number"
-                placeholder="Counts"
-                name="productLeftCount"
-                class="product-left-count"
-              />
+              <label>Stock Count</label>
+              <input type="number" placeholder="50" name="productLeftCount" class="product-left-count" />
             </div>
           </div>
+
           <div class="half-input-frame">
             <div class="half-input">
               <label>Product Type</label>
               <select class="product-collection" name="productCollection">
-                <option value="DISH" selected>Dish</option>
+                <option value="KEBAB" selected>Kebab</option>
+                <option value="PIDE">Pide</option>
                 <option value="SALAD">Salad</option>
                 <option value="DESSERT">Dessert</option>
                 <option value="DRINK">Drink</option>
                 <option value="OTHER">Other</option>
               </select>
             </div>
-
             <div class="half-input" id="product-collection">
-              <label>Dish Volume</label>
+              <label>Portion Size</label>
               <select class="product-size" name="productSize">
                 <option value="SMALL">Small</option>
                 <option value="NORMAL" selected>Normal</option>
@@ -141,21 +212,20 @@
                 <option value="SET">Set</option>
               </select>
             </div>
-
-            <div class="half-input" id="product-volume" style="display: none">
+            <div class="half-input" id="product-volume" style="display:none;">
               <label>Drink Volume</label>
               <select class="product-volume" name="productVolume">
-                <option value="0.5">0,5 liters</option>
-                <option value="1" selected>1 liters</option>
-                <option value="1.2">1,2 liters</option>
-                <option value="1.5">1,5 liters</option>
+                <option value="0.5">0.5 liters</option>
+                <option value="1" selected>1 liter</option>
+                <option value="1.2">1.2 liters</option>
                 <option value="2">2 liters</option>
               </select>
             </div>
           </div>
+
           <div class="long-input">
             <label>Product Description</label>
-            <textarea name="productDesc" class="product-desc"></textarea>
+            <textarea name="productDesc" class="product-desc" placeholder="Describe the dish..."></textarea>
           </div>
 
           <div class="img-frame">
@@ -163,71 +233,55 @@
             <div class="media-frame">
               <div class="upload-img-box">
                 <img src="/img/upload.svg" class="1" id="image-section-1" />
-                <input
-                  type="file"
-                  id="file"
-                  name="productImages"
-                  class="image-one"
-                  required
-                  onchange="previewFileHandler(this, 1)"
-                />
+                <input type="file" id="file" name="productImages" class="image-one" required onchange="previewFileHandler(this, 1)" />
               </div>
               <div class="upload-img-box">
                 <img src="/img/upload.svg" class="2" id="image-section-2" />
-                <input
-                  type="file"
-                  id="file"
-                  name="productImages"
-                  class="image-two"
-                  onchange="previewFileHandler(this, 2)"
-                />
+                <input type="file" id="file" name="productImages" class="image-two" onchange="previewFileHandler(this, 2)" />
               </div>
               <div class="upload-img-box">
                 <img src="/img/upload.svg" class="3" id="image-section-3" />
-                <input
-                  type="file"
-                  id="file"
-                  name="productImages"
-                  class="image-three"
-                  onchange="previewFileHandler(this, 3)"
-                />
+                <input type="file" id="file" name="productImages" class="image-three" onchange="previewFileHandler(this, 3)" />
               </div>
               <div class="upload-img-box">
                 <img src="/img/upload.svg" class="4" id="image-section-4" />
-                <input
-                  type="file"
-                  id="file"
-                  name="productImages"
-                  class="image-four"
-                  onchange="previewFileHandler(this, 4)"
-                />
+                <input type="file" id="file" name="productImages" class="image-four" onchange="previewFileHandler(this, 4)" />
               </div>
               <div class="upload-img-box">
                 <img src="/img/upload.svg" class="5" id="image-section-5" />
-                <input
-                  type="file"
-                  id="file"
-                  name="productImages"
-                  class="image-five"
-                  onchange="previewFileHandler(this, 5)"
-                />
+                <input type="file" id="file" name="productImages" class="image-five" onchange="previewFileHandler(this, 5)" />
               </div>
               <input name="restaurantIid" class="restaurant-id" hidden />
             </div>
           </div>
 
           <div class="operation-buttons">
-            <button class="btn btn-danger" id="cancel-btn">Cancel</button>
-            <button type="submit" class="btn btn-primary" id="create-btn">
-              Create
-            </button>
+            <button class="btn" id="cancel-btn" type="button">Cancel</button>
+            <button type="submit" class="btn" id="create-btn">Create Product</button>
           </div>
         </form>
+
       </div>
     </div>
-  </div>
 
-  <script type="text/javascript" src="/js/products.js"></script>
+    <script type="text/javascript" src="/js/products.js"></script>
+
+    <!-- Status select colors via JS (avoids inline EJS style issues) -->
+    <script>
+      document.querySelectorAll('.new-product-status').forEach(function(sel) {
+        var s = sel.getAttribute('data-status');
+        sel.style.color = s === 'PROCESS' ? '#4caf82' : s === 'PAUSE' ? '#e3c285' : '#e05050';
+        sel.addEventListener('change', function() {
+          var v = this.value;
+          this.style.color = v === 'PROCESS' ? '#4caf82' : v === 'PAUSE' ? '#e3c285' : '#e05050';
+        });
+      });
+      document.querySelectorAll('.td-stock').forEach(function(el) {
+        el.style.color    = el.getAttribute('data-low') === 'true' ? '#e05050' : '#a98a7d';
+        el.style.fontWeight = el.getAttribute('data-low') === 'true' ? '600' : '400';
+      });
+    </script>
+  </div>
 </body>
 
 <%- include('includes/footer') %>

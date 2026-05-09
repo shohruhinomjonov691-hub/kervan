@@ -58,3 +58,18 @@ export interface AdminRequest extends Request {
   file: Express.Multer.File;
   files: Express.Multer.File[];
 }
+
+// ✅ YANGI UserInquiry type — libs/types/member.ts ga qo'shing
+export interface UserInquiry {
+  page: number;
+  limit: number;
+  memberStatus?: MemberStatus;
+  sort?: string; // "createdAt" | "memberPoints"
+}
+
+// ✅ YANGI UserStats type — libs/types/member.ts ga qo'shing
+export interface UserStats {
+  activeCount: number;
+  blockCount: number;
+  deleteCount: number;
+}

@@ -52,21 +52,23 @@ productController.getProduct = async (req: ExtendedRequest, res: Response) => {
 
 /** SSR */
 
+// ✅ YANGI — shu bilan almashtiring:
 productController.getALLProduct = async (req: Request, res: Response) => {
   try {
-    // try va catch bilan hatolikdi handle qilayapmiz (server buzulmaydi)
-    console.log("getALLProductup");
-    const data = await productService.getALLProduct();
-    console.log("products", data);
+    console.log("getALLProduct");
 
-    res.render("products", { products: data });
+    const { page = 1, limit = 10 } = req.query;
+
+    const result = await productService.getALLProduct({
+      page: Number(page),
+      limit: Number(limit),
+    });
+
+    res.render("products", { ...result });
   } catch (err) {
     console.log("Error, getALLProduct:", err);
-    // Error biz bergan instance ichida bolsa
     if (err instanceof Errors) res.status(err.code).json(err);
-    // Errors classda bolmasa shu javob keladi
     else res.status(Errors.standard.code).json(Errors.standard);
-    // res.json({});
   }
 };
 

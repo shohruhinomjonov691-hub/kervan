@@ -4,22 +4,57 @@
 
 <body>
   <div class="signup-container">
+    <!-- ── LEFT PANEL ── -->
+    <div class="signup-left">
+      <div class="signup-left__bg-fallback"></div>
+      <div class="signup-left__bg"></div>
+      <div class="signup-left__overlay"></div>
+
+      <div class="signup-left__content">
+        <div class="signup-brand">
+          <div class="signup-brand__icon">☽</div>
+          <span class="signup-brand__name">KERVAN</span>
+        </div>
+        <h1 class="signup-headline">Join the Kervan<br />family today.</h1>
+        <p class="signup-desc">
+          Register your restaurant to access the centralized management suite
+          for all Kervan branches.
+        </p>
+        <div class="signup-pills">
+          <span class="signup-pill">Itaewon</span>
+          <span class="signup-pill">COEX</span>
+          <span class="signup-pill">Famille Station</span>
+        </div>
+      </div>
+    </div>
+    <!-- /LEFT PANEL -->
+
+    <!-- ── RIGHT PANEL — form IS the signup-frame ── -->
     <form
+      class="signup-frame"
       onsubmit="return validateSignupForm();"
       action="/admin/signup"
       method="POST"
       enctype="multipart/form-data"
     >
-      <div class="signup-frame" style="width: 650px">
+      <!-- Mobile brand -->
+      <div class="signup-mobile-brand">
+        <div class="signup-mobile-brand__icon">☽</div>
+        <span class="signup-mobile-brand__name">KERVAN</span>
+      </div>
+
+      <div class="signup-form-inner">
+        <!-- Title block -->
         <div class="signup-top">
-          <span>Signup</span>
-          <div>Go back <a href="/admin" style="color: #6440fb">Home</a></div>
-          <p>
-            Already signed up?
-            <a href="/admin/login" style="color: #6440fb">Login</a>
-          </p>
+          <span>Register Restaurant</span>
+          <p>Enter your establishment details to get started.</p>
+          <div>
+            Already registered?
+            <a href="/admin/login">Login</a>
+          </div>
         </div>
 
+        <!-- Row 1: Nick + Phone -->
         <div class="sign-input-frame" style="justify-content: space-between">
           <div class="sign-up-frame">
             <label>Restaurant *</label>
@@ -37,11 +72,13 @@
               type="text"
               name="memberPhone"
               class="member-phone"
-              placeholder="Phone"
+              placeholder="+82 10-XXXX-XXXX"
               value=""
             />
           </div>
         </div>
+
+        <!-- Row 2: Password + Confirm -->
         <div class="sign-input-frame" style="justify-content: space-between">
           <div class="sign-up-frame">
             <label>Password *</label>
@@ -49,30 +86,31 @@
               type="password"
               name="memberPassword"
               class="member-password"
-              placeholder="Password"
+              placeholder="••••••••"
               value=""
             />
           </div>
           <div class="sign-up-frame">
-            <label>Repeat password *</label>
+            <label>Repeat Password *</label>
             <input
               type="password"
               name="confirmPassword"
               class="confirm-password"
-              placeholder="Repeat password"
+              placeholder="••••••••"
               value=""
             />
           </div>
         </div>
 
+        <!-- Image upload -->
         <div class="signup-input-frame">
           <div class="media-frame">
             <img class="upload-img-frame" src="/img/default.jpeg" />
             <div class="upload-container">
-              <span class="media-text">Product image</span>
+              <span class="media-text">Restaurant Image</span>
               <div
                 class="file-box bs3-primary preview-image"
-                style="margin-top: 25px; display: flex"
+                style="margin-top: 12px; display: flex"
               >
                 <input
                   class="upload-name"
@@ -90,9 +128,7 @@
                 />
               </div>
               <p class="thumbnail-desc">
-                Please upload restaurant image.<br />
-                Attention only:.jpg, .jpeg, or .png. <br />
-                formats allowed!
+                Only .jpg, .jpeg, or .png formats allowed.
               </p>
             </div>
           </div>
@@ -101,11 +137,23 @@
         <input name="memberType" value="RESTAURANT" hidden />
 
         <button class="signup-btn btn" name="signup" type="submit">
-          Signup
+          Create Account →
         </button>
       </div>
+      <!-- /signup-form-inner -->
+
+      <!-- Footer strip -->
+      <div class="signup-footer">
+        <span>© 2025 Kervan Hospitality Group</span>
+        <div style="display: flex; gap: 20px">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Support</a>
+        </div>
+      </div>
     </form>
+    <!-- /signup-frame -->
   </div>
+  <!-- /signup-container -->
 
   <script type="text/javascript" src="/js/signup.js"></script>
 </body>

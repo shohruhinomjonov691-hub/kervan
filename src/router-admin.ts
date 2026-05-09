@@ -2,6 +2,7 @@ import express from "express";
 const routerAdmin = express.Router();
 import restaurantController from "./controllers/restaurant.controller";
 import productController from "./controllers/product.controller";
+import branchController from "./controllers/branch.controller";
 import makeUploader from "./libs/utils/uploader";
 
 /** Restaurant */
@@ -24,14 +25,20 @@ routerAdmin
 // type: Tradition (html-form)
 // Method: post
 // Structure: Header(localhost:3003), Body (Kiritilgan malumotlar)
+routerAdmin.get(
+  "/dashboard/stats",
+  restaurantController.verifyRestaurant,
+  restaurantController.getDashboardStats,
+);
+
 routerAdmin.get("/logout", restaurantController.logout);
 routerAdmin.get("/check-me", restaurantController.checkAuthSession);
 
 /** Product */ // Customized Middleware (utilities)
 routerAdmin.get(
   "/product/all",
-  restaurantController.verifyRestaurant, // Customized Middleware req.+member di qoshayapmiz AUTHORIZATION
-  productController.getALLProduct, // bu yerda req.member di ishlatayapmiz
+  restaurantController.verifyRestaurant,
+  restaurantController.getAllProductsAdmin, // ← o'zgardi
 );
 routerAdmin.post(
   "/product/create",
@@ -49,12 +56,30 @@ routerAdmin.post(
 routerAdmin.get(
   "/user/all",
   restaurantController.verifyRestaurant,
-  restaurantController.getUsers,
+  restaurantController.getUsers, // ← filter + stats bilan
 );
 routerAdmin.post(
   "/user/edit",
   restaurantController.verifyRestaurant,
   restaurantController.updateChosenUser,
+);
+
+/** Branch */
+routerAdmin.get(
+  "/branch/all",
+  restaurantController.verifyRestaurant,
+  restaurantController.getAllBranchesAdmin, // ← stats bilan
+);
+routerAdmin.post(
+  "/branch/create",
+  restaurantController.verifyRestaurant,
+  makeUploader("branches").single("branchImage"),
+  branchController.createBranch,
+);
+routerAdmin.post(
+  "/branch/edit",
+  restaurantController.verifyRestaurant,
+  branchController.updateChosenBranch,
 );
 
 export default routerAdmin;

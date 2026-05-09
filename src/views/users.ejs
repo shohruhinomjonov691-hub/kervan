@@ -4,87 +4,157 @@
 
 <body>
   <div class="users-container">
-    <% if(!member) { %>
+
+    <% if (!member) { %>
+    <!-- NOT LOGGED IN -->
     <div class="navigation-menu">
-      <ul class="nav justify-content-center">
-        <li class="nav-item" style="cursor: pointer">
-          <a class="nav-link active" href="/admin/">Home</a>
+      <ul class="nav justify-content-between px-4" style="height:72px; align-items:center;">
+        <li class="nav-item">
+          <a class="nav-brand" href="/admin">
+            <div class="nav-brand-icon">☽</div>
+            <span class="nav-brand-name">KERVAN</span>
+          </a>
         </li>
-        <li class="nav-item" style="cursor: pointer">
-          <a class="nav-link" href="/admin/signup">SignUp</a>
-        </li>
-        <li class="nav-item" style="cursor: pointer">
-          <a class="nav-link" href="/admin/login">Login</a>
-        </li>
+        <div class="d-flex" style="gap:4px; align-items:center;">
+          <li class="nav-item"><a class="nav-link active" href="/admin/">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="/admin/signup">Signup</a></li>
+          <li class="nav-item"><a class="nav-link" href="/admin/login">Login</a></li>
+        </div>
       </ul>
     </div>
 
-    <div class="users-frame" style="color: #dddddd">
-      <div class="board" style="font-size: 40px">Please login first!</div>
+    <div class="users-frame" style="color:#f8ddd2;">
+      <div class="board" style="font-size:24px; font-family:'Noto Serif',serif; margin-top:80px;">
+        Please login first!
+      </div>
     </div>
 
     <% } else { %>
+    <!-- LOGGED IN -->
     <div class="navigation-menu">
-      <ul class="nav justify-content-center">
-        <li class="nav-item" style="cursor: pointer">
-          <a class="nav-link active" href="/admin/">Home</a>
+      <ul class="nav justify-content-between px-4" style="height:72px; align-items:center;">
+        <li class="nav-item">
+          <a class="nav-brand" href="/admin">
+            <div class="nav-brand-icon">☽</div>
+            <span class="nav-brand-name">KERVAN</span>
+          </a>
         </li>
-        <li class="nav-item" style="cursor: pointer">
-          <a class="nav-link" href="/admin/product/all">Menu</a>
-        </li>
-        <li class="nav-item" style="cursor: pointer">
-          <a class="nav-link" href="/admin/user/all">Users</a>
-        </li>
-        <li
-          class="nav-item"
-          style="cursor: pointer"
-          onclick="return confirm('Do you really want to logout?')"
-        >
-          <a class="nav-link" href="/admin/logout">Logout</a>
-        </li>
+        <div class="d-flex" style="gap:4px; align-items:center;">
+          <li class="nav-item"><a class="nav-link" href="/admin/">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="/admin/product/all">Menu</a></li>
+          <li class="nav-item"><a class="nav-link active" href="/admin/user/all">Users</a></li>
+          <li class="nav-item"><a class="nav-link" href="/admin/branch/all">Branches</a></li>
+          <li class="nav-item nav-logout" onclick="return confirm('Do you really want to logout?')">
+            <a class="nav-link" href="/admin/logout">Logout</a>
+          </li>
+        </div>
       </ul>
     </div>
 
     <div class="users-frame">
       <div class="board">
+
+        <!-- Page header -->
+        <div class="page-header">
+          <p>USER MANAGEMENT</p>
+          <h1>All Users List</h1>
+        </div>
+
+        <!-- Stat cards -->
+        <div class="stat-cards">
+          <div class="stat-card">
+            <div class="stat-card-icon" style="background:rgba(76,175,130,0.12); color:#4caf82;">✓</div>
+            <div>
+              <div class="stat-card-label" style="color:#4caf82;">Active</div>
+              <div class="stat-card-value"><%= stats.activeCount %></div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-icon" style="background:rgba(224,80,80,0.12); color:#e05050;">✕</div>
+            <div>
+              <div class="stat-card-label" style="color:#e05050;">Blocked</div>
+              <div class="stat-card-value"><%= stats.blockCount %></div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-icon" style="background:rgba(169,138,125,0.12); color:#a98a7d;">–</div>
+            <div>
+              <div class="stat-card-label" style="color:#a98a7d;">Deleted</div>
+              <div class="stat-card-value"><%= stats.deleteCount %></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filter -->
+        <form method="GET" action="/admin/user/all" class="filter-row">
+          <select name="memberStatus" onchange="this.form.submit()">
+            <option value="">All Status</option>
+            <option value="ACTIVE" <%= locals.memberStatus === 'ACTIVE' ? 'selected' : '' %>>Active</option>
+            <option value="BLOCK"  <%= locals.memberStatus === 'BLOCK'  ? 'selected' : '' %>>Blocked</option>
+            <option value="DELETE" <%= locals.memberStatus === 'DELETE' ? 'selected' : '' %>>Deleted</option>
+          </select>
+          <select name="sort" onchange="this.form.submit()">
+            <option value="createdAt"    <%= locals.sort !== 'memberPoints' ? 'selected' : '' %>>Newest First</option>
+            <option value="memberPoints" <%= locals.sort === 'memberPoints' ? 'selected' : '' %>>Top Points</option>
+          </select>
+        </form>
+
+        <!-- User table -->
         <div class="user-table">
-          <span class="header-name" style="margin-bottom: 30px"
-            >All Users List</span
-          >
           <table class="table table-hover table-sm">
             <thead class="thead-light">
               <tr class="thead-light">
                 <th scope="col">No</th>
                 <th scope="col">Name</th>
                 <th scope="col">Phone</th>
+                <th scope="col">Points</th>
+                <th scope="col">Joined</th>
                 <th scope="col">Status</th>
               </tr>
             </thead>
             <% users.map(function(value, index) { %>
-              <tbody style="background: white">
-              <td><%= index+1 %></td>
-              <td><%= value.memberNick %></td>
+            <tbody>
+              <td class="td-muted"><%= String(index+1).padStart(3,'0') %></td>
+              <td class="td-name">
+                <span class="user-avatar"><%= value.memberNick.charAt(0).toUpperCase() %></span>
+                <%= value.memberNick %>
+              </td>
               <td><%= value.memberPhone %></td>
-              <td style="width: 13%">
-                <select class="spec-select member-status" id="<%= value._id %>">
-                  <option value="ACTIVE" <%= value.memberStatus === 'ACTIVE' ?
-                  'selected': '' %>>ACTIVE</option>
-                  <option value="BLOCK" <%= value.memberStatus === 'BLOCK' ?
-                  'selected': '' %>>BLOCK</option>
-                  <option value="DELETE" <%= value.memberStatus === 'DELETE' ?
-                  'selected': '' %>>DELETE</option>
+              <td class="td-price"><%= value.memberPoints %> pts</td>
+              <td class="td-date">
+                <%= new Date(value.createdAt).toLocaleDateString('en-KR', {year:'numeric', month:'short', day:'numeric'}) %>
+              </td>
+              <td style="width:13%">
+                <select class="spec-select member-status" id="<%= value._id %>" data-status="<%= value.memberStatus %>">
+                  <option value="ACTIVE" <%= value.memberStatus === 'ACTIVE' ? 'selected' : '' %>>ACTIVE</option>
+                  <option value="BLOCK"  <%= value.memberStatus === 'BLOCK'  ? 'selected' : '' %>>BLOCK</option>
+                  <option value="DELETE" <%= value.memberStatus === 'DELETE' ? 'selected' : '' %>>DELETE</option>
                 </select>
               </td>
             </tbody>
-            <% }) %>  
+            <% }) %>
           </table>
         </div>
+
       </div>
     </div>
     <% } %>
+
   </div>
 
   <script type="text/javascript" src="/js/users.js"></script>
+
+  <!-- Status select colors via JS -->
+  <script>
+    document.querySelectorAll('.member-status').forEach(function(sel) {
+      var s = sel.getAttribute('data-status');
+      sel.style.color = s === 'ACTIVE' ? '#4caf82' : s === 'BLOCK' ? '#e05050' : '#a98a7d';
+      sel.addEventListener('change', function() {
+        var v = this.value;
+        this.style.color = v === 'ACTIVE' ? '#4caf82' : v === 'BLOCK' ? '#e05050' : '#a98a7d';
+      });
+    });
+  </script>
 </body>
 
 <%- include('includes/footer') %>

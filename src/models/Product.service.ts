@@ -4,6 +4,8 @@ import Errors, { Message } from "../libs/Errors";
 import ProductModel from "../schema/Product.model";
 import { HttpCode } from "../libs/Errors";
 import {
+  AdminProductInquiry,
+  AdminProductResult,
   Product,
   ProductInput,
   ProductInquiry,
@@ -97,11 +99,42 @@ class ProductService {
 
   /** SSR */
 
-  public async getALLProduct(): Promise<Product[]> {
-    const result = await this.productModel.find().exec();
-    if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+  // Product.service.ts ichida getALLProduct() ni shu bilan almashtiring:
 
-    return result;
+  public async getALLProduct(
+    inquiry: AdminProductInquiry,
+  ): Promise<AdminProductResult> {
+    // Pagination bilan mahsulotlar
+    const products = await this.productModel
+      .find()
+      .sort({ createdAt: -1 }) // eng yangi tepada
+      .skip((inquiry.page - 1) * inquiry.limit)
+      .limit(inquiry.limit)
+      .exec();
+
+    // Status counts — Promise.all bilan parallel so'rov (tezroq)
+    const [totalCount, processCount, pauseCount, deleteCount] =
+      await Promise.all([
+        this.productModel.countDocuments(),
+        this.productModel.countDocuments({ productStatus: "PROCESS" }),
+        this.productModel.countDocuments({ productStatus: "PAUSE" }),
+        this.productModel.countDocuments({ productStatus: "DELETE" }),
+      ]);
+
+    // Trending — eng ko'p ko'rilgan mahsulot
+    const trendingProduct = await this.productModel
+      .findOne({ productStatus: "PROCESS" })
+      .sort({ productViews: -1 })
+      .exec();
+
+    return {
+      products,
+      totalCount,
+      processCount,
+      pauseCount,
+      deleteCount,
+      trendingProduct,
+    };
   }
 
   public async createNewProduct(input: ProductInput): Promise<Product> {

@@ -1,5 +1,11 @@
 import MemberModel from "../schema/Member.model";
-import { Member, MemberInput, MemberUpdateInput } from "../libs/types/member";
+import {
+  Member,
+  MemberInput,
+  MemberUpdateInput,
+  UserInquiry,
+  UserStats,
+} from "../libs/types/member";
 import Errors, { HttpCode, Message } from "../libs/Errors";
 import { MemberStatus, MemberType } from "../libs/enums/member.enum";
 import { LoginInput } from "../libs/types/member";
@@ -184,15 +190,51 @@ class MemberService {
 
   // Define(parametr)
   // getUsers+async+public+metnodi
-  public async getUsers(): Promise<Member[]> {
-    // Promisda Memberdi qaytaradi
-    // memberSkimaModel- class, find-static method (classdi),
-    const result = await this.memberModel
-      .find({ memberType: MemberType.USER })
-      .exec();
-    if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+  // Member.service.ts ichida getUsers() ni shu bilan almashtiring:
 
+  public async getUsers(inquiry: UserInquiry): Promise<Member[]> {
+    const match: any = { memberType: MemberType.USER };
+
+    // Status filter
+    if (inquiry.memberStatus) {
+      match.memberStatus = inquiry.memberStatus;
+    }
+
+    // Sort: createdAt yoki memberPoints
+    const sort: any =
+      inquiry.sort === "memberPoints"
+        ? { memberPoints: -1 }
+        : { createdAt: -1 }; // default: eng yangi user tepada
+
+    const result = await this.memberModel
+      .find(match)
+      .sort(sort)
+      .skip((inquiry.page - 1) * inquiry.limit)
+      .limit(inquiry.limit)
+      .exec();
+
+    if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
     return result;
+  }
+
+  // ✅ YANGI — User sahifasi uchun status counts
+  public async getUserStats(): Promise<UserStats> {
+    const [activeCount, blockCount, deleteCount] = await Promise.all([
+      this.memberModel.countDocuments({
+        memberType: MemberType.USER,
+        memberStatus: MemberStatus.ACTIVE,
+      }),
+      this.memberModel.countDocuments({
+        memberType: MemberType.USER,
+        memberStatus: MemberStatus.BLOCK,
+      }),
+      this.memberModel.countDocuments({
+        memberType: MemberType.USER,
+        memberStatus: MemberStatus.DELETE,
+      }),
+    ]);
+
+    return { activeCount, blockCount, deleteCount };
   }
 
   // Define(parametr)
