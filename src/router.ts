@@ -60,4 +60,7 @@ router.get(
   branchController.getAllBranches,
 );
 
+// router-admin.ts da shu route bo'lishi kerak:
+router.post("/branch/edit", branchController.updateChosenBranch);
+
 export default router;

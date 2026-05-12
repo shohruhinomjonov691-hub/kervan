@@ -1,7 +1,18 @@
 console.log("Branches frontend javascript file");
 
 $(function () {
-  // ── Status badge colors ──
+  // ══════════════════════════════════════
+  // 1. BOSHLANG'ICH RANGLAR
+  // ══════════════════════════════════════
+
+  // Select rangi
+  document.querySelectorAll(".branch-status").forEach(function (sel) {
+    var s = sel.getAttribute("data-status");
+    sel.style.color =
+      s === "OPEN" ? "#4caf82" : s === "TEMP_CLOSED" ? "#e3c285" : "#e05050";
+  });
+
+  // Badge rangi
   document.querySelectorAll(".branch-status-badge").forEach(function (badge) {
     var s = badge.getAttribute("data-status");
     var color =
@@ -10,7 +21,66 @@ $(function () {
     badge.querySelector(".branch-status-txt").style.color = color;
   });
 
-  // ── New branch form toggle ──
+  // ══════════════════════════════════════
+  // 2. STATUS O'ZGARGANDA — BITTA LISTENER
+  // ══════════════════════════════════════
+
+  document.querySelectorAll(".branch-status").forEach(function (sel) {
+    sel.addEventListener("change", function () {
+      var branchId = this.id;
+      var newStatus = this.value;
+      var self = this;
+
+      var color =
+        newStatus === "OPEN"
+          ? "#4caf82"
+          : newStatus === "TEMP_CLOSED"
+            ? "#e3c285"
+            : "#e05050";
+
+      // Select rangi
+      self.style.color = color;
+
+      // Badge — data-branch-id orqali topiladi
+      document
+        .querySelectorAll(".branch-status-badge")
+        .forEach(function (badge) {
+          if (badge.getAttribute("data-branch-id") === branchId) {
+            badge.querySelector(".branch-status-dot").style.background = color;
+            badge.querySelector(".branch-status-txt").style.color = color;
+            badge.querySelector(".branch-status-txt").textContent =
+              newStatus === "TEMP_CLOSED" ? "TEMP CLOSED" : newStatus;
+            badge.setAttribute("data-status", newStatus);
+          }
+        });
+
+      // Server ga yuborish
+      axios
+        .post("/admin/branch/edit", {
+          _id: branchId,
+          branchStatus: newStatus,
+        })
+        .then(function (res) {
+          if (!res.data.data) alert("Branch update failed!");
+        })
+        .catch(function () {
+          alert("Failed to update branch status!");
+          // Xato bo'lsa qaytarish
+          self.value = self.getAttribute("data-status");
+          self.style.color =
+            self.getAttribute("data-status") === "OPEN"
+              ? "#4caf82"
+              : self.getAttribute("data-status") === "TEMP_CLOSED"
+                ? "#e3c285"
+                : "#e05050";
+        });
+    });
+  });
+
+  // ══════════════════════════════════════
+  // 3. NEW BRANCH FORM TOGGLE
+  // ══════════════════════════════════════
+
   $("#branch-btn").on("click", function () {
     $(".branch-form-container").slideToggle(500);
     $(this).css("display", "none");
@@ -21,29 +91,12 @@ $(function () {
     $("#branch-btn").css("display", "flex");
   });
 
-  // ── Branch status update ──
-  $(".branch-status").on("change", async function (e) {
-    const id = e.target.id;
-    const branchStatus = $(`#${id}.branch-status`).val();
-    try {
-      const response = await axios.post("/admin/branch/edit", {
-        _id: id,
-        branchStatus: branchStatus,
-      });
-      const result = response.data;
-      if (result.data) {
-        $(".branch-status").blur();
-      } else alert("Branch update failed!");
-    } catch (err) {
-      console.log(err);
-      alert("Branch update failed!");
-    }
-  });
+  // ══════════════════════════════════════
+  // 4. EDIT MODAL — OPEN
+  // ══════════════════════════════════════
 
-  // ── Edit modal: open ──
   $(".branch-edit-btn").on("click", function () {
-    const btn = $(this);
-    // Fill form with data-* values
+    var btn = $(this);
     $("#edit-id").val(btn.data("id"));
     $("#edit-address").val(btn.data("address"));
     $("#edit-phone").val(btn.data("phone"));
@@ -57,7 +110,10 @@ $(function () {
     $("body").css("overflow", "hidden");
   });
 
-  // ── Edit modal: close ──
+  // ══════════════════════════════════════
+  // 5. EDIT MODAL — CLOSE
+  // ══════════════════════════════════════
+
   function closeModal() {
     $("#edit-modal").fadeOut(200);
     $("body").css("overflow", "");
@@ -65,18 +121,19 @@ $(function () {
 
   $("#modal-close, #modal-cancel").on("click", closeModal);
 
-  // Close on overlay click
   $("#edit-modal").on("click", function (e) {
     if ($(e.target).is("#edit-modal")) closeModal();
   });
 
-  // ── Edit form: submit ──
+  // ══════════════════════════════════════
+  // 6. EDIT FORM — SUBMIT
+  // ══════════════════════════════════════
+
   $("#edit-branch-form").on("submit", async function (e) {
     e.preventDefault();
 
-    const id = $("#edit-id").val();
-    const payload = {
-      _id: id,
+    var payload = {
+      _id: $("#edit-id").val(),
       branchAddress: $("#edit-address").val(),
       branchPhone: $("#edit-phone").val(),
       branchHours: $("#edit-hours").val(),
@@ -87,9 +144,8 @@ $(function () {
     };
 
     try {
-      const response = await axios.post("/admin/branch/edit", payload);
-      const result = response.data;
-      if (result.data) {
+      var response = await axios.post("/admin/branch/edit", payload);
+      if (response.data.data) {
         alert("Branch updated successfully!");
         closeModal();
         window.location.reload();
@@ -103,12 +159,15 @@ $(function () {
   });
 });
 
-// ── New branch form validation ──
-function validateBranchForm() {
-  const branchAddress = $("[name='branchAddress']").val(),
-    branchPhone = $("[name='branchPhone']").val();
+// ══════════════════════════════════════
+// 7. NEW BRANCH FORM VALIDATION
+// ══════════════════════════════════════
 
-  if (branchAddress === "" || branchPhone === "") {
+function validateBranchForm() {
+  var branchAddress = $("[name='branchAddress']").val();
+  var branchPhone = $("[name='branchPhone']").val();
+
+  if (!branchAddress || !branchPhone) {
     alert("Please fill in all required fields!");
     return false;
   }

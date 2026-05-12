@@ -2,14 +2,26 @@
 
 /* ── ROOT ── */
 :root {
-  --k-bg: #15130e;
-  --k-surface: #1d1a14;
-  --k-orange: #ff6b00;
-  --k-cream: #f8ddd2;
-  --k-muted: #a98a7d;
-  --k-border: #2d2820;
-  --k-input: #211e18;
-  --k-red: #e05050;
+  /* ── Fonlar (dark → light) ── */
+  --k-bg: #f5f1ee; /* sahifa foni  — iliq oq          */
+  --k-surface: #ffffff; /* nav, card    — toza oq           */
+  --k-surface2: #faf7f4; /* jadval header, hover — krem      */
+  --k-input: #f5f1ee; /* input foni   — engil krem        */
+  --k-border: #e8d9cc; /* chegara      — iliq kulrang       */
+
+  /* ── Asosiy rang ── */
+  --k-orange: #8d4b00; /* tugma, aktiv, badge — saffron    */
+  --k-orange-h: #6e3900; /* hover holati                     */
+  --k-orange-l: #fdf5ee; /* orange ochiq fon — chip, badge   */
+
+  /* ── Matn ── */
+  --k-cream: #1c1b1b; /* asosiy matn  — qoramtir          */
+  --k-muted: #887364; /* ikkinchi matn — iliq kulrang      */
+
+  /* ── Status ranglar ── */
+  --k-green: #2d7d5a; /* ACTIVE/OPEN  — to'q yashil       */
+  --k-gold: #a05a00; /* PAUSED       — to'q oltin        */
+  --k-red: #c0392b; /* DELETE/ERROR — to'q qizil        */
 }
 
 /* ── CONTAINER (was: animated gradient, now: dark split) ── */

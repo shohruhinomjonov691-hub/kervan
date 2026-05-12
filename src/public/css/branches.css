@@ -1,17 +1,64 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap");
 
 :root {
-  --k-bg: #15130e;
-  --k-surface: #1d1a14;
-  --k-surface2: #252119;
-  --k-orange: #ff6b00;
-  --k-cream: #f8ddd2;
-  --k-muted: #a98a7d;
-  --k-border: #2d2820;
-  --k-input: #211e18;
-  --k-green: #4caf82;
-  --k-gold: #e3c285;
-  --k-red: #e05050;
+  /* ─────────────────────────────
+   * OTTOMAN LUXURY THEME
+   * Existing component names preserved
+   * ───────────────────────────── */
+
+  /* BACKGROUNDS */
+
+  --k-bg: #f4f1eb;
+
+  --k-surface: rgba(255, 255, 255, 0.78);
+
+  --k-surface2: #ebe5dd;
+
+  --k-input: #f7f4ef;
+
+  --k-border: #d7c7b2;
+
+  /* ─────────────────────────────
+   * PRIMARY BRAND COLORS
+   * old variable names preserved
+   * ───────────────────────────── */
+
+  --k-orange: #18392b;
+  /* Deep Ottoman green */
+
+  --k-orange-h: #10271d;
+  /* Hover green */
+
+  --k-orange-l: #edf4f0;
+  /* Soft green */
+
+  /* ─────────────────────────────
+   * TEXT
+   * ───────────────────────────── */
+
+  --k-cream: #1e1b18;
+
+  --k-muted: #74685d;
+
+  /* ─────────────────────────────
+   * STATUS COLORS
+   * ───────────────────────────── */
+
+  --k-green: #2d7d5a;
+
+  --k-gold: #b38728;
+
+  --k-red: #b42318;
+
+  /* ─────────────────────────────
+   * GLASS / SHADOW
+   * ───────────────────────────── */
+
+  --k-glass: rgba(255, 255, 255, 0.68);
+
+  --k-shadow: rgba(15, 23, 20, 0.1);
+
+  --k-white-border: rgba(255, 255, 255, 0.35);
 }
 
 /* ── CONTAINER ── */
@@ -38,6 +85,9 @@
   width: 100%;
   background: var(--k-surface);
   border-bottom: 1px solid var(--k-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .branches-container .nav-item a {
@@ -133,7 +183,7 @@
   font-family: "Noto Serif", serif;
   font-size: 28px;
   font-weight: 600;
-  color: #fff;
+  color: var(--k-cream);
   margin: 0;
 }
 
@@ -209,7 +259,7 @@
 .branches-container .stat-card-value {
   font-size: 28px;
   font-weight: 700;
-  color: #fff;
+  color: var(--k-cream);
   line-height: 1;
 }
 

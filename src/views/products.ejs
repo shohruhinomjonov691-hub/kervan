@@ -34,7 +34,7 @@
         <div style="width:100%; display:flex; align-items:flex-end; justify-content:space-between; flex-wrap:wrap; gap:16px; margin-bottom:16px;">
           <div>
             <p style="font-size:10px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:#ff6b00; margin-bottom:4px;">INVENTORY MANAGEMENT</p>
-            <h1 style="font-family:'Noto Serif',serif; font-size:24px; font-weight:600; color:#fff; margin:0;">Product Catalog</h1>
+            <h1 style="font-family:'Noto Serif',serif; font-size:24px; font-weight:600; color:#1c1b1b; margin:0;">Product Catalog</h1>
           </div>
           <button id="process-btn">+ New Product</button>
         </div>
@@ -43,7 +43,7 @@
         <div style="width:100%; display:flex; flex-wrap:wrap; gap:10px; margin-bottom:20px; align-items:center;">
           <div class="stat-badge">
             <span class="stat-badge-label" style="color:#a98a7d;">Total</span>
-            <span class="stat-badge-val" style="color:#fff;"><%= totalCount %></span>
+            <span class="stat-badge-val" style="color:#1c1b1b;"><%= totalCount %></span>
           </div>
           <div class="stat-badge" style="border-color:rgba(76,175,130,0.25);">
             <span class="stat-badge-dot" style="background:#4caf82;"></span>
@@ -69,6 +69,109 @@
           </div>
           <% } %>
         </div>
+
+        <!-- NEW PRODUCT FORM -->
+        <form
+          onsubmit="return validateForm()"
+          action="/admin/product/create"
+          method="POST"
+          class="dish-container"
+          enctype="multipart/form-data"
+        >
+          <div class="long-input" style="margin-top:0; margin-bottom:4px;">
+            <span class="new-dish-txt" style="font-size:18px;">New Product Details</span>
+          </div>
+
+          <div class="long-input">
+            <label>Product Name</label>
+            <input type="text" placeholder="e.g. Adana Kebab" name="productName" class="product-name" />
+            <input name="productStatus" value="PAUSE" class="product-status" hidden />
+          </div>
+
+          <div class="half-input-frame">
+            <div class="half-input">
+              <label>Product Price (₩)</label>
+              <input type="number" placeholder="25000" name="productPrice" class="product-price" />
+            </div>
+            <div class="half-input">
+              <label>Stock Count</label>
+              <input type="number" placeholder="50" name="productLeftCount" class="product-left-count" />
+            </div>
+          </div>
+
+          <div class="half-input-frame">
+            <div class="half-input">
+              <label>Product Type</label>
+              <select class="product-collection" name="productCollection">
+                <option value="KEBAB" selected>Kebab</option>
+                <option value="PIDE">Pide</option>
+                <option value="MEZE">Meze</option>
+                <option value="SALAD">Salad</option>
+                <option value="DESSERT">Dessert</option>
+                <option value="DRINK">Drink</option>
+                <option value="SOUP">Soup</option>
+                <option value="SET_MENU">Set Menu</option>
+                <option value="OTHER">Other</option>
+              </select>
+            </div>
+            <div class="half-input" id="product-collection">
+              <label>Portion Size</label>
+              <select class="product-size" name="productSize">
+                <option value="SMALL">Small</option>
+                <option value="NORMAL" selected>Normal</option>
+                <option value="LARGE">Large</option>
+                <option value="SET">Set</option>
+              </select>
+            </div>
+            <div class="half-input" id="product-volume" style="display:none;">
+              <label>Drink Volume</label>
+              <select class="product-volume" name="productVolume">
+                <option value="0.5">0.5 liters</option>
+                <option value="1" selected>1 liter</option>
+                <option value="1.2">1.2 liters</option>
+                <option value="2">2 liters</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="long-input">
+            <label>Product Description</label>
+            <textarea name="productDesc" class="product-desc" placeholder="Describe the dish..."></textarea>
+          </div>
+
+          <div class="img-frame">
+            <label>Product Images</label>
+            <div class="media-frame">
+              <div class="upload-img-box">
+                <img src="/img/upload.svg" class="1" id="image-section-1" />
+                <input type="file" id="file" name="productImages" class="image-one" required onchange="previewFileHandler(this, 1)" />
+              </div>
+              <div class="upload-img-box">
+                <img src="/img/upload.svg" class="2" id="image-section-2" />
+                <input type="file" id="file" name="productImages" class="image-two" onchange="previewFileHandler(this, 2)" />
+              </div>
+              <div class="upload-img-box">
+                <img src="/img/upload.svg" class="3" id="image-section-3" />
+                <input type="file" id="file" name="productImages" class="image-three" onchange="previewFileHandler(this, 3)" />
+              </div>
+              <div class="upload-img-box">
+                <img src="/img/upload.svg" class="4" id="image-section-4" />
+                <input type="file" id="file" name="productImages" class="image-four" onchange="previewFileHandler(this, 4)" />
+              </div>
+              <div class="upload-img-box">
+                <img src="/img/upload.svg" class="5" id="image-section-5" />
+                <input type="file" id="file" name="productImages" class="image-five" onchange="previewFileHandler(this, 5)" />
+              </div>
+              <input name="restaurantIid" class="restaurant-id" hidden />
+            </div>
+          </div>
+
+          <div class="operation-buttons">
+            <button class="btn" id="cancel-btn" type="button">Cancel</button>
+            <button type="submit" class="btn" id="create-btn">Create Product</button>
+          </div>
+        </form>
+
 
         <!-- Filter -->
         <form method="GET" action="/admin/product/all" class="filter-row">
@@ -161,105 +264,6 @@
           </div>
           <% } %>
         </div>
-
-        <!-- NEW PRODUCT FORM -->
-        <form
-          onsubmit="return validateForm()"
-          action="/admin/product/create"
-          method="POST"
-          class="dish-container"
-          enctype="multipart/form-data"
-        >
-          <div class="long-input" style="margin-top:0; margin-bottom:4px;">
-            <span class="new-dish-txt" style="font-size:18px;">New Product Details</span>
-          </div>
-
-          <div class="long-input">
-            <label>Product Name</label>
-            <input type="text" placeholder="e.g. Adana Kebab" name="productName" class="product-name" />
-            <input name="productStatus" value="PAUSE" class="product-status" hidden />
-          </div>
-
-          <div class="half-input-frame">
-            <div class="half-input">
-              <label>Product Price (₩)</label>
-              <input type="number" placeholder="25000" name="productPrice" class="product-price" />
-            </div>
-            <div class="half-input">
-              <label>Stock Count</label>
-              <input type="number" placeholder="50" name="productLeftCount" class="product-left-count" />
-            </div>
-          </div>
-
-          <div class="half-input-frame">
-            <div class="half-input">
-              <label>Product Type</label>
-              <select class="product-collection" name="productCollection">
-                <option value="KEBAB" selected>Kebab</option>
-                <option value="PIDE">Pide</option>
-                <option value="SALAD">Salad</option>
-                <option value="DESSERT">Dessert</option>
-                <option value="DRINK">Drink</option>
-                <option value="OTHER">Other</option>
-              </select>
-            </div>
-            <div class="half-input" id="product-collection">
-              <label>Portion Size</label>
-              <select class="product-size" name="productSize">
-                <option value="SMALL">Small</option>
-                <option value="NORMAL" selected>Normal</option>
-                <option value="LARGE">Large</option>
-                <option value="SET">Set</option>
-              </select>
-            </div>
-            <div class="half-input" id="product-volume" style="display:none;">
-              <label>Drink Volume</label>
-              <select class="product-volume" name="productVolume">
-                <option value="0.5">0.5 liters</option>
-                <option value="1" selected>1 liter</option>
-                <option value="1.2">1.2 liters</option>
-                <option value="2">2 liters</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="long-input">
-            <label>Product Description</label>
-            <textarea name="productDesc" class="product-desc" placeholder="Describe the dish..."></textarea>
-          </div>
-
-          <div class="img-frame">
-            <label>Product Images</label>
-            <div class="media-frame">
-              <div class="upload-img-box">
-                <img src="/img/upload.svg" class="1" id="image-section-1" />
-                <input type="file" id="file" name="productImages" class="image-one" required onchange="previewFileHandler(this, 1)" />
-              </div>
-              <div class="upload-img-box">
-                <img src="/img/upload.svg" class="2" id="image-section-2" />
-                <input type="file" id="file" name="productImages" class="image-two" onchange="previewFileHandler(this, 2)" />
-              </div>
-              <div class="upload-img-box">
-                <img src="/img/upload.svg" class="3" id="image-section-3" />
-                <input type="file" id="file" name="productImages" class="image-three" onchange="previewFileHandler(this, 3)" />
-              </div>
-              <div class="upload-img-box">
-                <img src="/img/upload.svg" class="4" id="image-section-4" />
-                <input type="file" id="file" name="productImages" class="image-four" onchange="previewFileHandler(this, 4)" />
-              </div>
-              <div class="upload-img-box">
-                <img src="/img/upload.svg" class="5" id="image-section-5" />
-                <input type="file" id="file" name="productImages" class="image-five" onchange="previewFileHandler(this, 5)" />
-              </div>
-              <input name="restaurantIid" class="restaurant-id" hidden />
-            </div>
-          </div>
-
-          <div class="operation-buttons">
-            <button class="btn" id="cancel-btn" type="button">Cancel</button>
-            <button type="submit" class="btn" id="create-btn">Create Product</button>
-          </div>
-        </form>
 
       </div>
     </div>

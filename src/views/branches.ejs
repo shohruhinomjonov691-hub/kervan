@@ -78,9 +78,13 @@
               <% } else { %>
               <div class="branch-img-placeholder">🍽</div>
               <% } %>
-
+              
               <!-- Status badge -->
-              <div class="branch-status-badge" data-status="<%= branch.branchStatus %>">
+              <div
+                class="branch-status-badge"
+                data-status="<%= branch.branchStatus %>"
+                data-branch-id="<%= branch._id %>"
+              >
                 <span class="branch-status-dot"></span>
                 <span class="branch-status-txt">
                   <%= branch.branchStatus === 'TEMP_CLOSED' ? 'TEMP CLOSED' : branch.branchStatus %>
