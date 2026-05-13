@@ -177,12 +177,15 @@
         <form method="GET" action="/admin/product/all" class="filter-row">
           <select name="productCollection" onchange="this.form.submit()">
             <option value="">All Types</option>
-            <option value="KEBAB"   <%= locals.productCollection==='KEBAB'   ? 'selected':'' %>>Kebab</option>
-            <option value="PIDE"    <%= locals.productCollection==='PIDE'    ? 'selected':'' %>>Pide</option>
-            <option value="SALAD"   <%= locals.productCollection==='SALAD'   ? 'selected':'' %>>Salad</option>
-            <option value="DESSERT" <%= locals.productCollection==='DESSERT' ? 'selected':'' %>>Dessert</option>
-            <option value="DRINK"   <%= locals.productCollection==='DRINK'   ? 'selected':'' %>>Drink</option>
-            <option value="OTHER"   <%= locals.productCollection==='OTHER'   ? 'selected':'' %>>Other</option>
+            <option value="KEBAB"    <%= locals.productCollection==='KEBAB'    ? 'selected':'' %>>Kebab</option>
+            <option value="PIDE"     <%= locals.productCollection==='PIDE'     ? 'selected':'' %>>Pide</option>
+            <option value="MEZE"     <%= locals.productCollection==='MEZE'     ? 'selected':'' %>>Meze</option>
+            <option value="SOUP"     <%= locals.productCollection==='SOUP'     ? 'selected':'' %>>Soup</option>
+            <option value="SALAD"    <%= locals.productCollection==='SALAD'    ? 'selected':'' %>>Salad</option>
+            <option value="DESSERT"  <%= locals.productCollection==='DESSERT'  ? 'selected':'' %>>Dessert</option>
+            <option value="DRINK"    <%= locals.productCollection==='DRINK'    ? 'selected':'' %>>Drink</option>
+            <option value="SET_MENU" <%= locals.productCollection==='SET_MENU' ? 'selected':'' %>>Set Menu</option>
+            <option value="OTHER"    <%= locals.productCollection==='OTHER'    ? 'selected':'' %>>Other</option>
           </select>
           <select name="productStatus" onchange="this.form.submit()">
             <option value="">All Status</option>
@@ -239,8 +242,11 @@
           <!-- Pagination -->
           <%
             var currentPage = parseInt(locals.page || 1);
-            var limitVal = 10;
-            var totalPages = Math.ceil(totalCount / limitVal);
+            var limitVal    = 10;
+            var totalPages  = Math.ceil(totalCount / limitVal);
+            var fParams     = '';
+            if (locals.productCollection) fParams += '&productCollection=' + locals.productCollection;
+            if (locals.productStatus)     fParams += '&productStatus='     + locals.productStatus;
           %>
           <% if (totalPages > 1) { %>
           <div class="pagination-row">
@@ -249,16 +255,16 @@
             </span>
             <div class="pagination-links">
               <% if (currentPage > 1) { %>
-              <a href="/admin/product/all?page=<%= currentPage-1 %>" class="page-btn">‹</a>
+              <a href="/admin/product/all?page=<%= currentPage-1 %><%= fParams %>" class="page-btn">‹</a>
               <% } %>
               <% for(var p=1; p<=totalPages; p++) { %>
-              <a href="/admin/product/all?page=<%= p %>"
-                 class="page-btn <%= p === currentPage ? 'page-btn-active' : '' %>">
+              <a href="/admin/product/all?page=<%= p %><%= fParams %>"
+                class="page-btn <%= p === currentPage ? 'page-btn-active' : '' %>">
                 <%= p %>
               </a>
               <% } %>
               <% if (currentPage < totalPages) { %>
-              <a href="/admin/product/all?page=<%= currentPage+1 %>" class="page-btn">›</a>
+              <a href="/admin/product/all?page=<%= currentPage+1 %><%= fParams %>" class="page-btn">›</a>
               <% } %>
             </div>
           </div>

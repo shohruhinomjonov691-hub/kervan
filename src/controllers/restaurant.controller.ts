@@ -198,12 +198,18 @@ restaurantController.getAllProductsAdmin = async (
       productStatus,
     } = req.query;
 
+    // ✅ res.locals — EJS da locals.xxx bo'ladi
     res.locals.productCollection = productCollection || "";
     res.locals.productStatus = productStatus || "";
+    res.locals.page = Number(page);
 
     const result = await productService.getALLProduct({
       page: Number(page),
       limit: Number(limit),
+      productCollection: productCollection
+        ? String(productCollection)
+        : undefined, // ← QO'SHING
+      productStatus: productStatus ? String(productStatus) : undefined, // ← QO'SHING
     });
 
     res.render("products", { ...result });
@@ -231,6 +237,7 @@ restaurantController.getAllBranchesAdmin = async (
     res.redirect("/admin/login");
   }
 };
+
 restaurantController.updateChosenUser = async (req: Request, res: Response) => {
   try {
     console.log("updateChosenUser");

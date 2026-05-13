@@ -98,30 +98,30 @@ class ProductService {
   }
 
   /** SSR */
-
-  // Product.service.ts ichida getALLProduct() ni shu bilan almashtiring:
-
   public async getALLProduct(
     inquiry: AdminProductInquiry,
   ): Promise<AdminProductResult> {
-    // Pagination bilan mahsulotlar
+    // ✅ Filter object
+    const filter: any = {};
+    if (inquiry.productCollection)
+      filter.productCollection = inquiry.productCollection; 
+    if (inquiry.productStatus) filter.productStatus = inquiry.productStatus; 
+
     const products = await this.productModel
-      .find()
-      .sort({ createdAt: -1 }) // eng yangi tepada
+      .find(filter) 
+      .sort({ createdAt: -1 })
       .skip((inquiry.page - 1) * inquiry.limit)
       .limit(inquiry.limit)
       .exec();
 
-    // Status counts — Promise.all bilan parallel so'rov (tezroq)
     const [totalCount, processCount, pauseCount, deleteCount] =
       await Promise.all([
-        this.productModel.countDocuments(),
+        this.productModel.countDocuments(filter), 
         this.productModel.countDocuments({ productStatus: "PROCESS" }),
         this.productModel.countDocuments({ productStatus: "PAUSE" }),
         this.productModel.countDocuments({ productStatus: "DELETE" }),
       ]);
 
-    // Trending — eng ko'p ko'rilgan mahsulot
     const trendingProduct = await this.productModel
       .findOne({ productStatus: "PROCESS" })
       .sort({ productViews: -1 })

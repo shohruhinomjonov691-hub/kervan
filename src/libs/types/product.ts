@@ -60,6 +60,8 @@ export interface ProductUpdateInput {
 export interface AdminProductInquiry {
   page: number;
   limit: number;
+  productCollection?: string;
+  productStatus?: string;
 }
 
 export interface AdminProductResult {
