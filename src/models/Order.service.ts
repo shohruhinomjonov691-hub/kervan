@@ -1,5 +1,6 @@
 import OrderItemModel from "../schema/OrderItem.model";
 import OrderModel from "../schema/Order.model";
+import ProductModel from "../schema/Product.model";
 import { Member } from "../libs/types/member";
 import {
   OrderItemInput,
@@ -7,9 +8,10 @@ import {
   OrderInquiry,
   OrderUpdateInput,
 } from "../libs/types/order";
-import { shapeIntoMongooseObjectId } from "../libs/config";
+import { isValidObjectId, shapeIntoMongooseObjectId } from "../libs/config";
 import Errors, { HttpCode, Message } from "../libs/Errors";
 import { OrderStatus } from "../libs/enums/order.enum";
+import { ProductStatus } from "../libs/enums/product.enum";
 import { ObjectId } from "mongoose";
 import MemberService from "./Member.service";
 
@@ -22,15 +24,60 @@ const REQUIRED_CURRENT_STATUS: Partial<Record<OrderStatus, OrderStatus>> = {
   [OrderStatus.DELETE]: OrderStatus.PAUSE, // bekor qilish: faqat PAUSE'dan
 };
 
+// basketPage/index.tsx dagi qiymatlar bilan bir xil bo'lishi kerak — aks holda
+// mijozga ko'rsatilgan total va MongoDB'da saqlangan orderTotal mos kelmaydi
+const DELIVERY_FREE_THRESHOLD = 100000;
+const DELIVERY_FEE = 3500;
+
 class OrderService {
   private readonly orderModel;
   private readonly orderItemModel;
+  private readonly productModel;
   private readonly memberService;
 
   constructor() {
     this.orderModel = OrderModel;
     this.orderItemModel = OrderItemModel;
+    this.productModel = ProductModel;
     this.memberService = new MemberService();
+  }
+
+  // Client'dan kelgan itemPrice/itemQuantity/productId hech qachon ishonilmaydi —
+  // har bir band uchun mahsulot databasedan qayta tekshiriladi va haqiqiy narx
+  // shu yerdan olinadi
+  private async verifyOrderItems(
+    input: OrderItemInput[],
+  ): Promise<OrderItemInput[]> {
+    if (!Array.isArray(input) || input.length === 0) {
+      throw new Errors(HttpCode.BAD_REQUEST, Message.EMPTY_BASKET);
+    }
+
+    const verified: OrderItemInput[] = [];
+    for (const item of input) {
+      const quantity = Number(item.itemQuantity);
+      if (!Number.isInteger(quantity) || quantity <= 0) {
+        throw new Errors(HttpCode.BAD_REQUEST, Message.INVALID_QUANTITY);
+      }
+      if (!isValidObjectId(item.productId)) {
+        throw new Errors(HttpCode.BAD_REQUEST, Message.PRODUCT_UNAVAILABLE);
+      }
+
+      const productId = shapeIntoMongooseObjectId(item.productId);
+      const product = await this.productModel
+        .findOne({ _id: productId, productStatus: ProductStatus.PROCESS })
+        .exec();
+      if (!product) {
+        throw new Errors(HttpCode.BAD_REQUEST, Message.PRODUCT_UNAVAILABLE);
+      }
+
+      verified.push({
+        productId,
+        itemQuantity: quantity,
+        itemPrice: product.productPrice, // databasedan — client'dan emas
+      });
+    }
+
+    return verified;
   }
 
   public async createOrder(
@@ -38,10 +85,14 @@ class OrderService {
     input: OrderItemInput[],
   ): Promise<Order> {
     const memberId = shapeIntoMongooseObjectId(member._id);
-    const amount = input.reduce((accumulator: number, item: OrderItemInput) => {
-      return accumulator + item.itemPrice * item.itemQuantity;
-    }, 0);
-    const delivery = amount < 100 ? 5 : 0;
+    const verifiedItems = await this.verifyOrderItems(input);
+
+    const amount = verifiedItems.reduce(
+      (accumulator: number, item: OrderItemInput) =>
+        accumulator + item.itemPrice * item.itemQuantity,
+      0,
+    );
+    const delivery = amount < DELIVERY_FREE_THRESHOLD ? DELIVERY_FEE : 0;
 
     try {
       const newOrder: Order = await this.orderModel.create({
@@ -52,7 +103,7 @@ class OrderService {
 
       const orderId = newOrder._id;
       console.log("newOrder:", orderId);
-      await this.recordOrderItem(orderId, input);
+      await this.recordOrderItem(orderId, verifiedItems);
 
       return newOrder;
     } catch (err) {

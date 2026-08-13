@@ -27,6 +27,10 @@ export enum Message {
   INVALID_ORDER_STATUS = "Invalid order status change!",
 
   EMPTY_COMMENT = "Please write a comment before submitting!",
+
+  EMPTY_BASKET = "Your basket is empty!",
+  INVALID_QUANTITY = "Please enter a valid quantity!",
+  PRODUCT_UNAVAILABLE = "One or more items in your basket are no longer available!",
 }
 
 class Errors extends Error {
