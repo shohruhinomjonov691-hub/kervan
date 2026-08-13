@@ -101,6 +101,9 @@
 
         <!-- User table -->
         <div class="user-table">
+          <% if (users.length === 0) { %>
+          <div class="users-empty">No users match the current filter.</div>
+          <% } else { %>
           <table class="table table-hover table-sm">
             <thead class="thead-light">
               <tr class="thead-light">
@@ -114,7 +117,7 @@
             </thead>
             <% users.map(function(value, index) { %>
             <tbody>
-              <td class="td-muted"><%= String(index+1).padStart(3,'0') %></td>
+              <td class="td-muted"><%= String((locals.page||1)-1) * 10 + index + 1 %></td>
               <td class="td-name">
                 <span class="user-avatar"><%= value.memberNick.charAt(0).toUpperCase() %></span>
                 <%= value.memberNick %>
@@ -134,6 +137,38 @@
             </tbody>
             <% }) %>
           </table>
+
+          <!-- Pagination -->
+          <%
+            var currentPage = parseInt(locals.page || 1);
+            var limitVal    = 10;
+            var totalPages  = Math.ceil(totalCount / limitVal);
+            var fParams     = '';
+            if (locals.memberStatus) fParams += '&memberStatus=' + locals.memberStatus;
+            if (locals.sort)         fParams += '&sort='         + locals.sort;
+          %>
+          <% if (totalPages > 1) { %>
+          <div class="pagination-row">
+            <span class="pagination-info">
+              Showing <%= (currentPage-1)*limitVal+1 %>–<%= Math.min(currentPage*limitVal, totalCount) %> of <%= totalCount %> users
+            </span>
+            <div class="pagination-links">
+              <% if (currentPage > 1) { %>
+              <a href="/admin/user/all?page=<%= currentPage-1 %><%= fParams %>" class="page-btn">‹</a>
+              <% } %>
+              <% for(var p=1; p<=totalPages; p++) { %>
+              <a href="/admin/user/all?page=<%= p %><%= fParams %>"
+                class="page-btn <%= p === currentPage ? 'page-btn-active' : '' %>">
+                <%= p %>
+              </a>
+              <% } %>
+              <% if (currentPage < totalPages) { %>
+              <a href="/admin/user/all?page=<%= currentPage+1 %><%= fParams %>" class="page-btn">›</a>
+              <% } %>
+            </div>
+          </div>
+          <% } %>
+          <% } %>
         </div>
 
       </div>

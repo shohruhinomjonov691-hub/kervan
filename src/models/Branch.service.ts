@@ -37,9 +37,21 @@ class BranchService {
   }
 
   public async updateChosenBranch(input: BranchUpdateInput): Promise<Branch> {
-    input._id = shapeIntoMongooseObjectId(input._id);
+    const branchId = shapeIntoMongooseObjectId(input._id);
+    // branchName bu yerdan o'zgartirilmaydi — u branch identitisi va unique index'ga bog'liq
+    const safeInput = {
+      branchStatus: input.branchStatus,
+      branchAddress: input.branchAddress,
+      branchPhone: input.branchPhone,
+      branchDesc: input.branchDesc,
+      branchImage: input.branchImage,
+      branchMapUrl: input.branchMapUrl,
+      branchHours: input.branchHours,
+      branchRating: input.branchRating,
+      branchStaffCount: input.branchStaffCount,
+    };
     const result = await this.branchModel
-      .findByIdAndUpdate({ _id: input._id }, input, {
+      .findOneAndUpdate({ _id: branchId }, safeInput, {
         new: true,
         runValidators: true,
       })

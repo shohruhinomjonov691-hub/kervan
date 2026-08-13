@@ -435,3 +435,68 @@
   color: #8a7a6a;
   font-size: 12px;
 }
+
+/* empty state */
+.users-container .users-empty {
+  width: 100%;
+  padding: 48px 0;
+  text-align: center;
+  font-size: 13px;
+  color: var(--k-muted);
+}
+
+/* pagination */
+.users-container .pagination-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.users-container .pagination-info {
+  font-size: 12px;
+  color: var(--k-muted);
+}
+
+.users-container .pagination-links {
+  display: flex;
+  gap: 6px;
+}
+
+.users-container .page-btn {
+  padding: 7px 13px;
+  background: var(--k-surface);
+  border: 1px solid var(--k-border);
+  border-radius: 6px;
+  font-size: 12px;
+  color: var(--k-muted);
+  transition:
+    border-color 0.2s,
+    color 0.2s;
+}
+
+.users-container .page-btn:hover {
+  border-color: var(--k-orange);
+  color: var(--k-orange);
+}
+
+.users-container .page-btn-active {
+  background: var(--k-orange) !important;
+  border-color: var(--k-orange) !important;
+  color: #fff !important;
+  font-weight: 600;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .users-container .board .user-table {
+    overflow-x: auto;
+    display: block;
+  }
+  .users-container .board .user-table table {
+    min-width: 640px;
+  }
+}

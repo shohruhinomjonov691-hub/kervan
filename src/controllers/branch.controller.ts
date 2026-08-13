@@ -12,18 +12,6 @@ const branchService = new BranchService();
 
 const branchController: T = {}; // Object
 
-branchController.getAllBranches = async (req: Request, res: Response) => {
-  try {
-    console.log("getAllBranches");
-    const result = await branchService.getAllBranches();
-    console.log("branches:", result);
-
-    res.render("branches", { branches: result });
-  } catch (err) {
-    console.log("Error, getAllBranches:", err);
-    res.redirect("/admin/login");
-  }
-};
 /** SPA - React frontend uchun **/
 branchController.getBranches = async (req: Request, res: Response) => {
   try {

@@ -48,7 +48,7 @@
   min-height: 100vh;
   display: none;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-end; /* content anchored low — upper sky hosts the moon scene */
   align-items: center;
   padding: 48px;
   overflow: hidden;
@@ -97,6 +97,115 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
+}
+
+/* ── AMBIENT MOON SCENE — premium, subtle, complements the login form ── */
+.login-moon-scene {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60%;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.login-moon {
+  font-size: 150px;
+  line-height: 1;
+  color: #e8c896;
+  user-select: none;
+  text-shadow:
+    0 0 24px rgba(232, 200, 150, 0.35),
+    0 0 60px rgba(232, 200, 150, 0.22),
+    0 0 120px rgba(232, 200, 150, 0.12);
+  animation:
+    loginMoonFloat 9s ease-in-out infinite,
+    loginMoonGlow 5s ease-in-out infinite alternate;
+}
+
+@keyframes loginMoonFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-14px);
+  }
+}
+
+@keyframes loginMoonGlow {
+  from {
+    opacity: 0.82;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.login-star {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #f8ddd2;
+  animation: loginStarTwinkle 3.2s ease-in-out infinite;
+}
+
+.login-star--1 {
+  top: 18%;
+  left: 22%;
+  animation-delay: 0s;
+}
+.login-star--2 {
+  top: 30%;
+  left: 72%;
+  animation-delay: 0.6s;
+}
+.login-star--3 {
+  top: 55%;
+  left: 15%;
+  animation-delay: 1.2s;
+}
+.login-star--4 {
+  top: 12%;
+  left: 62%;
+  animation-delay: 1.8s;
+}
+.login-star--5 {
+  top: 62%;
+  left: 78%;
+  animation-delay: 2.4s;
+}
+.login-star--6 {
+  top: 40%;
+  left: 46%;
+  animation-delay: 0.9s;
+  width: 2px;
+  height: 2px;
+}
+
+@keyframes loginStarTwinkle {
+  0%,
+  100% {
+    opacity: 0.15;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.2);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .login-moon,
+  .login-star {
+    animation: none;
+  }
 }
 
 .login-desc {

@@ -197,6 +197,9 @@
 
         <!-- TABLE -->
         <div class="dishes-table">
+          <% if (products.length === 0) { %>
+          <div class="products-empty">No products match the current filter.</div>
+          <% } else { %>
           <table class="table table-bordered table-hover">
             <thead class="thead-light">
               <tr>
@@ -268,6 +271,7 @@
               <% } %>
             </div>
           </div>
+          <% } %>
           <% } %>
         </div>
 

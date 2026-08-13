@@ -54,13 +54,6 @@ router.post(
 );
 
 /** Branch - SPA uchun (public, auth shart emas) **/
-router.get(
-  "/branch/all",
-  memberController.verifyAuth,
-  branchController.getAllBranches,
-);
-
-// router-admin.ts da shu route bo'lishi kerak:
-router.post("/branch/edit", branchController.updateChosenBranch);
+router.get("/branch/all", branchController.getBranches);
 
 export default router;

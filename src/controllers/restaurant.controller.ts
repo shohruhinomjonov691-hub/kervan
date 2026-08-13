@@ -171,15 +171,17 @@ restaurantController.getUsers = async (req: Request, res: Response) => {
       sort: sort as string,
     };
 
-    const [users, stats] = await Promise.all([
+    const [users, stats, totalCount] = await Promise.all([
       memberService.getUsers(inquiry),
       memberService.getUserStats(),
+      memberService.getUsersCount(inquiry),
     ]);
 
     res.locals.memberStatus = memberStatus || "";
     res.locals.sort = sort || "createdAt";
+    res.locals.page = Number(page);
 
-    res.render("users", { users, stats });
+    res.render("users", { users, stats, totalCount });
   } catch (err) {
     console.log("Error, getUsers:", err);
     res.redirect("/admin/login");

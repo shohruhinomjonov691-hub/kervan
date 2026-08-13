@@ -52,26 +52,6 @@ productController.getProduct = async (req: ExtendedRequest, res: Response) => {
 
 /** SSR */
 
-// ✅ YANGI — shu bilan almashtiring:
-productController.getALLProduct = async (req: Request, res: Response) => {
-  try {
-    console.log("getALLProduct");
-
-    const { page = 1, limit = 10 } = req.query;
-
-    const result = await productService.getALLProduct({
-      page: Number(page),
-      limit: Number(limit),
-    });
-
-    res.render("products", { ...result });
-  } catch (err) {
-    console.log("Error, getALLProduct:", err);
-    if (err instanceof Errors) res.status(err.code).json(err);
-    else res.status(Errors.standard.code).json(Errors.standard);
-  }
-};
-
 productController.createNewProduct = async (
   req: AdminRequest,
   res: Response,

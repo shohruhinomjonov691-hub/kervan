@@ -2,6 +2,11 @@ import path from "path";
 import multer from "multer"; // file upload qilish uchun middleware
 import { v4 } from "uuid"; // bu random unique id yaratadi
 
+/** Ruxsat etilgan rasm formatlari — frontend validatsiyasi bilan bir xil (jpg, jpeg, png) */
+const ALLOWED_IMAGE_MIME_TYPES = ["image/jpeg", "image/jpg", "image/png"];
+const ALLOWED_IMAGE_EXTENSIONS = [".jpg", ".jpeg", ".png"];
+const MAX_IMAGE_SIZE_BYTES = 5 * 1024 * 1024; // 5MB
+
 /** MULTER IMAGE UPLOADER  Dynamic - O'zgaruvchan **/
 function getTargetImageStorage(address: any) {
   return multer.diskStorage({
@@ -16,9 +21,30 @@ function getTargetImageStorage(address: any) {
   });
 }
 
+function imageFileFilter(
+  req: any,
+  file: Express.Multer.File,
+  cb: multer.FileFilterCallback,
+) {
+  const extension = path.parse(file.originalname).ext.toLowerCase();
+  const isAllowed =
+    ALLOWED_IMAGE_MIME_TYPES.includes(file.mimetype) &&
+    ALLOWED_IMAGE_EXTENSIONS.includes(extension);
+
+  if (!isAllowed) {
+    cb(new Error("Only jpg, jpeg and png image files are allowed!"));
+    return;
+  }
+  cb(null, true);
+}
+
 const makeUploader = (address: string) => {
   const storage = getTargetImageStorage(address);
-  return multer({ storage: storage });
+  return multer({
+    storage: storage,
+    fileFilter: imageFileFilter,
+    limits: { fileSize: MAX_IMAGE_SIZE_BYTES },
+  });
 };
 
 export default makeUploader;

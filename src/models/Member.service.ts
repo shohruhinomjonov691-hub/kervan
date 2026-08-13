@@ -89,7 +89,7 @@ class MemberService {
   public async getMemberDetail(member: Member): Promise<Member> {
     const memberId = shapeIntoMongooseObjectId(member._id);
     const result = await this.memberModel
-      .findById({ _id: memberId, memberStatus: MemberStatus.ACTIVE })
+      .findOne({ _id: memberId, memberStatus: MemberStatus.ACTIVE })
       .exec();
     if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
     return result;
@@ -100,8 +100,17 @@ class MemberService {
     input: MemberUpdateInput,
   ): Promise<Member> {
     const memberId = shapeIntoMongooseObjectId(member._id);
+    // Faqat o'z profilini o'zgartira oladigan fieldlar — memberType/memberStatus/
+    // memberPoints/_id kabi imtiyozli fieldlar bu yerdan o'zgartirilmasligi kerak
+    const safeInput = {
+      memberNick: input.memberNick,
+      memberPhone: input.memberPhone,
+      memberAddress: input.memberAddress,
+      memberDesc: input.memberDesc,
+      memberImage: input.memberImage,
+    };
     const result = await this.memberModel
-      .findOneAndUpdate({ _id: memberId }, input, { new: true })
+      .findOneAndUpdate({ _id: memberId }, safeInput, { new: true })
       .exec();
     if (!result) throw new Errors(HttpCode.NOT_MODIFIED, Message.UPDATE_FAILED);
 
@@ -126,7 +135,7 @@ class MemberService {
     const memberId = shapeIntoMongooseObjectId(member._id);
 
     return await this.memberModel
-      .findByIdAndUpdate(
+      .findOneAndUpdate(
         {
           _id: memberId,
           memberType: MemberType.USER,
@@ -192,13 +201,16 @@ class MemberService {
   // getUsers+async+public+metnodi
   // Member.service.ts ichida getUsers() ni shu bilan almashtiring:
 
-  public async getUsers(inquiry: UserInquiry): Promise<Member[]> {
+  private buildUsersMatch(inquiry: UserInquiry): any {
     const match: any = { memberType: MemberType.USER };
-
-    // Status filter
     if (inquiry.memberStatus) {
       match.memberStatus = inquiry.memberStatus;
     }
+    return match;
+  }
+
+  public async getUsers(inquiry: UserInquiry): Promise<Member[]> {
+    const match = this.buildUsersMatch(inquiry);
 
     // Sort: createdAt yoki memberPoints
     const sort: any =
@@ -215,6 +227,12 @@ class MemberService {
 
     if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
     return result;
+  }
+
+  // ✅ YANGI — Users pagination uchun umumiy son (filterga mos)
+  public async getUsersCount(inquiry: UserInquiry): Promise<number> {
+    const match = this.buildUsersMatch(inquiry);
+    return await this.memberModel.countDocuments(match).exec();
   }
 
   // ✅ YANGI — User sahifasi uchun status counts
@@ -241,10 +259,12 @@ class MemberService {
   // getUsers+async+public+metnodi
   public async updateChosenUser(input: MemberUpdateInput): Promise<Member> {
     // Promisda Memberdi qaytaradi
-    input._id = shapeIntoMongooseObjectId(input._id);
-    // memberSkimaModel- class, find-static method (classdi),
+    const memberId = shapeIntoMongooseObjectId(input._id);
+    // Admin user-edit faqat memberStatus'ni o'zgartira oladi (block/unblock/delete) —
+    // memberType, memberPoints, memberPassword kabi fieldlar bu yerdan o'zgarmasligi kerak
+    const safeInput = { memberStatus: input.memberStatus };
     const result = await this.memberModel
-      .findByIdAndUpdate({ _id: input._id }, input, {
+      .findOneAndUpdate({ _id: memberId }, safeInput, {
         new: true,
         runValidators: true,
       })

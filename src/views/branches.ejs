@@ -67,6 +67,9 @@
         </div>
 
         <!-- Branch Cards -->
+        <% if (branches.length === 0) { %>
+        <div class="branches-empty">No branches yet — create your first location above.</div>
+        <% } else { %>
         <div class="branch-cards">
           <% branches.map(function(branch) { %>
           <div class="branch-card">
@@ -147,6 +150,7 @@
           </div>
           <% }) %>
         </div>
+        <% } %>
 
         <!-- ── EDIT MODAL ── -->
         <div class="branch-modal-overlay" id="edit-modal" style="display:none;">

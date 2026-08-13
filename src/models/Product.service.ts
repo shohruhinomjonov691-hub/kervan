@@ -152,8 +152,20 @@ class ProductService {
   ): Promise<Product> {
     // string => ObjectId
     id = shapeIntoMongooseObjectId(id);
+    // productViews va boshqa server-boshqaruvidagi fieldlar bu yerdan o'zgartirilmaydi
+    const safeInput = {
+      productStatus: input.productStatus,
+      productCollection: input.productCollection,
+      productName: input.productName,
+      productPrice: input.productPrice,
+      productLeftCount: input.productLeftCount,
+      productSize: input.productSize,
+      productVolume: input.productVolume,
+      productDesc: input.productDesc,
+      productImages: input.productImages,
+    };
     const result = await this.productModel
-      .findOneAndUpdate({ _id: id }, input, { new: true })
+      .findOneAndUpdate({ _id: id }, safeInput, { new: true })
       .exec();
     if (!result) throw new Errors(HttpCode.NOT_MODIFIED, Message.UPDATE_FAILED);
     return result;

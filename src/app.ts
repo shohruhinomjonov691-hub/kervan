@@ -45,12 +45,14 @@ app.use(
     secret: String(process.env.SESSION_SECRET), // cookie ni xafsiz qilish
     cookie: {
       maxAge: 1000 * 3600 * 3, // 3soatdan keyin cookie ochadi
+      sameSite: "lax", // CSRF xavfini kamaytiradi
     },
     store: store, // MongoDB da saqlansin
     resave: true,
     rolling: true, // har kirgandan keyin 3 soat, odatda false qoyiladi DB ga yuklama bolmasligi uchun
-    saveUninitialized: true,
-    // odatda false chunki faqat login qilsa session yaratiladi falseda, trueda saytga kirsa yaratiladi
+    saveUninitialized: false,
+    // faqat login/signup qilsa session yaratiladi (session.save() orqali) —
+    // shu tufayli har bir anonim tashrifchi uchun bekorga sessions collection'ga yozilmaydi
   }),
 );
 
