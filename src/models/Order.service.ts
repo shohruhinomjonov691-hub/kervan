@@ -166,6 +166,12 @@ class OrderService {
     member: Member,
     input: OrderUpdateInput,
   ): Promise<Order> {
+    // Malformed orderId shapeIntoMongooseObjectId'da uncaught BSONError
+    // tashlab 500'ga olib boradi — avval formatini tekshiramiz
+    if (!isValidObjectId(input.orderId)) {
+      throw new Errors(HttpCode.BAD_REQUEST, Message.INVALID_ORDER_STATUS);
+    }
+
     const memberId = shapeIntoMongooseObjectId(member._id),
       orderId = shapeIntoMongooseObjectId(input.orderId),
       orderStatus = input.orderStatus;
