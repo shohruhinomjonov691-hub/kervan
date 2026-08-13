@@ -25,6 +25,8 @@ export enum Message {
   NO_PAYMENT_METHOD = "Please add a payment method before paying!",
   INVALID_CARD = "Please enter valid card details!",
   INVALID_ORDER_STATUS = "Invalid order status change!",
+
+  EMPTY_COMMENT = "Please write a comment before submitting!",
 }
 
 class Errors extends Error {

@@ -5,6 +5,7 @@ import uploader from "./libs/utils/uploader";
 import productController from "./controllers/product.controller";
 import orderController from "./controllers/order.controller";
 import branchController from "./controllers/branch.controller";
+import commentController from "./controllers/comment.controller";
 
 /** Member **/
 router.get("/member/restaurant", memberController.getRestaurant);
@@ -66,5 +67,13 @@ router.post(
 
 /** Branch - SPA uchun (public, auth shart emas) **/
 router.get("/branch/all", branchController.getBranches);
+
+/** Comment **/
+router.get("/comment/all", commentController.getComments);
+router.post(
+  "/comment/create",
+  memberController.verifyAuth,
+  commentController.createComment,
+);
 
 export default router;

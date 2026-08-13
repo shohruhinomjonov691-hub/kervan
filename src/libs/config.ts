@@ -11,3 +11,9 @@ export const shapeIntoMongooseObjectId = (target: any) => {
     ? new mongoose.Types.ObjectId(target)
     : target;
 };
+
+// Client'dan kelgan id ni Mongoose'ga uzatishdan oldin tekshirish uchun —
+// noto'g'ri formatdagi id CastError bilan 500'ga emas, 404'ga olib borsin
+export const isValidObjectId = (target: any): boolean => {
+  return mongoose.Types.ObjectId.isValid(target);
+};

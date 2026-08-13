@@ -1,5 +1,5 @@
 import { T } from "../libs/types/common";
-import { shapeIntoMongooseObjectId } from "../libs/config";
+import { isValidObjectId, shapeIntoMongooseObjectId } from "../libs/config";
 import Errors, { Message } from "../libs/Errors";
 import ProductModel from "../schema/Product.model";
 import { HttpCode } from "../libs/Errors";
@@ -59,6 +59,10 @@ class ProductService {
     memberId: ObjectId | null,
     id: string,
   ): Promise<Product> {
+    // Noto'g'ri formatdagi id ham xuddi "topilmadi" kabi javob olsin (500 emas)
+    if (!isValidObjectId(id)) {
+      throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+    }
     const productId = shapeIntoMongooseObjectId(id);
 
     let result = await this.productModel
