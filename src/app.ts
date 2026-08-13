@@ -27,10 +27,13 @@ app.use(express.urlencoded({ extended: true }));
 // Middleware DP > Traditional API support backendda+frontend qurilayapti (ejs)
 app.use(express.json());
 // Middleware DP > REST API support Backend data olayapti va frontenddan qurayapti(js)-json
+// origin: true har qanday Originni credentialed so'rovga ruxsat berardi —
+// deploy uchun FRONTEND_URL orqali aniq domenga cheklanadi, dev uchun default
+// localhost:3000 saqlanadi
 app.use(
   cors({
     credentials: true,
-    origin: true,
+    origin: process.env.FRONTEND_URL ?? "http://localhost:3000",
   }),
 );
 app.use(cookieParser()); // Middleware DP > Cookieni Parser qilayapti (External package)

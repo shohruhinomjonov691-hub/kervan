@@ -1,5 +1,9 @@
 import { T } from "../libs/types/common";
-import { isValidObjectId, shapeIntoMongooseObjectId } from "../libs/config";
+import {
+  escapeRegExp,
+  isValidObjectId,
+  shapeIntoMongooseObjectId,
+} from "../libs/config";
 import Errors, { Message } from "../libs/Errors";
 import ProductModel from "../schema/Product.model";
 import { HttpCode } from "../libs/Errors";
@@ -34,7 +38,7 @@ class ProductService {
       match.productCollection = inquiry.productCollection;
 
     if (inquiry.search) {
-      match.productName = { $regex: new RegExp(inquiry.search, "i") }; // i => case insensitive"flag"
+      match.productName = { $regex: new RegExp(escapeRegExp(inquiry.search), "i") }; // i => case insensitive"flag"
     }
 
     const sort: T =
@@ -142,8 +146,21 @@ class ProductService {
   }
 
   public async createNewProduct(input: ProductInput): Promise<Product> {
+    // updateChosenProduct bilan bir xil — productViews kabi server-boshqaruvidagi
+    // fieldlar admin create formidan ham o'zgartirilmasin
+    const safeInput = {
+      productStatus: input.productStatus,
+      productCollection: input.productCollection,
+      productName: input.productName,
+      productPrice: input.productPrice,
+      productLeftCount: input.productLeftCount,
+      productSize: input.productSize,
+      productVolume: input.productVolume,
+      productDesc: input.productDesc,
+      productImages: input.productImages,
+    };
     try {
-      return await this.productModel.create(input);
+      return await this.productModel.create(safeInput);
     } catch (err) {
       console.log("Error, model:createNewProduct:", err);
       throw new Errors(HttpCode.BAD_REQUEST, Message.CREATE_FAILED);

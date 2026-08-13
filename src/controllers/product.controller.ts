@@ -15,10 +15,15 @@ productController.getProducts = async (req: Request, res: Response) => {
   try {
     console.log("getProducts");
     const { page, limit, order, productCollection, search } = req.query;
+    // page/limit yuborilmasa yoki noto'g'ri bo'lsa Number() NaN qaytaradi —
+    // bu $skip/$limit'ga tushib aggregate'ni 500'ga olib boradi, shuning
+    // uchun default qiymatlar bilan himoyalanadi
+    const parsedPage = Number(page);
+    const parsedLimit = Number(limit);
     const inquiry: ProductInquiry = {
       order: String(order),
-      page: Number(page),
-      limit: Number(limit),
+      page: Number.isInteger(parsedPage) && parsedPage > 0 ? parsedPage : 1,
+      limit: Number.isInteger(parsedLimit) && parsedLimit > 0 ? parsedLimit : 6,
     };
     if (productCollection) {
       inquiry.productCollection = productCollection as ProductCollection;

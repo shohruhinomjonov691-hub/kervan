@@ -17,3 +17,10 @@ export const shapeIntoMongooseObjectId = (target: any) => {
 export const isValidObjectId = (target: any): boolean => {
   return mongoose.Types.ObjectId.isValid(target);
 };
+
+// Client'dan kelgan qidiruv matnini RegExp'ga tushirishdan oldin escape qilish
+// uchun — aks holda maxsus belgilar (masalan "(a+)+$") catastrophic backtracking
+// orqali event loop'ni bloklab, ReDoS hujumiga ochiq qoladi
+export const escapeRegExp = (target: string): string => {
+  return target.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+};

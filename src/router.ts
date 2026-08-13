@@ -6,6 +6,7 @@ import productController from "./controllers/product.controller";
 import orderController from "./controllers/order.controller";
 import branchController from "./controllers/branch.controller";
 import commentController from "./controllers/comment.controller";
+import contactController from "./controllers/contact.controller";
 
 /** Member **/
 router.get("/member/restaurant", memberController.getRestaurant);
@@ -75,5 +76,9 @@ router.post(
   memberController.verifyAuth,
   commentController.createComment,
 );
+
+/** Contact - Telegram relay (public, mehmonlar ham foydalanadi) **/
+router.post("/contact/booking", contactController.sendBooking);
+router.post("/contact/inquiry", contactController.sendContact);
 
 export default router;
