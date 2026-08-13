@@ -2,6 +2,8 @@ import MemberModel from "../schema/Member.model";
 import {
   Member,
   MemberInput,
+  MemberPayment,
+  MemberPaymentInput,
   MemberUpdateInput,
   UserInquiry,
   UserStats,
@@ -272,6 +274,117 @@ class MemberService {
     if (!result) throw new Errors(HttpCode.NOT_MODIFIED, Message.UPDATE_FAILED);
 
     return result;
+  }
+
+  /** PAYMENT — demo/portfolio card, faqat brand+last4 saqlanadi, hech qachon
+   * to'liq raqam yoki CVV saqlanmaydi/loglanmaydi **/
+
+  private passesLuhnCheck(cardNumber: string): boolean {
+    let sum = 0;
+    let shouldDouble = false;
+    for (let i = cardNumber.length - 1; i >= 0; i--) {
+      let digit = parseInt(cardNumber.charAt(i), 10);
+      if (shouldDouble) {
+        digit *= 2;
+        if (digit > 9) digit -= 9;
+      }
+      sum += digit;
+      shouldDouble = !shouldDouble;
+    }
+    return sum % 10 === 0;
+  }
+
+  private isValidExpiry(expiry: string): boolean {
+    const match = /^(\d{2})\/(\d{2})$/.exec(expiry);
+    if (!match) return false;
+
+    const month = Number(match[1]);
+    const year = Number(match[2]) + 2000;
+    if (month < 1 || month > 12) return false;
+
+    const now = new Date();
+    const currentYear = now.getFullYear();
+    const currentMonth = now.getMonth() + 1;
+    if (year < currentYear) return false;
+    if (year === currentYear && month < currentMonth) return false;
+
+    return true;
+  }
+
+  private detectCardBrand(cardNumber: string): string {
+    if (/^4/.test(cardNumber)) return "VISA";
+    if (/^(5[1-5]|2[2-7])/.test(cardNumber)) return "MASTERCARD";
+    if (/^3[47]/.test(cardNumber)) return "AMEX";
+    return "CARD";
+  }
+
+  private buildMemberPayment(input: MemberPaymentInput): MemberPayment {
+    const cardNumber = (input.cardNumber || "").replace(/\s+/g, "");
+    const cardHolder = (input.cardHolder || "").trim();
+    const cardExpiry = (input.cardExpiry || "").trim();
+    const cardCvv = (input.cardCvv || "").trim();
+
+    const isValidNumber =
+      /^\d{13,19}$/.test(cardNumber) && this.passesLuhnCheck(cardNumber);
+    const isValidCvv = /^\d{3,4}$/.test(cardCvv);
+    const isValidHolder = cardHolder.length >= 2;
+
+    if (
+      !isValidNumber ||
+      !this.isValidExpiry(cardExpiry) ||
+      !isValidCvv ||
+      !isValidHolder
+    ) {
+      throw new Errors(HttpCode.BAD_REQUEST, Message.INVALID_CARD);
+    }
+
+    return {
+      cardBrand: this.detectCardBrand(cardNumber),
+      cardLast4: cardNumber.slice(-4),
+      cardHolder,
+      cardExpiry,
+    };
+  }
+
+  public async savePaymentMethod(
+    member: Member,
+    input: MemberPaymentInput,
+  ): Promise<Member> {
+    const memberId = shapeIntoMongooseObjectId(member._id);
+    const memberPayment = this.buildMemberPayment(input);
+
+    const result = await this.memberModel
+      .findOneAndUpdate({ _id: memberId }, { memberPayment }, { new: true })
+      .exec();
+    if (!result) throw new Errors(HttpCode.NOT_MODIFIED, Message.UPDATE_FAILED);
+
+    return result;
+  }
+
+  public async removePaymentMethod(member: Member): Promise<Member> {
+    const memberId = shapeIntoMongooseObjectId(member._id);
+
+    const result = await this.memberModel
+      .findOneAndUpdate(
+        { _id: memberId },
+        { $unset: { memberPayment: "" } },
+        { new: true },
+      )
+      .exec();
+    if (!result) throw new Errors(HttpCode.NOT_MODIFIED, Message.UPDATE_FAILED);
+
+    return result;
+  }
+
+  // OrderService orqali payment gate uchun — JWT'dagi eski (stale) member
+  // ma'lumotiga emas, doim MongoDB'dagi eng yangi holatga ishonadi
+  public async hasPaymentMethod(memberId: any): Promise<boolean> {
+    const id = shapeIntoMongooseObjectId(memberId);
+    const member = await this.memberModel
+      .findById(id)
+      .select("memberPayment")
+      .exec();
+    return !!member?.memberPayment?.cardLast4;
   }
 }
 

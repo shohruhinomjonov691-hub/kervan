@@ -3,6 +3,22 @@ import { MemberStatus, MemberType } from "../enums/member.enum";
 import { Request } from "express";
 import { Session } from "express-session";
 
+export interface MemberPayment {
+  cardBrand: string;
+  cardLast4: string;
+  cardHolder: string;
+  cardExpiry: string;
+}
+
+// Raw form input — validated then reduced to MemberPayment; the full
+// number and CVV are never persisted or logged
+export interface MemberPaymentInput {
+  cardNumber: string;
+  cardHolder: string;
+  cardExpiry: string;
+  cardCvv: string;
+}
+
 export interface Member {
   _id: ObjectId;
   memberType: MemberType;
@@ -14,6 +30,7 @@ export interface Member {
   memberDesc?: string;
   memberImage?: string;
   memberPoints: number;
+  memberPayment?: MemberPayment;
   createdAt: Date;
   updatedAt: Date;
 }

@@ -6,6 +6,7 @@ import {
   LoginInput,
   Member,
   MemberInput,
+  MemberPaymentInput,
   MemberUpdateInput,
 } from "../libs/types/member";
 import Errors, { HttpCode, Message } from "../libs/Errors";
@@ -122,6 +123,40 @@ memberController.updateMember = async (req: ExtendedRequest, res: Response) => {
     res.status(HttpCode.OK).json(result);
   } catch (err) {
     console.log("Error, updateMember:", err);
+    if (err instanceof Errors) res.status(err.code).json(err);
+    else res.status(Errors.standard.code).json(Errors.standard);
+  }
+};
+
+memberController.savePaymentMethod = async (
+  req: ExtendedRequest,
+  res: Response,
+) => {
+  try {
+    // ⚠️ req.body qasddan console.log qilinmaydi — karta raqami/CVV logga tushmasin
+    console.log("savePaymentMethod");
+    const input: MemberPaymentInput = req.body;
+    const result = await memberService.savePaymentMethod(req.member, input);
+
+    res.status(HttpCode.OK).json(result);
+  } catch (err) {
+    console.log("Error, savePaymentMethod:", err instanceof Errors ? err.message : err);
+    if (err instanceof Errors) res.status(err.code).json(err);
+    else res.status(Errors.standard.code).json(Errors.standard);
+  }
+};
+
+memberController.removePaymentMethod = async (
+  req: ExtendedRequest,
+  res: Response,
+) => {
+  try {
+    console.log("removePaymentMethod");
+    const result = await memberService.removePaymentMethod(req.member);
+
+    res.status(HttpCode.OK).json(result);
+  } catch (err) {
+    console.log("Error, removePaymentMethod:", err);
     if (err instanceof Errors) res.status(err.code).json(err);
     else res.status(Errors.standard.code).json(Errors.standard);
   }

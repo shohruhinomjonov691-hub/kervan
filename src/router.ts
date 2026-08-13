@@ -28,6 +28,17 @@ router.post(
 
 router.get("/member/top-users", memberController.getTopUsers);
 
+router.post(
+  "/member/payment",
+  memberController.verifyAuth,
+  memberController.savePaymentMethod,
+);
+router.post(
+  "/member/payment/remove",
+  memberController.verifyAuth,
+  memberController.removePaymentMethod,
+);
+
 /** Product **/
 router.get("/product/all", productController.getProducts);
 router.get(

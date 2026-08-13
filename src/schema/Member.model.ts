@@ -50,6 +50,15 @@ const memberSchema = new Schema(
       type: Number,
       default: 0,
     },
+
+    // Demo/portfolio payment method — never the full card number or CVV,
+    // only what's needed to display a saved-card summary
+    memberPayment: {
+      cardBrand: { type: String },
+      cardLast4: { type: String },
+      cardHolder: { type: String },
+      cardExpiry: { type: String },
+    },
   },
   { timestamps: true }, // updatedAt, createdAt
 );

@@ -13,6 +13,15 @@ import { OrderStatus } from "../libs/enums/order.enum";
 import { ObjectId } from "mongoose";
 import MemberService from "./Member.service";
 
+// Har bir target statusga o'tish faqat berilgan current statusdan ruxsat etiladi —
+// shu bilan bir buyurtmani ikki marta "to'lash", statusni sakrab o'tkazish yoki
+// orqaga qaytarish (masalan FINISH -> PAUSE) oldini oladi
+const REQUIRED_CURRENT_STATUS: Partial<Record<OrderStatus, OrderStatus>> = {
+  [OrderStatus.PROCESS]: OrderStatus.PAUSE, // to'lov: faqat PAUSE'dan
+  [OrderStatus.FINISH]: OrderStatus.PROCESS, // qabul qilindi: faqat PROCESS'dan
+  [OrderStatus.DELETE]: OrderStatus.PAUSE, // bekor qilish: faqat PAUSE'dan
+};
+
 class OrderService {
   private readonly orderModel;
   private readonly orderItemModel;
@@ -110,11 +119,27 @@ class OrderService {
       orderId = shapeIntoMongooseObjectId(input.orderId),
       orderStatus = input.orderStatus;
 
+    const requiredCurrentStatus = REQUIRED_CURRENT_STATUS[orderStatus];
+    if (!requiredCurrentStatus) {
+      throw new Errors(HttpCode.BAD_REQUEST, Message.INVALID_ORDER_STATUS);
+    }
+
+    // "To'lash" (PAUSE -> PROCESS) faqat saqlangan payment method mavjud bo'lsa
+    if (orderStatus === OrderStatus.PROCESS) {
+      const hasPayment = await this.memberService.hasPaymentMethod(memberId);
+      if (!hasPayment) {
+        throw new Errors(HttpCode.BAD_REQUEST, Message.NO_PAYMENT_METHOD);
+      }
+    }
+
+    // Filter ichida joriy statusni ham talab qilish — shu orqali bir buyurtma
+    // ikki marta process qilinishi yoki noto'g'ri statusdan sakrashi mumkin emas
     const result = await this.orderModel
       .findOneAndUpdate(
         {
           memberId: memberId,
           _id: orderId,
+          orderStatus: requiredCurrentStatus,
         },
         {
           orderStatus: orderStatus,
@@ -123,7 +148,9 @@ class OrderService {
       )
       .exec();
 
-    if (!result) throw new Errors(HttpCode.NOT_MODIFIED, Message.UPDATE_FAILED);
+    // 304 status body olib tashlanadi (HTTP spec) — replay/noto'g'ri o'tish
+    // urinishida frontend aniq xabar ololmay qoladi, shuning uchun bu yerda 400 ishlatiladi
+    if (!result) throw new Errors(HttpCode.BAD_REQUEST, Message.INVALID_ORDER_STATUS);
 
     if (orderStatus === OrderStatus.PROCESS) {
       await this.memberService.addUserPoint(member, 1);
