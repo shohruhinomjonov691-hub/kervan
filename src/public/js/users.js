@@ -16,6 +16,11 @@ $(function () {
 
         if (result.data) {
           $(".member-status").blur();
+          if (result.stats) {
+            $("#stat-active").text(result.stats.activeCount);
+            $("#stat-blocked").text(result.stats.blockCount);
+            $("#stat-deleted").text(result.stats.deleteCount);
+          }
         } else alert("User update failed!");
       })
       .catch((err) => {

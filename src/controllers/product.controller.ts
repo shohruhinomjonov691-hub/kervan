@@ -96,8 +96,11 @@ productController.updateChosenProduct = async (req: Request, res: Response) => {
     const id = req.params.id;
 
     const result = await productService.updateChosenProduct(id, req.body);
+    // Muvaffaqiyatli statusdan keyingina hisoblanadi — bu yerga faqat
+    // updateChosenProduct xato tashlamasa yetib keladi
+    const stats = await productService.getProductStats();
 
-    res.status(HttpCode.OK).json({ data: result });
+    res.status(HttpCode.OK).json({ data: result, stats });
   } catch (err) {
     console.log("Error, updateChosenProduct:", err);
     // Error biz bergan instance ichida bolsa

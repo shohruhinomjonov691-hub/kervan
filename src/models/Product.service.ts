@@ -145,6 +145,27 @@ class ProductService {
     };
   }
 
+  // Admin status-o'zgartirish (AJAX) muvaffaqiyatli bo'lgandan keyin
+  // stat-badge'larni sahifani qayta yuklamasdan yangilash uchun — getALLProduct
+  // ichidagi hisoblash bilan bir xil, lekin ro'yxat/pagination'siz, alohida
+  // chaqirilishi mumkin bo'lgan yengil metod
+  public async getProductStats(): Promise<{
+    totalCount: number;
+    processCount: number;
+    pauseCount: number;
+    deleteCount: number;
+  }> {
+    const [totalCount, processCount, pauseCount, deleteCount] =
+      await Promise.all([
+        this.productModel.countDocuments({}),
+        this.productModel.countDocuments({ productStatus: "PROCESS" }),
+        this.productModel.countDocuments({ productStatus: "PAUSE" }),
+        this.productModel.countDocuments({ productStatus: "DELETE" }),
+      ]);
+
+    return { totalCount, processCount, pauseCount, deleteCount };
+  }
+
   public async createNewProduct(input: ProductInput): Promise<Product> {
     // updateChosenProduct bilan bir xil — productViews kabi server-boshqaruvidagi
     // fieldlar admin create formidan ham o'zgartirilmasin

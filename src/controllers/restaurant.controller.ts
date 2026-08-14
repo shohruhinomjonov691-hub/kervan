@@ -244,8 +244,11 @@ restaurantController.updateChosenUser = async (req: Request, res: Response) => {
   try {
     console.log("updateChosenUser");
     const result = await memberService.updateChosenUser(req.body);
+    // Muvaffaqiyatli statusdan keyingina hisoblanadi — bu yerga faqat
+    // updateChosenUser xato tashlamasa yetib keladi
+    const stats = await memberService.getUserStats();
 
-    res.status(HttpCode.OK).json({ data: result });
+    res.status(HttpCode.OK).json({ data: result, stats });
   } catch (err) {
     console.log("Error, updateChosenUser:", err);
     if (err instanceof Errors) res.status(err.code).json(err);

@@ -34,6 +34,12 @@ $(function () {
       const result = response.data;
       if (result.data) {
         $(".new-product-status").blur();
+        if (result.stats) {
+          $("#stat-total").text(result.stats.totalCount);
+          $("#stat-active").text(result.stats.processCount);
+          $("#stat-paused").text(result.stats.pauseCount);
+          $("#stat-deleted").text(result.stats.deleteCount);
+        }
       } else alert("Product update failed!");
     } catch (err) {
       console.log(err);

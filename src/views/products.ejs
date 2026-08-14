@@ -43,22 +43,22 @@
         <div style="width:100%; display:flex; flex-wrap:wrap; gap:10px; margin-bottom:20px; align-items:center;">
           <div class="stat-badge">
             <span class="stat-badge-label" style="color:#a98a7d;">Total</span>
-            <span class="stat-badge-val" style="color:#1c1b1b;"><%= totalCount %></span>
+            <span class="stat-badge-val" id="stat-total" style="color:#1c1b1b;"><%= totalCount %></span>
           </div>
           <div class="stat-badge" style="border-color:rgba(76,175,130,0.25);">
             <span class="stat-badge-dot" style="background:#4caf82;"></span>
             <span class="stat-badge-label" style="color:#4caf82;">Active</span>
-            <span class="stat-badge-val" style="color:#4caf82;"><%= processCount %></span>
+            <span class="stat-badge-val" id="stat-active" style="color:#4caf82;"><%= processCount %></span>
           </div>
           <div class="stat-badge" style="border-color:rgba(227,194,133,0.25);">
             <span class="stat-badge-dot" style="background:#e3c285;"></span>
             <span class="stat-badge-label" style="color:#e3c285;">Paused</span>
-            <span class="stat-badge-val" style="color:#e3c285;"><%= pauseCount %></span>
+            <span class="stat-badge-val" id="stat-paused" style="color:#e3c285;"><%= pauseCount %></span>
           </div>
           <div class="stat-badge" style="border-color:rgba(224,80,80,0.25);">
             <span class="stat-badge-dot" style="background:#e05050;"></span>
             <span class="stat-badge-label" style="color:#e05050;">Deleted</span>
-            <span class="stat-badge-val" style="color:#e05050;"><%= deleteCount %></span>
+            <span class="stat-badge-val" id="stat-deleted" style="color:#e05050;"><%= deleteCount %></span>
           </div>
           <% if (trendingProduct) { %>
           <div class="stat-badge trending-badge" style="margin-left:auto;">

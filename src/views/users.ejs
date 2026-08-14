@@ -66,21 +66,21 @@
             <div class="stat-card-icon" style="background:rgba(76,175,130,0.12); color:#4caf82;">✓</div>
             <div>
               <div class="stat-card-label" style="color:#4caf82;">Active</div>
-              <div class="stat-card-value"><%= stats.activeCount %></div>
+              <div class="stat-card-value" id="stat-active"><%= stats.activeCount %></div>
             </div>
           </div>
           <div class="stat-card">
             <div class="stat-card-icon" style="background:rgba(224,80,80,0.12); color:#e05050;">✕</div>
             <div>
               <div class="stat-card-label" style="color:#e05050;">Blocked</div>
-              <div class="stat-card-value"><%= stats.blockCount %></div>
+              <div class="stat-card-value" id="stat-blocked"><%= stats.blockCount %></div>
             </div>
           </div>
           <div class="stat-card">
             <div class="stat-card-icon" style="background:rgba(169,138,125,0.12); color:#a98a7d;">–</div>
             <div>
               <div class="stat-card-label" style="color:#a98a7d;">Deleted</div>
-              <div class="stat-card-value"><%= stats.deleteCount %></div>
+              <div class="stat-card-value" id="stat-deleted"><%= stats.deleteCount %></div>
             </div>
           </div>
         </div>
