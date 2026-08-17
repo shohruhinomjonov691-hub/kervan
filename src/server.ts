@@ -1,5 +1,7 @@
 import dotenv from "dotenv"; // External package
-dotenv.config(); // dotenv - maqsadli object,
+dotenv.config({
+  path: process.env.NODE_ENV === "production" ? ".env.production" : ".env",
+}); // dotenv - maqsadli object,
 
 import mongoose from "mongoose"; // External package
 import server from "./app"; //
