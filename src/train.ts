@@ -33,6 +33,18 @@ self destroy
  Database Validation| > Databasedagi talabga to'g'ri kelmasa
 */
 
+/*
+PM2 COMMANDS 
+
+pm2 ls 
+pm2 start dist/server.js --name=KERVAN
+pm2 start "npm run start:prod" --name=KERVAN
+pm2 stop id
+pm2 delete id
+pm2 restart id
+pm2 monit
+*/
+
 // MIT TASK
 /*
 TASK ZI
