@@ -31,10 +31,14 @@ class AuthService {
 
   // TOKEN > MEMBER
   public async checkAuth(token: string): Promise<Member> {
-    const result: Member = (await jwt.verify(
-      token,
-      this.secretToken,
-    )) as Member;
+    let result: Member;
+    try {
+      result = jwt.verify(token, this.secretToken) as Member;
+    } catch (err) {
+      // Muddati o'tgan/buzilgan token — bu server xatosi (500) emas, 401.
+      // Frontend 401'da logout qiladi, 5xx'da esa sessiyani saqlab qoladi
+      throw new Errors(HttpCode.UNAUTHORIZED, Message.NOT_AUTHENTICATED);
+    }
     console.log(`--- [AUTH] memberNick: ${result.memberNick} ---`);
     return result;
   }
