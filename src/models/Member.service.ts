@@ -309,8 +309,16 @@ class MemberService {
     input: MemberPaymentInput,
   ): Promise<Member> {
     const memberId = shapeIntoMongooseObjectId(member._id);
-    const cardHolder = String(input?.cardHolder ?? "").trim();
-    const cardExpiry = String(input?.cardExpiry ?? "").trim();
+    // Avval tip: object/array/number/null coercion orqali ("[object Object]")
+    // o'tib ketmasligi kerak — keyin trim va validatsiya
+    if (
+      typeof input?.cardHolder !== "string" ||
+      typeof input?.cardExpiry !== "string"
+    ) {
+      throw new Errors(HttpCode.BAD_REQUEST, Message.INVALID_CARD);
+    }
+    const cardHolder = input.cardHolder.trim();
+    const cardExpiry = input.cardExpiry.trim();
 
     if (!isValidCardHolder(cardHolder) || !isValidExpiry(cardExpiry)) {
       throw new Errors(HttpCode.BAD_REQUEST, Message.INVALID_CARD);
