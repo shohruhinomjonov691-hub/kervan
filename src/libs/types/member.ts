@@ -10,13 +10,11 @@ export interface MemberPayment {
   cardExpiry: string;
 }
 
-// Raw form input — validated then reduced to MemberPayment; the full
-// number and CVV are never persisted or logged
+// Demo karta tahriri — raqam/brand tizim tomonidan generatsiya qilinadi,
+// user faqat shu ikki maydonni o'zgartira oladi
 export interface MemberPaymentInput {
-  cardNumber: string;
   cardHolder: string;
   cardExpiry: string;
-  cardCvv: string;
 }
 
 export interface Member {

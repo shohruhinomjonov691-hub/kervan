@@ -2,7 +2,6 @@ import MemberModel from "../schema/Member.model";
 import {
   Member,
   MemberInput,
-  MemberPayment,
   MemberPaymentInput,
   MemberUpdateInput,
   UserInquiry,
@@ -13,6 +12,20 @@ import { MemberStatus, MemberType } from "../libs/enums/member.enum";
 import { LoginInput } from "../libs/types/member";
 import * as bcrypt from "bcryptjs";
 import { shapeIntoMongooseObjectId } from "../libs/config";
+import {
+  generateDemoCard,
+  isValidCardHolder,
+  isValidExpiry,
+} from "../libs/utils/demoCard";
+
+// Public endpointlar (top-users) uchun — memberPhone, memberAddress,
+// memberPayment kabi shaxsiy maydonlar tashqariga chiqmasin
+const PUBLIC_MEMBER_PROJECTION = {
+  memberNick: 1,
+  memberImage: 1,
+  memberPoints: 1,
+  memberType: 1,
+};
 
 class MemberService {
   private readonly memberModel;
@@ -40,9 +53,12 @@ class MemberService {
     const salt = await bcrypt.genSalt(); // hashlash (tuzlash)
     input.memberPassword = await bcrypt.hash(input.memberPassword, salt); // SHA-256 hash algoritimi
 
+    // Har bir yangi user demo karta bilan yaratiladi — bitta create ichida,
+    // shuning uchun "user bor, karta yo'q" degan yarim holat bo'lmaydi
+    const memberPayment = generateDemoCard(String(input.memberNick ?? ""));
+
     try {
-      // const result = await this.memberModel.create(input);
-      const result = await this.memberModel.create(input); // call pass-(argument)
+      const result = await this.memberModel.create({ ...input, memberPayment }); // call pass-(argument)
       // memberSkimaModel+create+method
       result.memberPassword = "";
       return result.toJSON();
@@ -125,6 +141,7 @@ class MemberService {
         memberStatus: MemberStatus.ACTIVE,
         memberPoints: { $gte: 1 },
       })
+      .select(PUBLIC_MEMBER_PROJECTION)
       .sort({ memberPoints: -1 })
       .limit(4)
       .exec();
@@ -276,89 +293,62 @@ class MemberService {
     return result;
   }
 
-  /** PAYMENT — demo/portfolio card, faqat brand+last4 saqlanadi, hech qachon
-   * to'liq raqam yoki CVV saqlanmaydi/loglanmaydi **/
-
-  private passesLuhnCheck(cardNumber: string): boolean {
-    let sum = 0;
-    let shouldDouble = false;
-    for (let i = cardNumber.length - 1; i >= 0; i--) {
-      let digit = parseInt(cardNumber.charAt(i), 10);
-      if (shouldDouble) {
-        digit *= 2;
-        if (digit > 9) digit -= 9;
-      }
-      sum += digit;
-      shouldDouble = !shouldDouble;
-    }
-    return sum % 10 === 0;
-  }
-
-  private isValidExpiry(expiry: string): boolean {
-    const match = /^(\d{2})\/(\d{2})$/.exec(expiry);
-    if (!match) return false;
-
-    const month = Number(match[1]);
-    const year = Number(match[2]) + 2000;
-    if (month < 1 || month > 12) return false;
-
-    const now = new Date();
-    const currentYear = now.getFullYear();
-    const currentMonth = now.getMonth() + 1;
-    if (year < currentYear) return false;
-    if (year === currentYear && month < currentMonth) return false;
-
-    return true;
-  }
-
-  private detectCardBrand(cardNumber: string): string {
-    if (/^4/.test(cardNumber)) return "VISA";
-    if (/^(5[1-5]|2[2-7])/.test(cardNumber)) return "MASTERCARD";
-    if (/^3[47]/.test(cardNumber)) return "AMEX";
-    return "CARD";
-  }
-
-  private buildMemberPayment(input: MemberPaymentInput): MemberPayment {
-    const cardNumber = (input.cardNumber || "").replace(/\s+/g, "");
-    const cardHolder = (input.cardHolder || "").trim();
-    const cardExpiry = (input.cardExpiry || "").trim();
-    const cardCvv = (input.cardCvv || "").trim();
-
-    const isValidNumber =
-      /^\d{13,19}$/.test(cardNumber) && this.passesLuhnCheck(cardNumber);
-    const isValidCvv = /^\d{3,4}$/.test(cardCvv);
-    const isValidHolder = cardHolder.length >= 2;
-
-    if (
-      !isValidNumber ||
-      !this.isValidExpiry(cardExpiry) ||
-      !isValidCvv ||
-      !isValidHolder
-    ) {
-      throw new Errors(HttpCode.BAD_REQUEST, Message.INVALID_CARD);
-    }
-
-    return {
-      cardBrand: this.detectCardBrand(cardNumber),
-      cardLast4: cardNumber.slice(-4),
-      cardHolder,
-      cardExpiry,
-    };
-  }
+  /** PAYMENT — demo/portfolio karta: real bank kartasi talab qilinmaydi,
+   * pul yechilmaydi. Raqam tizim tomonidan generatsiya qilinadi (faqat last4),
+   * user faqat cardHolder va cardExpiry'ni tahrirlay oladi **/
 
   public async savePaymentMethod(
     member: Member,
     input: MemberPaymentInput,
   ): Promise<Member> {
     const memberId = shapeIntoMongooseObjectId(member._id);
-    const memberPayment = this.buildMemberPayment(input);
+    const cardHolder = String(input?.cardHolder ?? "").trim();
+    const cardExpiry = String(input?.cardExpiry ?? "").trim();
 
+    if (!isValidCardHolder(cardHolder) || !isValidExpiry(cardExpiry)) {
+      throw new Errors(HttpCode.BAD_REQUEST, Message.INVALID_CARD);
+    }
+
+    // Faqat mavjud kartani tahrirlaydi — cardBrand/cardLast4 o'zgarmaydi
     const result = await this.memberModel
-      .findOneAndUpdate({ _id: memberId }, { memberPayment }, { new: true })
+      .findOneAndUpdate(
+        { _id: memberId, "memberPayment.cardLast4": { $exists: true } },
+        {
+          $set: {
+            "memberPayment.cardHolder": cardHolder,
+            "memberPayment.cardExpiry": cardExpiry,
+          },
+        },
+        { new: true },
+      )
       .exec();
-    if (!result) throw new Errors(HttpCode.NOT_MODIFIED, Message.UPDATE_FAILED);
+    if (!result)
+      throw new Errors(HttpCode.BAD_REQUEST, Message.NO_PAYMENT_METHOD);
 
     return result;
+  }
+
+  // Kartasi yo'q (eski yoki kartani o'chirgan) user uchun. Karta allaqachon
+  // bo'lsa, mavjudini o'zgartirmasdan qaytaradi — takroriy bosish xavfsiz
+  public async generatePaymentMethod(member: Member): Promise<Member> {
+    const memberId = shapeIntoMongooseObjectId(member._id);
+    const current = await this.memberModel
+      .findOne({ _id: memberId, memberStatus: MemberStatus.ACTIVE })
+      .exec();
+    if (!current) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+    if (current.memberPayment?.cardLast4) return current;
+
+    const memberPayment = generateDemoCard(current.memberNick);
+    const result = await this.memberModel
+      .findOneAndUpdate(
+        { _id: memberId, "memberPayment.cardLast4": { $exists: false } },
+        { $set: { memberPayment } },
+        { new: true },
+      )
+      .exec();
+
+    // Parallel so'rov kartani birinchi yaratgan bo'lsa — o'shani qaytaramiz
+    return result ?? (await this.memberModel.findById(memberId).exec());
   }
 
   public async removePaymentMethod(member: Member): Promise<Member> {

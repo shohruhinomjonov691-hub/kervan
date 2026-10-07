@@ -36,6 +36,11 @@ router.post(
   memberController.savePaymentMethod,
 );
 router.post(
+  "/member/payment/generate",
+  memberController.verifyAuth,
+  memberController.generatePaymentMethod,
+);
+router.post(
   "/member/payment/remove",
   memberController.verifyAuth,
   memberController.removePaymentMethod,
