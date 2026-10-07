@@ -9,7 +9,7 @@ import {
   MemberPaymentInput,
   MemberUpdateInput,
 } from "../libs/types/member";
-import Errors, { HttpCode, Message } from "../libs/Errors";
+import Errors, { ErrorReason, HttpCode, Message } from "../libs/Errors";
 import AuthService from "../models/Auth.service";
 import { AUTH_TIMER } from "../libs/config";
 
@@ -200,7 +200,11 @@ memberController.verifyAuth = async (
     if (token) req.member = await authService.checkAuth(token);
 
     if (!req.member)
-      throw new Errors(HttpCode.UNAUTHORIZED, Message.NOT_AUTHENTICATED);
+      throw new Errors(
+        HttpCode.UNAUTHORIZED,
+        Message.NOT_AUTHENTICATED,
+        ErrorReason.AUTH_REQUIRED,
+      );
 
     next();
   } catch (err) {

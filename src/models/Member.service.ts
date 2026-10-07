@@ -7,7 +7,7 @@ import {
   UserInquiry,
   UserStats,
 } from "../libs/types/member";
-import Errors, { HttpCode, Message } from "../libs/Errors";
+import Errors, { ErrorReason, HttpCode, Message } from "../libs/Errors";
 import { MemberStatus, MemberType } from "../libs/enums/member.enum";
 import { LoginInput } from "../libs/types/member";
 import * as bcrypt from "bcryptjs";
@@ -109,7 +109,14 @@ class MemberService {
     const result = await this.memberModel
       .findOne({ _id: memberId, memberStatus: MemberStatus.ACTIVE })
       .exec();
-    if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+    // Token yaroqli, lekin member bloklangan/o'chirilgan — frontend shu
+    // reason orqali buni umumiy 404'dan ajratib, logout qiladi
+    if (!result)
+      throw new Errors(
+        HttpCode.NOT_FOUND,
+        Message.NO_DATA_FOUND,
+        ErrorReason.MEMBER_INACTIVE,
+      );
     return result;
   }
 

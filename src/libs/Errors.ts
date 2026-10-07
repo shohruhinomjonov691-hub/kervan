@@ -33,19 +33,33 @@ export enum Message {
   PRODUCT_UNAVAILABLE = "One or more items in your basket are no longer available!",
 }
 
+// Frontend uchun mashina o'qiydigan sabab — HTTP status yolg'iz yetmaydigan
+// joyda (masalan, umumiy route/proxy 404 bilan "faol member yo'q" 404'ini
+// farqlash uchun) javob body'siga qo'shiladi
+export enum ErrorReason {
+  AUTH_REQUIRED = "AUTH_REQUIRED",
+  MEMBER_INACTIVE = "MEMBER_INACTIVE",
+}
+
 class Errors extends Error {
   public code: HttpCode;
   public message: Message;
+  public reason?: ErrorReason;
 
   static standard = {
     code: HttpCode.INTERNAL_SERVER_ERROR,
     message: Message.SOMETHING_WENT_WRONG,
   };
 
-  constructor(statusCode: HttpCode, statusMessage: Message) {
+  constructor(
+    statusCode: HttpCode,
+    statusMessage: Message,
+    reason?: ErrorReason,
+  ) {
     super();
     this.code = statusCode;
     this.message = statusMessage;
+    if (reason) this.reason = reason;
   }
 }
 
