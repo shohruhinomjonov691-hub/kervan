@@ -3,6 +3,7 @@ import {
   ProductCollection,
   ProductSize,
   ProductStatus,
+  ProductTag,
   ProductVolume,
 } from "../libs/enums/product.enum";
 
@@ -24,6 +25,10 @@ const productSchema = new Schema(
     productName: {
       type: String,
       required: true,
+    },
+
+    productNameKo: {
+      type: String,
     },
 
     productPrice: {
@@ -50,6 +55,21 @@ const productSchema = new Schema(
 
     productDesc: {
       type: String,
+    },
+
+    productDescKo: {
+      type: String,
+    },
+
+    productTags: {
+      type: [String],
+      enum: ProductTag,
+      default: [],
+    },
+
+    productSortOrder: {
+      type: Number,
+      default: 0,
     },
 
     productImages: {

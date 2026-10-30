@@ -41,8 +41,9 @@ class ProductService {
       match.productName = { $regex: new RegExp(escapeRegExp(inquiry.search), "i") }; // i => case insensitive"flag"
     }
 
+    // narx va menyu tartibi o'sish bo'yicha, qolganlari (createdAt, productViews) kamayish bo'yicha
     const sort: T =
-      inquiry.order === "productPrice"
+      inquiry.order === "productPrice" || inquiry.order === "productSortOrder"
         ? { [inquiry.order]: 1 }
         : { [inquiry.order]: -1 };
 
@@ -173,11 +174,15 @@ class ProductService {
       productStatus: input.productStatus,
       productCollection: input.productCollection,
       productName: input.productName,
+      productNameKo: input.productNameKo,
       productPrice: input.productPrice,
       productLeftCount: input.productLeftCount,
       productSize: input.productSize,
       productVolume: input.productVolume,
       productDesc: input.productDesc,
+      productDescKo: input.productDescKo,
+      productTags: input.productTags,
+      productSortOrder: input.productSortOrder,
       productImages: input.productImages,
     };
     try {
@@ -199,11 +204,15 @@ class ProductService {
       productStatus: input.productStatus,
       productCollection: input.productCollection,
       productName: input.productName,
+      productNameKo: input.productNameKo,
       productPrice: input.productPrice,
       productLeftCount: input.productLeftCount,
       productSize: input.productSize,
       productVolume: input.productVolume,
       productDesc: input.productDesc,
+      productDescKo: input.productDescKo,
+      productTags: input.productTags,
+      productSortOrder: input.productSortOrder,
       productImages: input.productImages,
     };
     const result = await this.productModel

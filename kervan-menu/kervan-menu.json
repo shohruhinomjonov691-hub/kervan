@@ -1,0 +1,1361 @@
+{
+  "restaurant": "Kervan Mediterranean Restaurant",
+  "currency": "KRW",
+  "branches": [
+    "Itaewon",
+    "COEX",
+    "Banpo Famille Station"
+  ],
+  "origin": {
+    "chicken": "Brazil",
+    "lambBeef": "Australia",
+    "rice": "Korea"
+  },
+  "categories": [
+    {
+      "key": "LUNCH",
+      "nameEn": "Lunch Menu",
+      "nameKo": "런치 메뉴",
+      "sortOrder": 1
+    },
+    {
+      "key": "SALAD_APPETIZER",
+      "nameEn": "Salad & Appetizer",
+      "nameKo": "샐러드 & 애피타이저",
+      "sortOrder": 2
+    },
+    {
+      "key": "BREAD_SIDES",
+      "nameEn": "Bread & Sides",
+      "nameKo": "빵 & 사이드",
+      "sortOrder": 3
+    },
+    {
+      "key": "KEBAB_STEAK",
+      "nameEn": "Kebab & Steak",
+      "nameKo": "케밥 & 스테이크",
+      "sortOrder": 4
+    },
+    {
+      "key": "PIDE",
+      "nameEn": "Pide",
+      "nameKo": "피데",
+      "sortOrder": 5
+    },
+    {
+      "key": "CURRY_LAVASH",
+      "nameEn": "Curry & Lavash Set",
+      "nameKo": "커리 & 라바시 세트",
+      "sortOrder": 6
+    },
+    {
+      "key": "KERVAN_SPECIAL",
+      "nameEn": "Kervan Special",
+      "nameKo": "케르반 스페셜",
+      "sortOrder": 7
+    },
+    {
+      "key": "COUPLE_SET",
+      "nameEn": "Couple Set Menu",
+      "nameKo": "커플 세트 메뉴",
+      "sortOrder": 8
+    },
+    {
+      "key": "DESSERT",
+      "nameEn": "Dessert",
+      "nameKo": "디저트",
+      "sortOrder": 9
+    },
+    {
+      "key": "DRINK",
+      "nameEn": "Drink",
+      "nameKo": "음료",
+      "sortOrder": 10
+    },
+    {
+      "key": "COFFEE_TEA",
+      "nameEn": "Coffee & Tea",
+      "nameKo": "커피 & 차",
+      "sortOrder": 11
+    }
+  ],
+  "products": [
+    {
+      "slug": "chicken-steak-kulbasti",
+      "category": "LUNCH",
+      "sortOrder": 1,
+      "nameEn": "Chicken Steak Kulbasti",
+      "nameKo": "치킨 스테이크 쿨바스트",
+      "descEn": "Barbequed Chicken Fillet",
+      "descKo": "숯불에 구운 닭고기 필레",
+      "price": 15900,
+      "tags": [],
+      "image": "chicken-steak-kulbasti.webp",
+      "imageQuality": "GOOD",
+      "courseOption": {
+        "nameEn": "Soup + Bread",
+        "nameKo": "스프 + 빵",
+        "price": 2900
+      },
+      "availability": {
+        "days": "MON-FRI",
+        "from": "11:00",
+        "to": "14:00",
+        "exceptHolidays": true
+      }
+    },
+    {
+      "slug": "rich-pide",
+      "category": "LUNCH",
+      "sortOrder": 2,
+      "nameEn": "Rich Pide",
+      "nameKo": "리치피데",
+      "descEn": "Gondola-Shaped Dough Crust, Cheese & Beef",
+      "descKo": "곤돌라 모양의 도우크러스트, 치즈, 소고기",
+      "price": 15900,
+      "tags": [],
+      "image": "rich-pide.webp",
+      "imageQuality": "GOOD",
+      "courseOption": {
+        "nameEn": "Soup + Bread",
+        "nameKo": "스프 + 빵",
+        "price": 2900
+      },
+      "availability": {
+        "days": "MON-FRI",
+        "from": "11:00",
+        "to": "14:00",
+        "exceptHolidays": true
+      }
+    },
+    {
+      "slug": "lunch-peymajun",
+      "category": "LUNCH",
+      "sortOrder": 3,
+      "nameEn": "Lunch Peymajun",
+      "nameKo": "페이마준",
+      "descEn": "Crispy Cheese Pizza",
+      "descKo": "바삭한 치즈 피자",
+      "price": 15900,
+      "tags": [],
+      "image": "lunch-peymajun.webp",
+      "imageQuality": "GOOD",
+      "courseOption": {
+        "nameEn": "Soup + Bread",
+        "nameKo": "스프 + 빵",
+        "price": 2900
+      },
+      "availability": {
+        "days": "MON-FRI",
+        "from": "11:00",
+        "to": "14:00",
+        "exceptHolidays": true
+      }
+    },
+    {
+      "slug": "kavurma-wrap",
+      "category": "LUNCH",
+      "sortOrder": 4,
+      "nameEn": "Kavurma Wrap",
+      "nameKo": "카부르마 랩",
+      "descEn": "Crispy Cheese & Beef Wrap Stone-Oven Baked",
+      "descKo": "치즈와 소고기를 넣고 싸서 화덕에 구운 바삭한 피자",
+      "price": 15900,
+      "tags": [],
+      "image": "kavurma-wrap.webp",
+      "imageQuality": "GOOD",
+      "courseOption": {
+        "nameEn": "Soup + Bread",
+        "nameKo": "스프 + 빵",
+        "price": 2900
+      },
+      "availability": {
+        "days": "MON-FRI",
+        "from": "11:00",
+        "to": "14:00",
+        "exceptHolidays": true
+      }
+    },
+    {
+      "slug": "chicken-curry-rice",
+      "category": "LUNCH",
+      "sortOrder": 5,
+      "nameEn": "Chicken Curry & Rice",
+      "nameKo": "치킨 카레",
+      "descEn": "Barbequed Chicken Cubes in Curry & Turkish Pilaf Rice",
+      "descKo": "바비큐 닭고기, 카레, 터키 밥",
+      "price": 15900,
+      "tags": [],
+      "image": "chicken-curry-rice.webp",
+      "imageQuality": "GOOD",
+      "courseOption": {
+        "nameEn": "Soup + Bread",
+        "nameKo": "스프 + 빵",
+        "price": 2900
+      },
+      "availability": {
+        "days": "MON-FRI",
+        "from": "11:00",
+        "to": "14:00",
+        "exceptHolidays": true
+      },
+      "addOns": [
+        {
+          "nameEn": "Lavash",
+          "nameKo": "라바시",
+          "price": 2000
+        }
+      ]
+    },
+    {
+      "slug": "kofte",
+      "category": "LUNCH",
+      "sortOrder": 6,
+      "nameEn": "Kofte",
+      "nameKo": "코프테",
+      "descEn": "Grilled Chicken Patty",
+      "descKo": "구운 닭고기 패티",
+      "price": 15900,
+      "tags": [],
+      "image": "kofte.webp",
+      "imageQuality": "GOOD",
+      "courseOption": {
+        "nameEn": "Soup + Bread",
+        "nameKo": "스프 + 빵",
+        "price": 2900
+      },
+      "availability": {
+        "days": "MON-FRI",
+        "from": "11:00",
+        "to": "14:00",
+        "exceptHolidays": true
+      }
+    },
+    {
+      "slug": "grill-cheese-chicken-kebab",
+      "category": "LUNCH",
+      "sortOrder": 7,
+      "nameEn": "Grill Cheese Chicken Kebab",
+      "nameKo": "그릴 치즈 치킨 케밥",
+      "descEn": "Grilled Cheese & Chicken, Tomato Sauce, White Sauce, Chili Sauce",
+      "descKo": "구운 치즈와 닭고기, 토마토 소스, 화이트 소스, 칠리 소스",
+      "price": 15900,
+      "tags": [],
+      "image": "grill-cheese-chicken-kebab.webp",
+      "imageQuality": "GOOD",
+      "courseOption": {
+        "nameEn": "Soup + Bread",
+        "nameKo": "스프 + 빵",
+        "price": 2900
+      },
+      "availability": {
+        "days": "MON-FRI",
+        "from": "11:00",
+        "to": "14:00",
+        "exceptHolidays": true
+      }
+    },
+    {
+      "slug": "overrice-kebab-chicken",
+      "category": "LUNCH",
+      "sortOrder": 8,
+      "nameEn": "Overrice Kebab Chicken",
+      "nameKo": "케밥 덮밥 닭고기",
+      "descEn": "Turkish Pilaf Rice, Grilled Chicken, Vegetables, Tzatziki Sauce, Chili Sauce",
+      "descKo": "터키 밥, 구운 닭고기, 야채, 차지키 소스, 칠리 소스",
+      "price": 15900,
+      "tags": [],
+      "image": "overrice-kebab-chicken.webp",
+      "imageQuality": "GOOD",
+      "courseOption": {
+        "nameEn": "Soup + Bread",
+        "nameKo": "스프 + 빵",
+        "price": 2900
+      },
+      "availability": {
+        "days": "MON-FRI",
+        "from": "11:00",
+        "to": "14:00",
+        "exceptHolidays": true
+      }
+    },
+    {
+      "slug": "overrice-kebab-lamb",
+      "category": "LUNCH",
+      "sortOrder": 9,
+      "nameEn": "Overrice Kebab Lamb",
+      "nameKo": "케밥 덮밥 양고기",
+      "descEn": "Turkish Pilaf Rice, Grilled Lamb, Vegetables, Tzatziki Sauce, Chili Sauce",
+      "descKo": "터키 밥, 구운 양고기, 야채, 차지키 소스, 칠리 소스",
+      "price": 15900,
+      "tags": [],
+      "image": "overrice-kebab-lamb.webp",
+      "imageQuality": "GOOD",
+      "courseOption": {
+        "nameEn": "Soup + Bread",
+        "nameKo": "스프 + 빵",
+        "price": 2900
+      },
+      "availability": {
+        "days": "MON-FRI",
+        "from": "11:00",
+        "to": "14:00",
+        "exceptHolidays": true
+      }
+    },
+    {
+      "slug": "coban-salad",
+      "category": "SALAD_APPETIZER",
+      "sortOrder": 1,
+      "nameEn": "Coban Salad",
+      "nameKo": "초반샐러드",
+      "descEn": "Tomato, Cucumber & Olive Oil, Balsamic Sauce",
+      "descKo": "토마토, 오이, 올리브 오일, 발사믹 소스",
+      "price": 15300,
+      "tags": [
+        "RECOMMENDED"
+      ],
+      "image": "coban-salad.webp",
+      "imageQuality": "GOOD"
+    },
+    {
+      "slug": "grilled-vegetable-salad",
+      "category": "SALAD_APPETIZER",
+      "sortOrder": 2,
+      "nameEn": "Grilled Vegetable Salad",
+      "nameKo": "그릴 야채 샐러드",
+      "descEn": "Grilled Vegetable, Plain Yogurt",
+      "descKo": "구운 야채, 플레인 요거트",
+      "price": 19900,
+      "tags": [
+        "NEW"
+      ],
+      "image": "grilled-vegetable-salad.webp",
+      "imageQuality": "MEDIUM"
+    },
+    {
+      "slug": "chicken-salad",
+      "category": "SALAD_APPETIZER",
+      "sortOrder": 3,
+      "nameEn": "Chicken Salad",
+      "nameKo": "치킨 샐러드",
+      "descEn": "Green Salad, Grill Chicken & Yogurt Sauce",
+      "descKo": "야채 샐러드, 그릴 치킨, 요구르트 소스",
+      "price": 18900,
+      "tags": [],
+      "image": "chicken-salad.webp",
+      "imageQuality": "GOOD"
+    },
+    {
+      "slug": "greek-avocado-salad",
+      "category": "SALAD_APPETIZER",
+      "sortOrder": 4,
+      "nameEn": "Greek Avocado Salad",
+      "nameKo": "그릭 아보카도 샐러드",
+      "descEn": "Tomato, Lettuce, Olive, Avocado Puree, Ricotta Cheese",
+      "descKo": "토마토, 상추, 올리브, 아보카도 퓨레, 리코타 치즈",
+      "price": 17800,
+      "tags": [
+        "RECOMMENDED"
+      ],
+      "image": "greek-avocado-salad.webp",
+      "imageQuality": "MEDIUM"
+    },
+    {
+      "slug": "falasopy",
+      "category": "SALAD_APPETIZER",
+      "sortOrder": 5,
+      "nameEn": "Falasopy",
+      "nameKo": "팔라소피",
+      "descEn": "Falafel on Humus, Tzatziki & Fresh Chili Sauce, Salad",
+      "descKo": "후무스를 얹은 팔라펠 샐러드, 차지키 소스, 칠리소스",
+      "price": 18700,
+      "tags": [
+        "VEGGY"
+      ],
+      "image": "falasopy.webp",
+      "imageQuality": "GOOD"
+    },
+    {
+      "slug": "humus",
+      "category": "SALAD_APPETIZER",
+      "sortOrder": 6,
+      "nameEn": "Humus",
+      "nameKo": "후무스",
+      "descEn": "Creamy Chickpeas & Tahini",
+      "descKo": "부드러운 이집트콩, 참깨소스",
+      "price": 9900,
+      "tags": [
+        "VEGGY"
+      ],
+      "image": "humus.webp",
+      "imageQuality": "GOOD"
+    },
+    {
+      "slug": "tzatziki",
+      "category": "SALAD_APPETIZER",
+      "sortOrder": 7,
+      "nameEn": "Tzatziki",
+      "nameKo": "차지키",
+      "descEn": "Yogurt, Cucumber, Mint",
+      "descKo": "요구르트, 오이, 민트",
+      "price": 9900,
+      "tags": [],
+      "image": "tzatziki.webp",
+      "imageQuality": "GOOD"
+    },
+    {
+      "slug": "daily-soup",
+      "category": "SALAD_APPETIZER",
+      "sortOrder": 8,
+      "nameEn": "Daily Soup",
+      "nameKo": "데일리 스프",
+      "descEn": "Daily Soup, Bread",
+      "descKo": "데일리 스프, 빵",
+      "price": 5900,
+      "tags": [],
+      "image": "daily-soup.webp",
+      "imageQuality": "MEDIUM"
+    },
+    {
+      "slug": "garlic-lavash",
+      "category": "BREAD_SIDES",
+      "sortOrder": 1,
+      "nameEn": "Garlic Lavash",
+      "nameKo": "갈릭 라바시",
+      "descEn": "Soft Brickoven Bread",
+      "descKo": "부드러운 화덕 빵",
+      "price": 3900,
+      "tags": [
+        "RECOMMENDED"
+      ],
+      "image": "garlic-lavash.webp",
+      "imageQuality": "MEDIUM"
+    },
+    {
+      "slug": "balloon-lavash",
+      "category": "BREAD_SIDES",
+      "sortOrder": 2,
+      "nameEn": "Balloon Lavash",
+      "nameKo": "풍선 라바시",
+      "descEn": "Brickoven Baked Balloon Bread",
+      "descKo": "화덕에서 구운 풍선같은 빵",
+      "price": 5900,
+      "tags": [
+        "RECOMMENDED"
+      ],
+      "image": "balloon-lavash.webp",
+      "imageQuality": "MEDIUM"
+    },
+    {
+      "slug": "zaatar-lavash",
+      "category": "BREAD_SIDES",
+      "sortOrder": 3,
+      "nameEn": "Zaatar Lavash",
+      "nameKo": "자타르 라바시",
+      "descEn": "7 Kinds of Spices, Sesame Sauce",
+      "descKo": "7가지 양념과 깨소스로 만든 라바시",
+      "price": 5900,
+      "tags": [],
+      "image": "zaatar-lavash.webp",
+      "imageQuality": "MEDIUM"
+    },
+    {
+      "slug": "lahmajun",
+      "category": "BREAD_SIDES",
+      "sortOrder": 4,
+      "nameEn": "Lahmajun",
+      "nameKo": "라흐마준",
+      "descEn": "Thin Turkish Pizza, Minced Meat",
+      "descKo": "얇은 터키 피자, 다진 소고기",
+      "price": 11900,
+      "tags": [
+        "NEW"
+      ],
+      "image": "lahmajun.webp",
+      "imageQuality": "MEDIUM"
+    },
+    {
+      "slug": "pide-bread",
+      "category": "BREAD_SIDES",
+      "sortOrder": 5,
+      "nameEn": "Pide Bread",
+      "nameKo": "피데 브레드",
+      "descEn": "Turkish Oven Sesame Bread",
+      "descKo": "터키식 오븐 참깨 빵",
+      "price": 6900,
+      "tags": [
+        "NEW"
+      ],
+      "image": "pide-bread.webp",
+      "imageQuality": "MEDIUM"
+    },
+    {
+      "slug": "plain-yogurt",
+      "category": "BREAD_SIDES",
+      "sortOrder": 6,
+      "nameEn": "Plain Yogurt",
+      "nameKo": "플레인 요거트",
+      "descEn": "Homemade Turkish Yogurt",
+      "descKo": "터키식 홈메이드 요거트",
+      "price": 7300,
+      "tags": [
+        "NEW"
+      ],
+      "image": "plain-yogurt.webp",
+      "imageQuality": "GOOD"
+    },
+    {
+      "slug": "shrimp-ring",
+      "category": "BREAD_SIDES",
+      "sortOrder": 7,
+      "nameEn": "Shrimp Ring",
+      "nameKo": "새우링 튀김",
+      "descEn": "Crispy Fried Shrimp Rings",
+      "descKo": "바삭한 새우링 튀김",
+      "price": 8600,
+      "tags": [
+        "NEW"
+      ],
+      "image": "shrimp-ring.webp",
+      "imageQuality": "GOOD"
+    },
+    {
+      "slug": "fried-potato",
+      "category": "BREAD_SIDES",
+      "sortOrder": 8,
+      "nameEn": "Fried Potato",
+      "nameKo": "감자 튀김",
+      "descEn": "Crispy French Fries",
+      "descKo": "바삭한 감자 튀김",
+      "price": 6800,
+      "tags": [],
+      "image": "fried-potato.webp",
+      "imageQuality": "MEDIUM"
+    },
+    {
+      "slug": "pilaf-rice",
+      "category": "BREAD_SIDES",
+      "sortOrder": 9,
+      "nameEn": "Pilaf Rice",
+      "nameKo": "필라프 라이스",
+      "descEn": "Turkish Butter Pilaf Rice",
+      "descKo": "터키식 필라프 라이스",
+      "price": 3400,
+      "tags": [],
+      "image": "pilaf-rice.webp",
+      "imageQuality": "GOOD"
+    },
+    {
+      "slug": "chicken-shish-kebab",
+      "category": "KEBAB_STEAK",
+      "sortOrder": 1,
+      "nameEn": "Chicken Shish Kebab",
+      "nameKo": "닭고기 쉬시 케밥",
+      "descEn": "Boneless Chicken Leg and Breast",
+      "descKo": "다리살, 가슴살",
+      "price": 22500,
+      "tags": [
+        "RECOMMENDED"
+      ],
+      "image": "chicken-shish-kebab.webp",
+      "imageQuality": "GOOD",
+      "courseOption": {
+        "nameEn": "Soup + Bread",
+        "nameKo": "스프 + 빵",
+        "price": 2900
+      }
+    },
+    {
+      "slug": "lamb-shish-kebab",
+      "category": "KEBAB_STEAK",
+      "sortOrder": 2,
+      "nameEn": "Lamb Shish Kebab",
+      "nameKo": "양고기 쉬시 케밥",
+      "descEn": "Tender Cubes of Baby Lamb Grilled on Skewers",
+      "descKo": "꼬치에 구운 어린 양의 부드러운 다리살",
+      "price": 26500,
+      "tags": [
+        "RECOMMENDED"
+      ],
+      "image": "lamb-shish-kebab.webp",
+      "imageQuality": "GOOD",
+      "courseOption": {
+        "nameEn": "Soup + Bread",
+        "nameKo": "스프 + 빵",
+        "price": 2900
+      }
+    },
+    {
+      "slug": "mix-shish-kebab-buffalo-wing",
+      "category": "KEBAB_STEAK",
+      "sortOrder": 3,
+      "nameEn": "Mix Shish Kebab & Buffalo Wing",
+      "nameKo": "믹스 쉬시 케밥 & 버팔로 윙",
+      "descEn": "Chicken, Lamb, Buffalo Wing",
+      "descKo": "닭고기, 양고기, 버팔로 윙",
+      "price": 31000,
+      "tags": [
+        "SIZE_1_5"
+      ],
+      "image": "mix-shish-kebab-buffalo-wing.webp",
+      "imageQuality": "GOOD",
+      "courseOption": {
+        "nameEn": "Soup + Bread",
+        "nameKo": "스프 + 빵",
+        "price": 2900
+      }
+    },
+    {
+      "slug": "yogurt-chicken-steak",
+      "category": "KEBAB_STEAK",
+      "sortOrder": 4,
+      "nameEn": "Yogurt Chicken Steak",
+      "nameKo": "요거트 치킨 스테이크",
+      "descEn": "Boneless Chicken Leg, Yogurt Marinated",
+      "descKo": "요구르트로 양념한 닭다리살",
+      "price": 24500,
+      "tags": [
+        "RECOMMENDED"
+      ],
+      "image": "yogurt-chicken-steak.webp",
+      "imageQuality": "GOOD",
+      "courseOption": {
+        "nameEn": "Soup + Bread",
+        "nameKo": "스프 + 빵",
+        "price": 2900
+      }
+    },
+    {
+      "slug": "melting-cheese-yogurt-chicken",
+      "category": "KEBAB_STEAK",
+      "sortOrder": 5,
+      "nameEn": "Melting Cheese & Yogurt Chicken",
+      "nameKo": "멜팅 치즈 & 요거트 치킨",
+      "descEn": "Yoghurt Marinated Chicken Steak topped with Grilled Mozzarella",
+      "descKo": "요거트 치킨 위에 멜팅 모짜렐라",
+      "price": 28000,
+      "tags": [
+        "NEW"
+      ],
+      "image": "melting-cheese-yogurt-chicken.webp",
+      "imageQuality": "GOOD",
+      "courseOption": {
+        "nameEn": "Soup + Bread",
+        "nameKo": "스프 + 빵",
+        "price": 2900
+      }
+    },
+    {
+      "slug": "mix-grill-kebab",
+      "category": "KEBAB_STEAK",
+      "sortOrder": 6,
+      "nameEn": "Mix Grill Kebab",
+      "nameKo": "믹스 그릴 케밥",
+      "descEn": "Chicken Shish, Lamb Shish Kebab, Kofte",
+      "descKo": "닭고기 쉬시, 양고기 쉬시, 코프테",
+      "price": 33500,
+      "tags": [
+        "SIZE_1_5"
+      ],
+      "image": "mix-grill-kebab.webp",
+      "imageQuality": "GOOD",
+      "courseOption": {
+        "nameEn": "Soup + Bread",
+        "nameKo": "스프 + 빵",
+        "price": 2900
+      }
+    },
+    {
+      "slug": "truffle-steak-beef",
+      "category": "KEBAB_STEAK",
+      "sortOrder": 7,
+      "nameEn": "Truffle Steak Beef",
+      "nameKo": "트러플 스테이크 비프",
+      "descEn": "Beef, Cheese Wrap, Truffle Oil",
+      "descKo": "소고기, 치즈 랩, 트러플 오일",
+      "price": 29500,
+      "tags": [],
+      "image": "truffle-steak-chicken.webp",
+      "imageQuality": "SHARED",
+      "courseOption": {
+        "nameEn": "Soup + Bread",
+        "nameKo": "스프 + 빵",
+        "price": 2900
+      },
+      "imageNote": "No own photo on the menu — shares a similar dish photo"
+    },
+    {
+      "slug": "truffle-steak-chicken",
+      "category": "KEBAB_STEAK",
+      "sortOrder": 8,
+      "nameEn": "Truffle Steak Chicken",
+      "nameKo": "트러플 스테이크 치킨",
+      "descEn": "Chicken Cheese Wrap, Truffle Oil",
+      "descKo": "닭고기, 치즈 랩, 트러플 오일",
+      "price": 27500,
+      "tags": [
+        "NEW"
+      ],
+      "image": "truffle-steak-chicken.webp",
+      "imageQuality": "GOOD",
+      "courseOption": {
+        "nameEn": "Soup + Bread",
+        "nameKo": "스프 + 빵",
+        "price": 2900
+      }
+    },
+    {
+      "slug": "adana-kebab",
+      "category": "KEBAB_STEAK",
+      "sortOrder": 9,
+      "nameEn": "Adana Kebab",
+      "nameKo": "아다나 케밥",
+      "descEn": "Juicy Ground Beef",
+      "descKo": "육즙 가득한 간 소고기",
+      "price": 24500,
+      "tags": [],
+      "image": "adana-kebab.webp",
+      "imageQuality": "GOOD",
+      "courseOption": {
+        "nameEn": "Soup + Bread",
+        "nameKo": "스프 + 빵",
+        "price": 2900
+      }
+    },
+    {
+      "slug": "mix-steak-kebab",
+      "category": "KEBAB_STEAK",
+      "sortOrder": 10,
+      "nameEn": "Mix Steak Kebab",
+      "nameKo": "믹스 스테이크 케밥",
+      "descEn": "Chicken Steak, Lamb Chop, Beef Kofte",
+      "descKo": "닭고기 스테이크, 양갈비, 소고기 코프테",
+      "price": 36500,
+      "tags": [
+        "SIZE_1_5"
+      ],
+      "image": "mix-steak-kebab.webp",
+      "imageQuality": "GOOD",
+      "courseOption": {
+        "nameEn": "Soup + Bread",
+        "nameKo": "스프 + 빵",
+        "price": 2900
+      }
+    },
+    {
+      "slug": "kuzu-pirzola",
+      "category": "KEBAB_STEAK",
+      "sortOrder": 11,
+      "nameEn": "Kuzu Pirzola",
+      "nameKo": "쿠주 피르졸라 양갈비",
+      "descEn": "Delightful & Juicy 3 Lamb Chops",
+      "descKo": "육즙이 많은 양갈비 3개",
+      "price": 39000,
+      "tags": [
+        "RECOMMENDED",
+        "SIZE_1_5"
+      ],
+      "image": "kuzu-pirzola.webp",
+      "imageQuality": "GOOD",
+      "courseOption": {
+        "nameEn": "Soup + Bread",
+        "nameKo": "스프 + 빵",
+        "price": 2900
+      }
+    },
+    {
+      "slug": "cheese-pide",
+      "category": "PIDE",
+      "sortOrder": 1,
+      "nameEn": "Cheese Pide",
+      "nameKo": "치즈 피데",
+      "descEn": "Kashar Cheese & Fresh Mozzarella",
+      "descKo": "카샤 치즈, 모짜렐라 치즈",
+      "price": 21500,
+      "tags": [
+        "VEGGY"
+      ],
+      "image": "cheese-pide.webp",
+      "imageQuality": "GOOD",
+      "courseOption": {
+        "nameEn": "Soup + Bread",
+        "nameKo": "스프 + 빵",
+        "price": 2900
+      }
+    },
+    {
+      "slug": "mushroom-cheese-pide",
+      "category": "PIDE",
+      "sortOrder": 2,
+      "nameEn": "Mushroom Cheese Pide",
+      "nameKo": "머쉬룸 치즈 피데",
+      "descEn": "Kashar Cheese & Mushroom",
+      "descKo": "카샤 치즈, 버섯",
+      "price": 23000,
+      "tags": [
+        "VEGGY"
+      ],
+      "image": "mushroom-cheese-pide.webp",
+      "imageQuality": "GOOD",
+      "courseOption": {
+        "nameEn": "Soup + Bread",
+        "nameKo": "스프 + 빵",
+        "price": 2900
+      }
+    },
+    {
+      "slug": "mix-pide",
+      "category": "PIDE",
+      "sortOrder": 3,
+      "nameEn": "Mix Pide",
+      "nameKo": "믹스 피데",
+      "descEn": "Vegetables, Cheese & Beef",
+      "descKo": "야채, 치즈, 소고기",
+      "price": 23500,
+      "tags": [
+        "RECOMMENDED"
+      ],
+      "image": "mix-pide.webp",
+      "imageQuality": "GOOD",
+      "courseOption": {
+        "nameEn": "Soup + Bread",
+        "nameKo": "스프 + 빵",
+        "price": 2900
+      }
+    },
+    {
+      "slug": "twin-pide",
+      "category": "PIDE",
+      "sortOrder": 4,
+      "nameEn": "Twin Pide",
+      "nameKo": "트윈 피데",
+      "descEn": "Cheese & Beef",
+      "descKo": "치즈, 소고기",
+      "price": 23500,
+      "tags": [
+        "RECOMMENDED"
+      ],
+      "image": "twin-pide.webp",
+      "imageQuality": "GOOD",
+      "courseOption": {
+        "nameEn": "Soup + Bread",
+        "nameKo": "스프 + 빵",
+        "price": 2900
+      }
+    },
+    {
+      "slug": "double-lahmajun",
+      "category": "PIDE",
+      "sortOrder": 5,
+      "nameEn": "Double Lahmajun",
+      "nameKo": "더블 라흐마준",
+      "descEn": "Ground Beef, Vegetables, Lemon",
+      "descKo": "간 소고기, 야채, 레몬",
+      "price": 22500,
+      "tags": [],
+      "image": "double-lahmajun.webp",
+      "imageQuality": "GOOD",
+      "courseOption": {
+        "nameEn": "Soup + Bread",
+        "nameKo": "스프 + 빵",
+        "price": 2900
+      }
+    },
+    {
+      "slug": "peymajun",
+      "category": "PIDE",
+      "sortOrder": 6,
+      "nameEn": "Peymajun",
+      "nameKo": "페이마준",
+      "descEn": "Kasar, Cheddar, Mozzarella Cheese & Mushroom Pizza",
+      "descKo": "카샤, 체다, 모짜렐라 치즈와 버섯 피자",
+      "price": 22500,
+      "tags": [],
+      "image": "peymajun.webp",
+      "imageQuality": "GOOD",
+      "courseOption": {
+        "nameEn": "Soup + Bread",
+        "nameKo": "스프 + 빵",
+        "price": 2900
+      }
+    },
+    {
+      "slug": "kapali-pide",
+      "category": "PIDE",
+      "sortOrder": 7,
+      "nameEn": "Kapali Pide",
+      "nameKo": "카팔르 피데",
+      "descEn": "Humus, Mozzarella, Chicken",
+      "descKo": "후무스, 모짜렐라, 닭고기",
+      "price": 22500,
+      "tags": [
+        "NEW"
+      ],
+      "image": "kapali-pide.webp",
+      "imageQuality": "GOOD",
+      "courseOption": {
+        "nameEn": "Soup + Bread",
+        "nameKo": "스프 + 빵",
+        "price": 2900
+      }
+    },
+    {
+      "slug": "spinach-pide",
+      "category": "PIDE",
+      "sortOrder": 8,
+      "nameEn": "Spinach Pide",
+      "nameKo": "시금치 피데",
+      "descEn": "Spinach, Mozzarella, Spicy Sauce",
+      "descKo": "시금치, 모짜렐라, 매운 소스",
+      "price": 22500,
+      "tags": [
+        "VEGGY",
+        "NEW",
+        "SPICY"
+      ],
+      "image": "spinach-pide.webp",
+      "imageQuality": "GOOD",
+      "courseOption": {
+        "nameEn": "Soup + Bread",
+        "nameKo": "스프 + 빵",
+        "price": 2900
+      }
+    },
+    {
+      "slug": "kaymak-pide",
+      "category": "PIDE",
+      "sortOrder": 9,
+      "nameEn": "Kaymak & Pide",
+      "nameKo": "카이막 & 피데",
+      "descEn": "Homemade Fresh Turkish Cream, Honey, Plain Pide",
+      "descKo": "홈메이드 신선한 터키식 크림, 꿀, 플레인 피데",
+      "price": 19900,
+      "tags": [
+        "RECOMMENDED",
+        "NEW"
+      ],
+      "image": "kaymak-pide.webp",
+      "imageQuality": "GOOD",
+      "courseOption": {
+        "nameEn": "Soup + Bread",
+        "nameKo": "스프 + 빵",
+        "price": 2900
+      }
+    },
+    {
+      "slug": "beyran-pide",
+      "category": "PIDE",
+      "sortOrder": 10,
+      "nameEn": "Beyran & Pide",
+      "nameKo": "베이란 & 피데",
+      "descEn": "Lamb, Bone Broth, Rice, Garlic",
+      "descKo": "양고기, 사골육수, 마늘과 밥",
+      "price": 22000,
+      "tags": [
+        "NEW"
+      ],
+      "image": "beyran-pide.webp",
+      "imageQuality": "GOOD",
+      "courseOption": {
+        "nameEn": "Soup + Bread",
+        "nameKo": "스프 + 빵",
+        "price": 2900
+      }
+    },
+    {
+      "slug": "butter-chicken",
+      "category": "CURRY_LAVASH",
+      "sortOrder": 1,
+      "nameEn": "Butter Chicken",
+      "nameKo": "버터 치킨",
+      "descEn": "Cashew, Onion, Tomato, Spices (includes lavash)",
+      "descKo": "캐슈, 양파, 토마토, 향신료 (라바시 포함)",
+      "price": 19500,
+      "tags": [],
+      "image": "butter-chicken.webp",
+      "imageQuality": "GOOD"
+    },
+    {
+      "slug": "spicy-chicken",
+      "category": "CURRY_LAVASH",
+      "sortOrder": 2,
+      "nameEn": "Spicy Chicken",
+      "nameKo": "스파이시 치킨",
+      "descEn": "Pepper, Cashew, Onion, Tomato (includes lavash)",
+      "descKo": "고추, 캐슈, 양파, 토마토 (라바시 포함)",
+      "price": 19500,
+      "tags": [
+        "SPICY"
+      ],
+      "image": "spicy-chicken.webp",
+      "imageQuality": "GOOD"
+    },
+    {
+      "slug": "ricotta-curry",
+      "category": "CURRY_LAVASH",
+      "sortOrder": 3,
+      "nameEn": "Ricotta Curry",
+      "nameKo": "리코타 커리",
+      "descEn": "Ricotta Cheese, Cashew, Onion, Tomato, Spices (includes lavash)",
+      "descKo": "리코타 치즈, 캐슈, 양파, 토마토, 향신료 (라바시 포함)",
+      "price": 19500,
+      "tags": [
+        "VEGGY"
+      ],
+      "image": "ricotta-curry.webp",
+      "imageQuality": "GOOD"
+    },
+    {
+      "slug": "kervan-special",
+      "category": "KERVAN_SPECIAL",
+      "sortOrder": 1,
+      "nameEn": "Kervan Special",
+      "nameKo": "케르반 스페셜",
+      "descEn": "14 dishes for 2–4 people: Soup, Bread, Salad, Lavash, Lahmajun, Fries, Chicken Shish, Kofte, Lamb Shish, Kuzu Pirzola, Adana Kebab, Chicken Steak, Buffalo Wing, Pilaf. Price per person.",
+      "descKo": "2인 이상 (2인, 3인, 4인) 14가지 메뉴: 스프, 빵, 샐러드, 라바시, 라흐마준, 감자튀김, 닭고기 쉬시, 코프테, 양고기 쉬시, 양갈비, 아다나 케밥, 치킨 스테이크, 버팔로 윙, 필라프. 1인 가격.",
+      "price": 49000,
+      "tags": [
+        "RECOMMENDED"
+      ],
+      "image": "kervan-special.webp",
+      "imageQuality": "GOOD",
+      "pricePer": "PERSON",
+      "minPeople": 2,
+      "maxPeople": 4,
+      "addOns": [
+        {
+          "nameEn": "Dessert & Turkish Tea (per person)",
+          "nameKo": "디저트 & 터키 홍차 (인당)",
+          "price": 6000
+        }
+      ]
+    },
+    {
+      "slug": "mix-chicken-grill",
+      "category": "COUPLE_SET",
+      "sortOrder": 1,
+      "nameEn": "Mix Chicken Grill",
+      "nameKo": "믹스 치킨 그릴",
+      "descEn": "Shish & Yogurt Steak Chicken & Lavash. Soup + Bread + Lavash + Main Menu",
+      "descKo": "쉬시 & 요구르트 스테이크 닭고기와 라바시. 스프 + 빵 + 라바시 + 메인메뉴",
+      "price": 59500,
+      "tags": [],
+      "image": "mix-chicken-grill.webp",
+      "imageQuality": "GOOD",
+      "addOns": [
+        {
+          "nameEn": "2 Soda Drinks",
+          "nameKo": "탄산음료 2잔",
+          "price": 6900
+        }
+      ]
+    },
+    {
+      "slug": "mix-barbeque-kebab",
+      "category": "COUPLE_SET",
+      "sortOrder": 2,
+      "nameEn": "Mix Barbeque Kebab",
+      "nameKo": "믹스 바베큐 케밥",
+      "descEn": "Chicken, Beef and Lamb & Lavash. Soup + Bread + Lavash + Main Menu",
+      "descKo": "닭고기, 소고기, 양고기와 라바시. 스프 + 빵 + 라바시 + 메인메뉴",
+      "price": 71300,
+      "tags": [],
+      "image": "mix-barbeque-kebab.webp",
+      "imageQuality": "GOOD",
+      "addOns": [
+        {
+          "nameEn": "2 Soda Drinks",
+          "nameKo": "탄산음료 2잔",
+          "price": 6900
+        }
+      ]
+    },
+    {
+      "slug": "sac-kavurma",
+      "category": "COUPLE_SET",
+      "sortOrder": 3,
+      "nameEn": "Sac Kavurma",
+      "nameKo": "사츠 카부르마",
+      "descEn": "Braised Lamb in Copper-pan with Onion, Tomato, Pepper & Lavash. Soup + Bread + Lavash + Main Menu",
+      "descKo": "양파, 토마토, 고추와 함께 볶은 양고기와 라바시. 스프 + 빵 + 라바시 + 메인메뉴",
+      "price": 59000,
+      "tags": [],
+      "image": "sac-kavurma.webp",
+      "imageQuality": "GOOD",
+      "addOns": [
+        {
+          "nameEn": "2 Soda Drinks",
+          "nameKo": "탄산음료 2잔",
+          "price": 6900
+        }
+      ]
+    },
+    {
+      "slug": "dondurma",
+      "category": "DESSERT",
+      "sortOrder": 1,
+      "nameEn": "Dondurma",
+      "nameKo": "돈두르마",
+      "descEn": "Sticky Turkish Ice Cream",
+      "descKo": "쫀득한 터키 아이스크림",
+      "price": 11000,
+      "tags": [],
+      "image": "dondurma.webp",
+      "imageQuality": "MEDIUM"
+    },
+    {
+      "slug": "baklava-dondurma",
+      "category": "DESSERT",
+      "sortOrder": 2,
+      "nameEn": "Baklava & Dondurma",
+      "nameKo": "바클라와 & 돈두르마",
+      "descEn": "Baklava served with Sticky Turkish Ice Cream",
+      "descKo": "바클라와와 쫀득한 터키 아이스크림",
+      "price": 13000,
+      "tags": [],
+      "image": "baklava-dondurma.webp",
+      "imageQuality": "MEDIUM"
+    },
+    {
+      "slug": "baklava",
+      "category": "DESSERT",
+      "sortOrder": 3,
+      "nameEn": "Baklava",
+      "nameKo": "바클라와",
+      "descEn": "40 Layers of Pastry filled with Nuts and dipped in Honey Syrup",
+      "descKo": "40겹 속에 호두 등 견과류와 꿀시럽으로 맛을 낸 바클라와",
+      "price": 11500,
+      "tags": [],
+      "image": "baklava.webp",
+      "imageQuality": "GOOD"
+    },
+    {
+      "slug": "kunefe",
+      "category": "DESSERT",
+      "sortOrder": 4,
+      "nameEn": "Kunefe",
+      "nameKo": "큐네페",
+      "descEn": "Kadayif & Cheese, Stone Oven Baked",
+      "descKo": "화덕에 구운 뜨겁고 바삭한 치즈 페스트리",
+      "price": 14900,
+      "tags": [],
+      "image": "kunefe.webp",
+      "imageQuality": "GOOD"
+    },
+    {
+      "slug": "kaymak-honey",
+      "category": "DESSERT",
+      "sortOrder": 5,
+      "nameEn": "Kaymak & Honey",
+      "nameKo": "카이막 & 허니",
+      "descEn": "Homemade Turkish Clotted Cream with Honey",
+      "descKo": "홈메이드 터키식 크림과 꿀",
+      "price": 14500,
+      "tags": [],
+      "image": "kaymak-honey.webp",
+      "imageQuality": "GOOD"
+    },
+    {
+      "slug": "dubai-chocolate",
+      "category": "DESSERT",
+      "sortOrder": 6,
+      "nameEn": "Dubai Chocolate",
+      "nameKo": "두바이 초코렛",
+      "descEn": "Pistachio Kadayif Filled Chocolate",
+      "descKo": "피스타치오 카다이프 초콜릿",
+      "price": 6000,
+      "tags": [],
+      "image": "dubai-chocolate-cookie.webp",
+      "imageQuality": "SHARED",
+      "imageNote": "No own photo on the menu — shares a similar dish photo"
+    },
+    {
+      "slug": "dubai-chocolate-cookie",
+      "category": "DESSERT",
+      "sortOrder": 7,
+      "nameEn": "Dubai Chocolate Cookie",
+      "nameKo": "두바이 초코렛 쿠키",
+      "descEn": "Pistachio Kadayif Chocolate Cookie",
+      "descKo": "피스타치오 카다이프 초코 쿠키",
+      "price": 6000,
+      "tags": [],
+      "image": "dubai-chocolate-cookie.webp",
+      "imageQuality": "GOOD"
+    },
+    {
+      "slug": "ayran",
+      "category": "DRINK",
+      "sortOrder": 1,
+      "nameEn": "Ayran",
+      "nameKo": "아이란",
+      "descEn": "Plain Yogurt Drink",
+      "descKo": "플레인 요거트 음료",
+      "price": 5900,
+      "tags": [],
+      "image": null,
+      "imageQuality": "MISSING"
+    },
+    {
+      "slug": "mango-lassi",
+      "category": "DRINK",
+      "sortOrder": 2,
+      "nameEn": "Mango Lassi",
+      "nameKo": "망고 라씨",
+      "descEn": "Mango Yogurt Drink",
+      "descKo": "망고 요거트 음료",
+      "price": 6600,
+      "tags": [],
+      "image": "mango-lassi.webp",
+      "imageQuality": "GOOD"
+    },
+    {
+      "slug": "mojito",
+      "category": "DRINK",
+      "sortOrder": 3,
+      "nameEn": "Mojito",
+      "nameKo": "모히토",
+      "descEn": "Lime + Apple Mint (non-alcoholic)",
+      "descKo": "라임 + 애플민트",
+      "price": 7900,
+      "tags": [],
+      "image": "mojito.webp",
+      "imageQuality": "MEDIUM"
+    },
+    {
+      "slug": "ade",
+      "category": "DRINK",
+      "sortOrder": 4,
+      "nameEn": "Ade",
+      "nameKo": "에이드",
+      "descEn": "Grapefruit / Apricot / Lemon / Green Apple",
+      "descKo": "자몽 / 살구 / 레몬 / 청사과",
+      "price": 6300,
+      "tags": [],
+      "image": "ade.webp",
+      "imageQuality": "GOOD",
+      "variants": [
+        "Grapefruit 자몽",
+        "Apricot 살구",
+        "Lemon 레몬",
+        "Green Apple 청사과"
+      ]
+    },
+    {
+      "slug": "juice",
+      "category": "DRINK",
+      "sortOrder": 5,
+      "nameEn": "Juice",
+      "nameKo": "주스",
+      "descEn": "Orange / Peach / Mix Fruit / Cherry / Pomegranate",
+      "descKo": "오렌지 / 복숭아 / 믹스 푸룻 / 체리 / 석류",
+      "price": 6300,
+      "tags": [],
+      "image": null,
+      "imageQuality": "MISSING",
+      "variants": [
+        "Orange 오렌지",
+        "Peach 복숭아",
+        "Mix Fruit 믹스 푸룻",
+        "Cherry 체리",
+        "Pomegranate 석류"
+      ]
+    },
+    {
+      "slug": "soft-drink",
+      "category": "DRINK",
+      "sortOrder": 6,
+      "nameEn": "Cola / Sprite / Fanta / Zero",
+      "nameKo": "콜라 / 스프라이트 / 환타 / 제로 콜라",
+      "descEn": "Soft Drinks",
+      "descKo": "탄산음료",
+      "price": 4500,
+      "tags": [],
+      "image": null,
+      "imageQuality": "MISSING",
+      "variants": [
+        "Cola 콜라",
+        "Sprite 스프라이트",
+        "Fanta 환타",
+        "Zero 제로 콜라"
+      ]
+    },
+    {
+      "slug": "sparkling-soda",
+      "category": "DRINK",
+      "sortOrder": 7,
+      "nameEn": "Sparkling Soda",
+      "nameKo": "스파클링 소다",
+      "descEn": "Sparkling Water",
+      "descKo": "탄산수",
+      "price": 5400,
+      "tags": [],
+      "image": null,
+      "imageQuality": "MISSING"
+    },
+    {
+      "slug": "turkish-tea",
+      "category": "COFFEE_TEA",
+      "sortOrder": 1,
+      "nameEn": "Turkish Tea",
+      "nameKo": "터키 홍차",
+      "descEn": "Traditional Turkish Black Tea",
+      "descKo": "전통 터키식 홍차",
+      "price": 4400,
+      "tags": [],
+      "image": "turkish-tea.webp",
+      "imageQuality": "GOOD"
+    },
+    {
+      "slug": "apple-tea",
+      "category": "COFFEE_TEA",
+      "sortOrder": 2,
+      "nameEn": "Apple Tea",
+      "nameKo": "애플 티",
+      "descEn": "Turkish Apple Tea",
+      "descKo": "터키식 애플 티",
+      "price": 5900,
+      "tags": [],
+      "image": "apple-tea.webp",
+      "imageQuality": "GOOD"
+    },
+    {
+      "slug": "turkish-coffee",
+      "category": "COFFEE_TEA",
+      "sortOrder": 3,
+      "nameEn": "Turkish Coffee",
+      "nameKo": "터키 커피",
+      "descEn": "Traditional Turkish Coffee",
+      "descKo": "전통 터키 커피",
+      "price": 6600,
+      "tags": [],
+      "image": "turkish-coffee.webp",
+      "imageQuality": "GOOD"
+    },
+    {
+      "slug": "americano",
+      "category": "COFFEE_TEA",
+      "sortOrder": 4,
+      "nameEn": "Americano",
+      "nameKo": "아메리카노",
+      "descEn": "Hot 5,900 / Iced 6,400",
+      "descKo": "HOT 5,900 / ICE 6,400",
+      "price": 5900,
+      "tags": [],
+      "image": null,
+      "imageQuality": "MISSING",
+      "variants": [
+        {
+          "nameEn": "Hot",
+          "nameKo": "HOT",
+          "price": 5900
+        },
+        {
+          "nameEn": "Iced",
+          "nameKo": "ICE",
+          "price": 6400
+        }
+      ]
+    }
+  ]
+}

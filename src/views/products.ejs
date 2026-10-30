@@ -103,15 +103,17 @@
             <div class="half-input">
               <label>Product Type</label>
               <select class="product-collection" name="productCollection">
-                <option value="KEBAB" selected>Kebab</option>
+                <option value="LUNCH">Lunch Menu</option>
+                <option value="SALAD_APPETIZER">Salad &amp; Appetizer</option>
+                <option value="BREAD_SIDES">Bread &amp; Sides</option>
+                <option value="KEBAB_STEAK" selected>Kebab &amp; Steak</option>
                 <option value="PIDE">Pide</option>
-                <option value="MEZE">Meze</option>
-                <option value="SALAD">Salad</option>
+                <option value="CURRY_LAVASH">Curry &amp; Lavash Set</option>
+                <option value="KERVAN_SPECIAL">Kervan Special</option>
+                <option value="COUPLE_SET">Couple Set Menu</option>
                 <option value="DESSERT">Dessert</option>
                 <option value="DRINK">Drink</option>
-                <option value="SOUP">Soup</option>
-                <option value="SET_MENU">Set Menu</option>
-                <option value="OTHER">Other</option>
+                <option value="COFFEE_TEA">Coffee &amp; Tea</option>
               </select>
             </div>
             <div class="half-input" id="product-collection">
@@ -177,15 +179,17 @@
         <form method="GET" action="/admin/product/all" class="filter-row">
           <select name="productCollection" onchange="this.form.submit()">
             <option value="">All Types</option>
-            <option value="KEBAB"    <%= locals.productCollection==='KEBAB'    ? 'selected':'' %>>Kebab</option>
-            <option value="PIDE"     <%= locals.productCollection==='PIDE'     ? 'selected':'' %>>Pide</option>
-            <option value="MEZE"     <%= locals.productCollection==='MEZE'     ? 'selected':'' %>>Meze</option>
-            <option value="SOUP"     <%= locals.productCollection==='SOUP'     ? 'selected':'' %>>Soup</option>
-            <option value="SALAD"    <%= locals.productCollection==='SALAD'    ? 'selected':'' %>>Salad</option>
-            <option value="DESSERT"  <%= locals.productCollection==='DESSERT'  ? 'selected':'' %>>Dessert</option>
-            <option value="DRINK"    <%= locals.productCollection==='DRINK'    ? 'selected':'' %>>Drink</option>
-            <option value="SET_MENU" <%= locals.productCollection==='SET_MENU' ? 'selected':'' %>>Set Menu</option>
-            <option value="OTHER"    <%= locals.productCollection==='OTHER'    ? 'selected':'' %>>Other</option>
+            <option value="LUNCH"           <%= locals.productCollection==='LUNCH'           ? 'selected':'' %>>Lunch Menu</option>
+            <option value="SALAD_APPETIZER" <%= locals.productCollection==='SALAD_APPETIZER' ? 'selected':'' %>>Salad &amp; Appetizer</option>
+            <option value="BREAD_SIDES"     <%= locals.productCollection==='BREAD_SIDES'     ? 'selected':'' %>>Bread &amp; Sides</option>
+            <option value="KEBAB_STEAK"     <%= locals.productCollection==='KEBAB_STEAK'     ? 'selected':'' %>>Kebab &amp; Steak</option>
+            <option value="PIDE"            <%= locals.productCollection==='PIDE'            ? 'selected':'' %>>Pide</option>
+            <option value="CURRY_LAVASH"    <%= locals.productCollection==='CURRY_LAVASH'    ? 'selected':'' %>>Curry &amp; Lavash Set</option>
+            <option value="KERVAN_SPECIAL"  <%= locals.productCollection==='KERVAN_SPECIAL'  ? 'selected':'' %>>Kervan Special</option>
+            <option value="COUPLE_SET"      <%= locals.productCollection==='COUPLE_SET'      ? 'selected':'' %>>Couple Set Menu</option>
+            <option value="DESSERT"         <%= locals.productCollection==='DESSERT'         ? 'selected':'' %>>Dessert</option>
+            <option value="DRINK"           <%= locals.productCollection==='DRINK'           ? 'selected':'' %>>Drink</option>
+            <option value="COFFEE_TEA"      <%= locals.productCollection==='COFFEE_TEA'      ? 'selected':'' %>>Coffee &amp; Tea</option>
           </select>
           <select name="productStatus" onchange="this.form.submit()">
             <option value="">All Status</option>

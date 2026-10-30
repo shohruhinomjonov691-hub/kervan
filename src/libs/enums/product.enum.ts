@@ -1,14 +1,25 @@
-// KERVAN (yangi) — turk menyu asosida
+// KERVAN — haqiqiy menyu bo'limlari (kervan-menu.json categories[].key, sortOrder tartibida)
 export enum ProductCollection {
-  KEBAB = "KEBAB",
+  LUNCH = "LUNCH",
+  SALAD_APPETIZER = "SALAD_APPETIZER",
+  BREAD_SIDES = "BREAD_SIDES",
+  KEBAB_STEAK = "KEBAB_STEAK",
   PIDE = "PIDE",
-  MEZE = "MEZE",      
-  SOUP = "SOUP",      
-  SALAD = "SALAD",
+  CURRY_LAVASH = "CURRY_LAVASH",
+  KERVAN_SPECIAL = "KERVAN_SPECIAL",
+  COUPLE_SET = "COUPLE_SET",
   DESSERT = "DESSERT",
   DRINK = "DRINK",
-  SET_MENU = "SET_MENU", 
-  OTHER = "OTHER",
+  COFFEE_TEA = "COFFEE_TEA",
+}
+
+// Menyudagi belgilar: 추천, NEW, VEGGY, 🌶, "1.5"
+export enum ProductTag {
+  RECOMMENDED = "RECOMMENDED",
+  NEW = "NEW",
+  VEGGY = "VEGGY",
+  SPICY = "SPICY",
+  SIZE_1_5 = "SIZE_1_5",
 }
 
 export enum ProductSize {
